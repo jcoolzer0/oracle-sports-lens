@@ -2,64 +2,49 @@
 // Fast-gate password (deterrent). Change this.
 const LENS_PASSWORD = "OMA";
 
-// Where your data lives.
-// If your current site is like: https://jcoolzer0.github.io/packers-oracle-v0/
-// and it loads JSON internally, point to that same JSON URL pattern here.
-//
-// You have 2 easy options:
-//
-// Option A (recommended): host per-team JSON files like:
-//   data/PHI_2025.json
-//
-// Option B: call an existing endpoint you already have.
-//
-// For now we’ll assume Option A:
+// Data location (per-team JSON files)
 function dataUrl(team, season) {
   return `data/${team}_${season}.json`;
 }
 
-// Teams list for dropdown (edit as needed)
-const TEAMS = ["PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC","DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"];
+// Teams list for dropdown
+const TEAMS = [
+  "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
+  "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"
+];
 
-// Season (edit)
+// Season
 const SEASON = 2025;
 
 /***** STATE *****/
 let DATA = null;
-let currentTeam = "PHI";
+let currentTeam = "ARI"; // default; change if you want
 let currentGameKey = null;
 
 /***** HELPERS *****/
-function safe(x){ return (x===null || x===undefined || x==="") ? "—" : String(x); }
+function safe(x){
+  return (x === null || x === undefined || x === "") ? "—" : String(x);
+}
 
 function pct(x){
-  if (x===null || x===undefined || isNaN(x)) return "—";
+  if (x === null || x === undefined || isNaN(x)) return "—";
   // allow either 0-1 or 0-100
-  const v = (x <= 1) ? Math.round(x*100) : Math.round(x);
+  const v = (x <= 1) ? Math.round(x * 100) : Math.round(x);
   return `${v}%`;
 }
 
 function confBars(conf){
-  if (conf===null || conf===undefined || isNaN(conf)) return "—";
+  if (conf === null || conf === undefined || isNaN(conf)) return "—";
   const v = Number(conf);
-  const n = Math.max(0, Math.min(5, Math.round(v/20)));
-  return "▮".repeat(n) + "▯".repeat(5-n);
+  const n = Math.max(0, Math.min(5, Math.round(v / 20)));
+  return "▮".repeat(n) + "▯".repeat(5 - n);
 }
 
 function tagClass(x){
   if (x === "MATCH") return "tag-good";
   if (x === "DIVERGE") return "tag-bad";
-  if (x === "SNAP" || x === "TBD") return "tag-warn";
+  if (x === "TBD") return "tag-warn";
   return "";
-}
-
-// A robust game key
-function gameKey(g){
-  // prefer a stable id if you have one
-  if (g.id) return String(g.id);
-  const wk = safe(g.week);
-  const opp = safe(g.opp);
-  return `${wk}_${opp}`;
 }
 
 function outcomeLabel(r){
@@ -67,7 +52,49 @@ function outcomeLabel(r){
   if (r === "L") return "Loss";
   if (r === "T") return "Tie";
   if (r === "TBD") return "TBD";
+  if (r === null || r === undefined) return "Upcoming";
   return safe(r);
+}
+
+// JSON-schema helpers (your repo format)
+function getN(g){
+  const n = g?.oracle?.pregame_historical_map?.n;
+  return (n === null || n === undefined) ? 0 : Number(n);
+}
+
+function getExp(g){
+  const v = g?.oracle?.pregame_expected_win_rate;
+  return (v === null || v === undefined) ? null : Number(v);
+}
+
+function getConf(g){
+  const v = g?.oracle?.pregame_confidence;
+  return (v === null || v === undefined) ? null : Number(v);
+}
+
+function evidenceString(g){
+  const n = getN(g);
+  const exp = getExp(g);
+
+  // Withheld / insufficient history:
+  if (!n || exp === null) return `n=0 : D`;
+
+  // Simple ELI5 label: C=leans Win, D=leans Loss
+  const cd = (exp >= 0.5) ? "C" : "D";
+  return `n=${n} : ${cd}`;
+}
+
+function coherenceLock(g){
+  const lock = g?.oracle?.reality_lock;
+  if (lock === "MATCH" || lock === "DIVERGE") return lock;
+  return "—";
+}
+
+// Key based on your schema (week + opponent)
+function gameKey(g){
+  const wk = safe(g.week);
+  const opp = safe(g.opponent);
+  return `${wk}_${opp}`;
 }
 
 /***** PASSWORD GATE *****/
@@ -90,7 +117,7 @@ function gateInit(){
   }
 
   btn.addEventListener("click", attempt);
-  pw.addEventListener("keydown", (e)=>{ if (e.key==="Enter") attempt(); });
+  pw.addEventListener("keydown", (e)=>{ if (e.key === "Enter") attempt(); });
 }
 
 /***** UI INIT *****/
@@ -121,7 +148,6 @@ function uiInit(){
 /***** LOAD DATA *****/
 async function loadTeam(forceBust=false){
   const loadedTag = document.getElementById("loadedTag");
-  loadedTag.textContent = `Loaded: ${currentTeam} ${SEASON}`;
 
   let url = dataUrl(currentTeam, SEASON);
   if (forceBust) url += `?t=${Date.now()}`;
@@ -130,9 +156,14 @@ async function loadTeam(forceBust=false){
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     DATA = await res.json();
+
+    const team = DATA?.summary?.team ?? currentTeam;
+    const season = DATA?.summary?.season ?? SEASON;
+    loadedTag.textContent = `Loaded: ${team} ${season}`;
   } catch(e){
     console.error(e);
     DATA = null;
+    loadedTag.textContent = `Loaded: —`;
     alert(`Could not load data for ${currentTeam}. Expected: ${url}\n\nTip: Put JSON at ${url} or change dataUrl() in app.js`);
     renderAll();
     return;
@@ -165,9 +196,9 @@ function renderGameSelect(){
 
   gameSel.innerHTML = DATA.games.map(g=>{
     const wk = safe(g.week);
-    const opp = safe(g.opp);
+    const opp = safe(g.opponent);
     const r = safe(g.result);
-    const lbl = `Week ${wk} vs ${opp} — ${r}`;
+    const lbl = `Week ${wk} vs ${opp} — ${r === "—" ? "Upcoming" : r}`;
     const key = gameKey(g);
     return `<option value="${key}">${lbl}</option>`;
   }).join("");
@@ -186,22 +217,20 @@ function renderSeasonTable(){
     const tr = document.createElement("tr");
     tr.dataset.key = gameKey(g);
 
-    const reality = safe(g.reality);
-    const coherence = safe(g.reality); // if you store MATCH/DIVERGE in "reality" column
-    // If your JSON has a dedicated field for match/diverge, set it here:
-    // const coherence = safe(g.coherence);
-
     const row = [
       safe(g.week),
-      safe(g.opp),
+      safe(g.opponent),
       safe(g.result),
       safe(g.score),
-      safe(g.pick),
-      pct(g.exp_w ?? g.expW ?? g.exp),
-      safe(g.conf),
-      safe(g.evidence),
-      coherence,
-      safe(g.snapshot)
+      safe(g?.oracle?.pregame_pick),
+      pct(getExp(g)),
+      safe(getConf(g) === null ? "—" : Math.round(getConf(g))),
+      evidenceString(g),
+      coherenceLock(g),
+      (() => {
+        const n = getN(g);
+        return n ? `SNAP n=${n}` : "—";
+      })()
     ];
 
     row.forEach((cell, idx)=>{
@@ -250,29 +279,33 @@ function renderLens(){
 
   const g = DATA.games.find(x => gameKey(x) === currentGameKey) || DATA.games[0];
 
-  const evidence = safe(g.evidence);
-  const exp = pct(g.exp_w ?? g.expW ?? g.exp);
-  const conf = safe(g.conf);
+  const evidence = evidenceString(g);
+  const exp = pct(getExp(g));
+  const confNum = getConf(g);
+  const conf = (confNum === null ? "—" : String(Math.round(confNum)));
   const result = safe(g.result);
-  const coherence = safe(g.reality); // if MATCH/DIVERGE stored here
-  const snapshot = safe(g.snapshot);
+  const lock = coherenceLock(g);
+  const postCoh = g?.oracle?.coherence;
+  const n = getN(g);
+
+  const snapshot = n ? `SNAP n=${n} (league-wide similar)` : "—";
 
   evidenceEl.textContent = evidence;
   expEl.textContent = exp;
   confEl.textContent = conf;
-  confBarsEl.textContent = confBars(Number(conf));
+  confBarsEl.textContent = confBars(confNum);
 
   realityEl.textContent = outcomeLabel(result);
 
-  cohEl.textContent = safe(coherence);
-  cohEl.className = `v big ${tagClass(coherence)}`;
+  cohEl.textContent = lock;
+  cohEl.className = `v big ${tagClass(lock)}`;
 
-  if (coherence === "MATCH"){
-    cohSubEl.textContent = "Signals aligned, and reality agreed. Coherence held.";
-  } else if (coherence === "DIVERGE"){
-    cohSubEl.textContent = "Signals aligned, but reality broke the story. Learn here.";
+  if (lock === "MATCH"){
+    cohSubEl.textContent = `Story held. Postgame coherence: ${safe(postCoh)}`;
+  } else if (lock === "DIVERGE"){
+    cohSubEl.textContent = `Story broke. Postgame coherence: ${safe(postCoh)}`;
   } else {
-    cohSubEl.textContent = "Coherence pending / not evaluated.";
+    cohSubEl.textContent = `No reality lock (insufficient similar-history). Postgame coherence: ${safe(postCoh)}`;
   }
 
   snapEl.textContent = snapshot;
@@ -286,9 +319,9 @@ function renderSummaryCounts(){
     return;
   }
 
-  let m=0, d=0;
+  let m = 0, d = 0;
   for (const g of DATA.games){
-    const c = safe(g.reality); // or g.coherence
+    const c = g?.oracle?.reality_lock;
     if (c === "MATCH") m++;
     if (c === "DIVERGE") d++;
   }
@@ -301,4 +334,3 @@ function renderSummaryCounts(){
   uiInit();
   await loadTeam();
 })();
-
