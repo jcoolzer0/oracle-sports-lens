@@ -8,6 +8,7 @@ function dataUrl(team, season) {
 }
 
 
+
 // Teams list for dropdown
 const TEAMS = [
   "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
