@@ -4,8 +4,9 @@ const LENS_PASSWORD = "OMA";
 
 // Data location (per-team JSON files)
 function dataUrl(team, season) {
-  return `data/${team}_${season}.json`;
+  return `data/${team.toLowerCase()}.json`;
 }
+
 
 // Teams list for dropdown
 const TEAMS = [
