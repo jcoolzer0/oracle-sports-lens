@@ -4,8 +4,11 @@ const LENS_PASSWORD = "OMA";
 
 // Data location (per-team JSON files)
 function dataUrl(team, season) {
-  return `data/${team.toLowerCase()}.json`;
+  const url = `data/${team.toLowerCase()}.json`;
+  console.log("OracleLens fetch:", url);
+  return url;
 }
+
 
 
 
