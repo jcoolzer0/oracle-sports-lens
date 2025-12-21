@@ -1,7 +1,7 @@
 /***** CONFIG *****/
 const LENS_PASSWORD = "OMA";
 
-// Your files are lowercase like data/atl.json
+// Data location (per-team JSON files)
 function dataUrl(team, season) {
   const ALIAS = {
     LAR: "la",   // Rams
@@ -9,6 +9,7 @@ function dataUrl(team, season) {
   const key = (ALIAS[team] ?? team).toLowerCase();
   return `data/${key}.json`;
 }
+
 
 
 const TEAMS = [
