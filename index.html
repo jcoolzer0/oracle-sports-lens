@@ -1,3 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Oracle Sports Lens v0</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Password gate overlay -->
+  <div id="gate" class="gate">
+    <div class="gate-card">
+      <div class="gate-title">Oracle Sports Lens <span class="chip">v0</span></div>
+      <div class="gate-sub">Private research preview.</div>
+
+      <div class="gate-row">
+        <label class="gate-label">Password</label>
+        <input id="pw" class="input" type="password" placeholder="Enter password" />
+      </div>
+
+      <div class="gate-actions">
+        <button id="enter" class="btn primary">Enter</button>
+        <div id="gateErr" class="gate-err" hidden>Wrong password.</div>
+      </div>
+
+      <div class="gate-hint">Tip: this is a *preview gate* (real lock comes next).</div>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="title">Oracle Sports Lens <span class="chip">v0</span></div>
+      <div class="subtitle">Coherence • Convergence • Divergence</div>
+    </div>
+
     <div class="controls">
       <div class="viewtoggle">
         <button id="viewCon" class="btn primary">Conservative</button>
@@ -6,13 +42,176 @@
 
       <label class="ctl">
         <span>Team</span>
-        <select id="teamSel"></select>
+        <select id="teamSel" class="select"></select>
       </label>
 
       <button id="refresh" class="btn">Refresh</button>
 
       <label class="ctl">
         <span>Game</span>
-        <select id="gameSel"></select>
+        <select id="gameSel" class="select"></select>
       </label>
     </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Lens panel -->
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-title">Lens</div>
+        <div class="panel-sub">ELI5 on the surface. Sharp underneath.</div>
+      </div>
+
+      <div class="lens-grid">
+        <div class="card">
+          <div class="k">Evidence</div>
+          <div id="evidence" class="v big mono">—</div>
+          <div class="hint">n = count • C/D</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Expectation</div>
+          <div class="v big">—</div>
+          <div class="hint">Exp W%</div>
+          <div id="exp" class="v mono">—</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Alignment</div>
+          <div class="v big">—</div>
+          <div class="hint">Confidence</div>
+          <div class="row">
+            <div id="conf" class="v mono">—</div>
+            <div id="confBars" class="mono">—</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="k">Reality</div>
+          <div id="reality" class="v big">—</div>
+          <div class="hint">Result</div>
+        </div>
+
+        <div class="card wide">
+          <div class="k">Coherence Check</div>
+          <div id="coherence" class="v big mono">—</div>
+          <div id="coherenceSub" class="sub">—</div>
+        </div>
+
+        <div class="card wide">
+          <div class="k">Snapshot</div>
+          <div id="snapshot" class="v mono">—</div>
+          <div class="sub">“Seen-before” marker for this situation shape (optional).</div>
+        </div>
+      </div>
+
+      <!-- Explain drawer -->
+      <div class="drawer">
+        <button id="toggleExplain" class="btn">Explain</button>
+        <div id="explainBox" class="explain" hidden>
+          <div class="explain-row">
+            <div class="explain-k">Pregame</div>
+            <div id="explainPregame" class="explain-v">—</div>
+          </div>
+          <div class="explain-row">
+            <div class="explain-k">Postgame</div>
+            <div id="explainPostgame" class="explain-v">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Season view -->
+    <section class="panel">
+      <div class="panel-h">
+        <div class="panel-title">Season View</div>
+        <div class="panel-sub">
+          <span id="loadedTag">Loaded: —</span>
+          <span class="dot">•</span>
+          <span id="scoreTag">Matches: — | Diverges: —</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Opp</th>
+              <th>Result</th>
+              <th>Score</th>
+              <th>Pick</th>
+              <th>Exp W%</th>
+              <th>Conf</th>
+              <th>Evidence</th>
+              <th>Reality</th>
+              <th>Snapshot</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Experimental panel -->
+    <section id="expPanel" class="panel" hidden>
+      <div class="panel-h">
+        <div class="panel-title">Experimental</div>
+        <div class="panel-sub">Cumulative rollups + graphs (still conservative about claims).</div>
+      </div>
+
+      <div class="exp-grid">
+        <div class="card">
+          <div class="k">Oracle Calls</div>
+          <div id="m_calls" class="v big">—</div>
+          <div class="hint">Games where Oracle made a pregame pick.</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Correct</div>
+          <div id="m_correct" class="v big">—</div>
+          <div class="hint">Pick matched result (W/L/T).</div>
+        </div>
+
+        <div class="card">
+          <div class="k">Hit Rate</div>
+          <div id="m_rate" class="v big">—</div>
+          <div class="bars"><span id="m_rateBars" class="mono">—</span></div>
+        </div>
+
+        <div class="card wide">
+          <div class="k">By Opponent (calls only)</div>
+          <div class="sub">Shows which matchups Oracle has actually “spoken on.”</div>
+          <div class="table-wrap">
+            <table id="oppTbl">
+              <thead>
+                <tr>
+                  <th>Opp</th>
+                  <th>Calls</th>
+                  <th>Correct</th>
+                  <th>Hit%</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card wide">
+          <div class="k">Signal Timeline</div>
+          <div class="sub">Exp Win% (when available) + Postgame Coherence.</div>
+          <canvas id="chart1" width="980" height="240"></canvas>
+        </div>
+
+        <div class="card wide">
+          <div class="k">Running Accuracy</div>
+          <div class="sub">How hit rate evolves as more calls occur.</div>
+          <canvas id="chart2" width="980" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
