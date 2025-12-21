@@ -3,8 +3,13 @@ const LENS_PASSWORD = "OMA";
 
 // Your files are lowercase like data/atl.json
 function dataUrl(team, season) {
-  return `data/${team.toLowerCase()}.json`;
+  const ALIAS = {
+    LAR: "la",   // Rams
+  };
+  const key = (ALIAS[team] ?? team).toLowerCase();
+  return `data/${key}.json`;
 }
+
 
 const TEAMS = [
   "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
