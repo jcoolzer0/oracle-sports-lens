@@ -1,48 +1,38 @@
 /***** CONFIG *****/
-// Fast-gate password (deterrent). Change this.
 const LENS_PASSWORD = "OMA";
 
-// Data location (per-team JSON files)
+// Your files are lowercase like data/atl.json
 function dataUrl(team, season) {
-  const url = `data/${team.toLowerCase()}.json`;
-  console.log("OracleLens fetch:", url);
-  return url;
+  return `data/${team.toLowerCase()}.json`;
 }
 
-
-
-
-// Teams list for dropdown
 const TEAMS = [
   "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
   "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"
 ];
 
-// Season
 const SEASON = 2025;
 
 /***** STATE *****/
 let DATA = null;
-let currentTeam = "ARI"; // default; change if you want
+let currentTeam = "ATL";
 let currentGameKey = null;
+let currentView = "con"; // "con" | "exp"
 
 /***** HELPERS *****/
-function safe(x){
-  return (x === null || x === undefined || x === "") ? "—" : String(x);
-}
+function safe(x){ return (x===null || x===undefined || x==="") ? "—" : String(x); }
 
 function pct(x){
-  if (x === null || x === undefined || isNaN(x)) return "—";
-  // allow either 0-1 or 0-100
-  const v = (x <= 1) ? Math.round(x * 100) : Math.round(x);
+  if (x===null || x===undefined || isNaN(x)) return "—";
+  const v = (x <= 1) ? Math.round(x*100) : Math.round(x);
   return `${v}%`;
 }
 
 function confBars(conf){
-  if (conf === null || conf === undefined || isNaN(conf)) return "—";
+  if (conf===null || conf===undefined || isNaN(conf)) return "—";
   const v = Number(conf);
-  const n = Math.max(0, Math.min(5, Math.round(v / 20)));
-  return "▮".repeat(n) + "▯".repeat(5 - n);
+  const n = Math.max(0, Math.min(5, Math.round(v/20)));
+  return "▮".repeat(n) + "▯".repeat(5-n);
 }
 
 function tagClass(x){
@@ -61,45 +51,59 @@ function outcomeLabel(r){
   return safe(r);
 }
 
-// JSON-schema helpers (your repo format)
+// Schema helpers (your JSON)
 function getN(g){
   const n = g?.oracle?.pregame_historical_map?.n;
   return (n === null || n === undefined) ? 0 : Number(n);
 }
-
 function getExp(g){
   const v = g?.oracle?.pregame_expected_win_rate;
   return (v === null || v === undefined) ? null : Number(v);
 }
-
 function getConf(g){
   const v = g?.oracle?.pregame_confidence;
   return (v === null || v === undefined) ? null : Number(v);
+}
+function getPick(g){
+  const p = g?.oracle?.pregame_pick;
+  return (p === "W" || p === "L" || p === "T") ? p : null;
+}
+function getLock(g){
+  const lock = g?.oracle?.reality_lock;
+  return (lock === "MATCH" || lock === "DIVERGE") ? lock : null;
 }
 
 function evidenceString(g){
   const n = getN(g);
   const exp = getExp(g);
-
-  // Withheld / insufficient history:
   if (!n || exp === null) return `n=0 : D`;
-
-  // Simple ELI5 label: C=leans Win, D=leans Loss
   const cd = (exp >= 0.5) ? "C" : "D";
   return `n=${n} : ${cd}`;
 }
 
-function coherenceLock(g){
-  const lock = g?.oracle?.reality_lock;
-  if (lock === "MATCH" || lock === "DIVERGE") return lock;
-  return "—";
+function coherenceLockLabel(g){
+  const lock = getLock(g);
+  return lock ? lock : "—";
 }
 
-// Key based on your schema (week + opponent)
 function gameKey(g){
   const wk = safe(g.week);
   const opp = safe(g.opponent);
   return `${wk}_${opp}`;
+}
+
+/***** PATENT-SAFE EXPLAIN SANITIZER *****/
+function sanitizeExplain(s){
+  if (!s) return "—";
+  let t = String(s);
+
+  // Keep it high-level.
+  t = t.replace(/league-wide/gi, "historically");
+  t = t.replace(/historically similar situations/gi, "similar situations");
+  t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
+
+  t = t.replace(/\s+/g, " ").trim();
+  return t;
 }
 
 /***** PASSWORD GATE *****/
@@ -122,7 +126,7 @@ function gateInit(){
   }
 
   btn.addEventListener("click", attempt);
-  pw.addEventListener("keydown", (e)=>{ if (e.key === "Enter") attempt(); });
+  pw.addEventListener("keydown", (e)=>{ if (e.key==="Enter") attempt(); });
 }
 
 /***** UI INIT *****/
@@ -131,7 +135,12 @@ function uiInit(){
   const gameSel = document.getElementById("gameSel");
   const refresh = document.getElementById("refresh");
 
-  // teams
+  const viewCon = document.getElementById("viewCon");
+  const viewExp = document.getElementById("viewExp");
+
+  const toggleExplain = document.getElementById("toggleExplain");
+  const explainBox = document.getElementById("explainBox");
+
   teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
   teamSel.value = currentTeam;
 
@@ -147,7 +156,48 @@ function uiInit(){
   gameSel.addEventListener("change", ()=>{
     currentGameKey = gameSel.value;
     renderLens();
+    if (currentView === "exp") renderExperimental();
   });
+
+  viewCon.addEventListener("click", ()=>{
+    currentView = "con";
+    syncViewButtons();
+    syncPanels();
+  });
+
+  viewExp.addEventListener("click", ()=>{
+    currentView = "exp";
+    syncViewButtons();
+    syncPanels();
+    renderExperimental();
+  });
+
+  toggleExplain.addEventListener("click", ()=>{
+    explainBox.hidden = !explainBox.hidden;
+  });
+
+  syncViewButtons();
+  syncPanels();
+}
+
+function syncViewButtons(){
+  const viewCon = document.getElementById("viewCon");
+  const viewExp = document.getElementById("viewExp");
+  if (!viewCon || !viewExp) return;
+
+  if (currentView === "con"){
+    viewCon.classList.add("primary");
+    viewExp.classList.remove("primary");
+  } else {
+    viewExp.classList.add("primary");
+    viewCon.classList.remove("primary");
+  }
+}
+
+function syncPanels(){
+  const expPanel = document.getElementById("expPanel");
+  if (!expPanel) return;
+  expPanel.hidden = (currentView !== "exp");
 }
 
 /***** LOAD DATA *****/
@@ -174,7 +224,6 @@ async function loadTeam(forceBust=false){
     return;
   }
 
-  // pick default game
   if (DATA?.games?.length){
     currentGameKey = gameKey(DATA.games[0]);
   } else {
@@ -182,6 +231,7 @@ async function loadTeam(forceBust=false){
   }
 
   renderAll();
+  if (currentView === "exp") renderExperimental();
 }
 
 function renderAll(){
@@ -202,8 +252,8 @@ function renderGameSelect(){
   gameSel.innerHTML = DATA.games.map(g=>{
     const wk = safe(g.week);
     const opp = safe(g.opponent);
-    const r = safe(g.result);
-    const lbl = `Week ${wk} vs ${opp} — ${r === "—" ? "Upcoming" : r}`;
+    const r = g.result ? g.result : "TBD";
+    const lbl = `Week ${wk} vs ${opp} — ${r}`;
     const key = gameKey(g);
     return `<option value="${key}">${lbl}</option>`;
   }).join("");
@@ -227,11 +277,11 @@ function renderSeasonTable(){
       safe(g.opponent),
       safe(g.result),
       safe(g.score),
-      safe(g?.oracle?.pregame_pick),
+      safe(getPick(g)),
       pct(getExp(g)),
       safe(getConf(g) === null ? "—" : Math.round(getConf(g))),
       evidenceString(g),
-      coherenceLock(g),
+      coherenceLockLabel(g),
       (() => {
         const n = getN(g);
         return n ? `SNAP n=${n}` : "—";
@@ -241,11 +291,7 @@ function renderSeasonTable(){
     row.forEach((cell, idx)=>{
       const td = document.createElement("td");
       td.textContent = cell;
-
-      // style coherence col
-      if (idx === 8){
-        td.className = tagClass(cell);
-      }
+      if (idx === 8) td.className = tagClass(cell);
       tr.appendChild(td);
     });
 
@@ -253,6 +299,7 @@ function renderSeasonTable(){
       currentGameKey = gameKey(g);
       document.getElementById("gameSel").value = currentGameKey;
       renderLens();
+      if (currentView === "exp") renderExperimental();
     });
 
     tbody.appendChild(tr);
@@ -270,6 +317,9 @@ function renderLens(){
   const cohSubEl = document.getElementById("coherenceSub");
   const snapEl = document.getElementById("snapshot");
 
+  const explainPregame = document.getElementById("explainPregame");
+  const explainPostgame = document.getElementById("explainPostgame");
+
   if (!DATA?.games?.length || !currentGameKey){
     evidenceEl.textContent = "—";
     expEl.textContent = "—";
@@ -279,6 +329,8 @@ function renderLens(){
     cohEl.textContent = "—";
     cohSubEl.textContent = "—";
     snapEl.textContent = "—";
+    if (explainPregame) explainPregame.textContent = "—";
+    if (explainPostgame) explainPostgame.textContent = "—";
     return;
   }
 
@@ -288,12 +340,10 @@ function renderLens(){
   const exp = pct(getExp(g));
   const confNum = getConf(g);
   const conf = (confNum === null ? "—" : String(Math.round(confNum)));
-  const result = safe(g.result);
-  const lock = coherenceLock(g);
+  const result = g.result;
+  const lockLabel = coherenceLockLabel(g);
   const postCoh = g?.oracle?.coherence;
   const n = getN(g);
-
-  const snapshot = n ? `SNAP n=${n} (league-wide similar)` : "—";
 
   evidenceEl.textContent = evidence;
   expEl.textContent = exp;
@@ -302,18 +352,22 @@ function renderLens(){
 
   realityEl.textContent = outcomeLabel(result);
 
-  cohEl.textContent = lock;
-  cohEl.className = `v big ${tagClass(lock)}`;
+  cohEl.textContent = lockLabel;
+  cohEl.className = `v big mono ${tagClass(lockLabel)}`;
 
-  if (lock === "MATCH"){
+  if (lockLabel === "MATCH"){
     cohSubEl.textContent = `Story held. Postgame coherence: ${safe(postCoh)}`;
-  } else if (lock === "DIVERGE"){
+  } else if (lockLabel === "DIVERGE"){
     cohSubEl.textContent = `Story broke. Postgame coherence: ${safe(postCoh)}`;
   } else {
     cohSubEl.textContent = `No reality lock (insufficient similar-history). Postgame coherence: ${safe(postCoh)}`;
   }
 
-  snapEl.textContent = snapshot;
+  snapEl.textContent = n ? `SNAP n=${n}` : "—";
+
+  // Explain drawer (sanitized)
+  if (explainPregame) explainPregame.textContent = sanitizeExplain(g?.oracle?.explain_pregame);
+  if (explainPostgame) explainPostgame.textContent = sanitizeExplain(g?.oracle?.explain);
 }
 
 /***** SUMMARY COUNTS *****/
@@ -326,11 +380,238 @@ function renderSummaryCounts(){
 
   let m = 0, d = 0;
   for (const g of DATA.games){
-    const c = g?.oracle?.reality_lock;
+    const c = getLock(g);
     if (c === "MATCH") m++;
     if (c === "DIVERGE") d++;
   }
   scoreTag.textContent = `Matches: ${m} | Diverges: ${d}`;
+}
+
+/***** EXPERIMENTAL METRICS + GRAPHS *****/
+function renderExperimental(){
+  if (!DATA?.games?.length) return;
+
+  // Overall accuracy (calls only)
+  let calls = 0, correct = 0;
+  const byOpp = new Map(); // opp -> {calls, correct}
+
+  // Running accuracy series (over calls)
+  const runX = [];
+  const runY = [];
+  let callIndex = 0;
+
+  for (const g of DATA.games){
+    const pick = getPick(g);
+    const res = g.result;
+
+    const callable = (pick !== null) && (res === "W" || res === "L" || res === "T");
+    if (!callable) continue;
+
+    calls++;
+    const isCorrect = (pick === res);
+    if (isCorrect) correct++;
+
+    const opp = safe(g.opponent);
+    if (!byOpp.has(opp)) byOpp.set(opp, { calls: 0, correct: 0 });
+    const agg = byOpp.get(opp);
+    agg.calls++;
+    if (isCorrect) agg.correct++;
+
+    callIndex++;
+    runX.push(callIndex);
+    runY.push(calls ? (correct / calls) : 0);
+  }
+
+  const rate = calls ? (correct / calls) : null;
+
+  // Paint summary cards
+  const elCalls = document.getElementById("m_calls");
+  const elCorrect = document.getElementById("m_correct");
+  const elRate = document.getElementById("m_rate");
+  const elRateBars = document.getElementById("m_rateBars");
+
+  if (elCalls) elCalls.textContent = safe(calls);
+  if (elCorrect) elCorrect.textContent = safe(correct);
+  if (elRate) elRate.textContent = rate === null ? "—" : `${Math.round(rate * 100)}%`;
+  if (elRateBars) elRateBars.textContent = rate === null ? "—" : confBars(rate * 100);
+
+  // Opponent table
+  const oppBody = document.querySelector("#oppTbl tbody");
+  if (oppBody){
+    oppBody.innerHTML = "";
+
+    const rows = Array.from(byOpp.entries())
+      .map(([opp, v]) => ({ opp, ...v, rate: v.calls ? v.correct / v.calls : 0 }))
+      .sort((a,b) => (b.calls - a.calls) || (b.rate - a.rate));
+
+    for (const r of rows){
+      const tr = document.createElement("tr");
+      const hit = r.calls ? `${Math.round(r.rate * 100)}%` : "—";
+      [r.opp, r.calls, r.correct, hit].forEach((cell) => {
+        const td = document.createElement("td");
+        td.textContent = String(cell);
+        tr.appendChild(td);
+      });
+      oppBody.appendChild(tr);
+    }
+  }
+
+  // Graph 1: week vs exp win% + postgame coherence
+  const weeks = [];
+  const expSeries = [];
+  const cohSeries = [];
+
+  for (const g of DATA.games){
+    weeks.push(Number(g.week));
+    const exp = getExp(g);
+    expSeries.push(exp === null ? null : exp); // 0..1
+    const coh = g?.oracle?.coherence;
+    cohSeries.push((coh === null || coh === undefined) ? null : Number(coh) / 100); // 0..1
+  }
+
+  drawDualSeries("chart1", weeks, expSeries, cohSeries, "ExpWin", "Coherence");
+
+  // Graph 2: running accuracy over calls
+  drawSingleSeries("chart2", runX, runY, "HitRate");
+}
+
+function drawDualSeries(canvasId, x, y1, y2, name1, name2){
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx = c.getContext("2d");
+
+  ctx.clearRect(0,0,c.width,c.height);
+
+  const padL = 44, padR = 14, padT = 12, padB = 28;
+  const W = c.width - padL - padR;
+  const H = c.height - padT - padB;
+
+  // Axes
+  ctx.globalAlpha = 0.35;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, padT + H);
+  ctx.lineTo(padL + W, padT + H);
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // Gridlines
+  ctx.globalAlpha = 0.18;
+  for (let i=0;i<=4;i++){
+    const yy = padT + H - (i/4)*H;
+    ctx.beginPath();
+    ctx.moveTo(padL, yy);
+    ctx.lineTo(padL + W, yy);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  const xmin = Math.min(...x);
+  const xmax = Math.max(...x);
+  const xSpan = (xmax - xmin) || 1;
+
+  const X = (xi) => padL + ((xi - xmin) / xSpan) * W;
+  const Y = (yi) => padT + H - (yi * H);
+
+  // Series 1 (solid)
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  let started = false;
+  for (let i=0;i<x.length;i++){
+    const yi = y1[i];
+    if (yi === null || yi === undefined) { started = false; continue; }
+    const px = X(x[i]);
+    const py = Y(yi);
+    if (!started){ ctx.moveTo(px,py); started = true; }
+    else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+
+  // Series 2 (dashed)
+  ctx.setLineDash([6,4]);
+  ctx.beginPath();
+  started = false;
+  for (let i=0;i<x.length;i++){
+    const yi = y2[i];
+    if (yi === null || yi === undefined) { started = false; continue; }
+    const px = X(x[i]);
+    const py = Y(yi);
+    if (!started){ ctx.moveTo(px,py); started = true; }
+    else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
+  ctx.globalAlpha = 0.7;
+  ctx.fillText(`${name1} (solid)`, padL, padT + H + 20);
+  ctx.fillText(`${name2} (dashed)`, padL + 160, padT + H + 20);
+  ctx.globalAlpha = 1;
+}
+
+function drawSingleSeries(canvasId, x, y, name){
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx = c.getContext("2d");
+
+  ctx.clearRect(0,0,c.width,c.height);
+
+  const padL = 44, padR = 14, padT = 12, padB = 28;
+  const W = c.width - padL - padR;
+  const H = c.height - padT - padB;
+
+  // Axes
+  ctx.globalAlpha = 0.35;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, padT + H);
+  ctx.lineTo(padL + W, padT + H);
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  if (!x.length){
+    ctx.globalAlpha = 0.6;
+    ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
+    ctx.fillText("No calls yet (no pregame picks).", padL, padT + 18);
+    ctx.globalAlpha = 1;
+    return;
+  }
+
+  // Gridlines
+  ctx.globalAlpha = 0.18;
+  for (let i=0;i<=4;i++){
+    const yy = padT + H - (i/4)*H;
+    ctx.beginPath();
+    ctx.moveTo(padL, yy);
+    ctx.lineTo(padL + W, yy);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  const xmin = Math.min(...x);
+  const xmax = Math.max(...x);
+  const xSpan = (xmax - xmin) || 1;
+
+  const X = (xi) => padL + ((xi - xmin) / xSpan) * W;
+  const Y = (yi) => padT + H - (yi * H);
+
+  // Line
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i=0;i<x.length;i++){
+    const px = X(x[i]);
+    const py = Y(y[i]);
+    if (i===0) ctx.moveTo(px,py);
+    else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+
+  // Label
+  ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
+  ctx.globalAlpha = 0.7;
+  ctx.fillText(`${name} (solid)`, padL, padT + H + 20);
+  ctx.globalAlpha = 1;
 }
 
 /***** BOOT *****/
