@@ -25,8 +25,36 @@ let currentTeam = "ATL";
 let currentGameKey = null;
 let currentView = "con"; // "con" | "exp"
 
+let signalGain = 1; // 0=Quiet | 1=Balanced | 2=Amplified
+const SIGNAL_GAIN_KEY = "oracle_signal_gain";
+
 /***** HELPERS *****/
 function safe(x){ return (x===null || x===undefined || x==="") ? "—" : String(x); }
+
+function gainLabel(g){
+  return g === 0 ? "Quiet" : (g === 2 ? "Amplified" : "Balanced");
+}
+
+function gainPulseText(g){
+  if (g === 0) return "Quiet: Lens will wait for stronger agreement.";
+  if (g === 2) return "Amplified: Lens will surface early convergence (confidence capped).";
+  return "Balanced: Lens will surface stable convergence.";
+}
+
+function clampGain(v){
+  const n = Number(v);
+  if (!Number.isFinite(n)) return 1;
+  return Math.max(0, Math.min(2, Math.round(n)));
+}
+
+function syncGainUi(){
+  const tag = document.getElementById("gainTag");
+  const hint = document.getElementById("gainHint");
+  const pulse = document.getElementById("gainPulse");
+  if (tag) tag.textContent = gainLabel(signalGain);
+  if (hint) hint.textContent = "Controls how readily subtle patterns speak up.";
+  if (pulse) pulse.textContent = gainPulseText(signalGain);
+}
 
 function pct(x){
   if (x===null || x===undefined || isNaN(x)) return "—";
@@ -109,6 +137,21 @@ function sanitizeExplain(s){
   t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
 
   t = t.replace(/\s+/g, " ").trim();
+
+  // Signal Gain controls how readily we "speak up" (without exposing mechanics).
+  // Quiet = shorter, more conservative narration. Amplified = fuller narration.
+  if (signalGain === 0){
+    // First sentence only (or a gentle truncate).
+    const idx = t.search(/[.!?]\s/);
+    if (idx > 0) t = t.slice(0, idx + 1);
+    if (t.length > 140) t = t.slice(0, 140).trim() + "…";
+  } else if (signalGain === 2){
+    // Allow a bit more room to breathe.
+    if (t.length > 360) t = t.slice(0, 360).trim() + "…";
+  } else {
+    if (t.length > 240) t = t.slice(0, 240).trim() + "…";
+  }
+
   return t;
 }
 
@@ -146,6 +189,23 @@ function uiInit(){
 
   const toggleExplain = document.getElementById("toggleExplain");
   const explainBox = document.getElementById("explainBox");
+
+  const gainRange = document.getElementById("gainRange");
+
+  // Signal Gain (beginner-safe, expert-friendly)
+  signalGain = clampGain(localStorage.getItem(SIGNAL_GAIN_KEY) ?? 1);
+  if (gainRange) gainRange.value = String(signalGain);
+  syncGainUi();
+
+  if (gainRange){
+    gainRange.addEventListener("input", ()=>{
+      signalGain = clampGain(gainRange.value);
+      localStorage.setItem(SIGNAL_GAIN_KEY, String(signalGain));
+      syncGainUi();
+      renderLens(); // re-render narration
+      if (currentView === "exp") renderExperimental();
+    });
+  }
 
   teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
   teamSel.value = currentTeam;
