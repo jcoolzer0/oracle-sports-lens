@@ -45,6 +45,12 @@
         <select id="teamSel" class="select"></select>
       </label>
 
+      <div class="ctl gainctl">
+        <span>Signal Gain <span class="chip mini" id="gainTag">Balanced</span></span>
+        <input id="gainRange" class="range" type="range" min="0" max="2" step="1" value="1" />
+        <div id="gainHint" class="gain-hint">Controls how readily subtle patterns speak up.</div>
+      </div>
+
       <button id="refresh" class="btn">Refresh</button>
 
       <label class="ctl">
@@ -60,6 +66,7 @@
       <div class="panel-h">
         <div class="panel-title">Lens</div>
         <div class="panel-sub">ELI5 on the surface. Sharp underneath.</div>
+        <div id="gainPulse" class="gain-pulse">Balanced: Lens will surface stable convergence.</div>
       </div>
 
       <div class="lens-grid">
