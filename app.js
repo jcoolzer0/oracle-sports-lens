@@ -1,26 +1,39 @@
 /***** CONFIG *****/
 const LENS_PASSWORD = "OMA";
 
-// Data location (per-team JSON files)
-function dataUrl(team, season) {
-  const ALIAS = {
-    LAR: "la",   // Rams
-  };
-  const key = (ALIAS[team] ?? team).toLowerCase();
-  return `data/${key}.json`;
+// ✅ SET THIS to your DataBank GitHub Pages base URL (where teams.json + *.json live)
+// Example: "https://joefollis.github.io/oracle-databank/"
+const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/";
+
+// Cache bust helper (prevents stale reads)
+function bust(u) {
+  const join = u.includes("?") ? "&" : "?";
+  return `${u}${join}v=${Date.now()}`;
 }
 
+// Data location (per-team JSON files) — now canonical from DataBank
+function dataUrl(team, season) {
+  // Keep aliases ONLY if your generator also uses them.
+  // Your generator currently aliases GB->gb and PHI->phi, and lowercases everything else.
+  const ALIAS = {
+    GB: "gb",
+    PHI: "phi",
+    // NOTE: Do NOT alias LAR->la unless the generator also outputs la.json
+  };
 
+  const key = (ALIAS[team] ?? team).toLowerCase();
+  return bust(`${DATABANK_BASE}${key}.json`);
+}
 
-const TEAMS = [
-  "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
-  "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"
-];
+function teamsUrl() {
+  return bust(`${DATABANK_BASE}teams.json`);
+}
 
 const SEASON = 2025;
 
 /***** STATE *****/
 let DATA = null;
+let TEAMS = []; // now loaded dynamically
 let currentTeam = "ATL";
 let currentGameKey = null;
 let currentView = "con"; // "con" | "exp"
@@ -131,22 +144,17 @@ function sanitizeExplain(s){
   if (!s) return "—";
   let t = String(s);
 
-  // Keep it high-level.
   t = t.replace(/league-wide/gi, "historically");
   t = t.replace(/historically similar situations/gi, "similar situations");
-  t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
+  t = t.replace(/\(n=\d+\)/g, "");
 
   t = t.replace(/\s+/g, " ").trim();
 
-  // Signal Gain controls how readily we "speak up" (without exposing mechanics).
-  // Quiet = shorter, more conservative narration. Amplified = fuller narration.
   if (signalGain === 0){
-    // First sentence only (or a gentle truncate).
     const idx = t.search(/[.!?]\s/);
     if (idx > 0) t = t.slice(0, idx + 1);
     if (t.length > 140) t = t.slice(0, 140).trim() + "…";
   } else if (signalGain === 2){
-    // Allow a bit more room to breathe.
     if (t.length > 360) t = t.slice(0, 360).trim() + "…";
   } else {
     if (t.length > 240) t = t.slice(0, 240).trim() + "…";
@@ -192,7 +200,7 @@ function uiInit(){
 
   const gainRange = document.getElementById("gainRange");
 
-  // Signal Gain (beginner-safe, expert-friendly)
+  // Signal Gain
   signalGain = clampGain(localStorage.getItem(SIGNAL_GAIN_KEY) ?? 1);
   if (gainRange) gainRange.value = String(signalGain);
   syncGainUi();
@@ -202,45 +210,55 @@ function uiInit(){
       signalGain = clampGain(gainRange.value);
       localStorage.setItem(SIGNAL_GAIN_KEY, String(signalGain));
       syncGainUi();
-      renderLens(); // re-render narration
+      renderLens();
       if (currentView === "exp") renderExperimental();
     });
   }
 
-  teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
-  teamSel.value = currentTeam;
+  // teamSel is populated after loadTeams()
+  if (teamSel){
+    teamSel.addEventListener("change", async ()=>{
+      currentTeam = teamSel.value;
+      await loadTeam(false);
+    });
+  }
 
-  teamSel.addEventListener("change", async ()=>{
-    currentTeam = teamSel.value;
-    await loadTeam();
-  });
+  if (refresh){
+    refresh.addEventListener("click", async ()=>{
+      await loadTeam(true);
+    });
+  }
 
-  refresh.addEventListener("click", async ()=>{
-    await loadTeam(true);
-  });
+  if (gameSel){
+    gameSel.addEventListener("change", ()=>{
+      currentGameKey = gameSel.value;
+      renderLens();
+      if (currentView === "exp") renderExperimental();
+    });
+  }
 
-  gameSel.addEventListener("change", ()=>{
-    currentGameKey = gameSel.value;
-    renderLens();
-    if (currentView === "exp") renderExperimental();
-  });
+  if (viewCon){
+    viewCon.addEventListener("click", ()=>{
+      currentView = "con";
+      syncViewButtons();
+      syncPanels();
+    });
+  }
 
-  viewCon.addEventListener("click", ()=>{
-    currentView = "con";
-    syncViewButtons();
-    syncPanels();
-  });
+  if (viewExp){
+    viewExp.addEventListener("click", ()=>{
+      currentView = "exp";
+      syncViewButtons();
+      syncPanels();
+      renderExperimental();
+    });
+  }
 
-  viewExp.addEventListener("click", ()=>{
-    currentView = "exp";
-    syncViewButtons();
-    syncPanels();
-    renderExperimental();
-  });
-
-  toggleExplain.addEventListener("click", ()=>{
-    explainBox.hidden = !explainBox.hidden;
-  });
+  if (toggleExplain && explainBox){
+    toggleExplain.addEventListener("click", ()=>{
+      explainBox.hidden = !explainBox.hidden;
+    });
+  }
 
   syncViewButtons();
   syncPanels();
@@ -266,12 +284,52 @@ function syncPanels(){
   expPanel.hidden = (currentView !== "exp");
 }
 
+/***** LOAD TEAMS DYNAMICALLY *****/
+async function loadTeams(){
+  const teamSel = document.getElementById("teamSel");
+  const loadedTag = document.getElementById("loadedTag");
+
+  try{
+    const res = await fetch(teamsUrl(), { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+
+    // payload.teams = [{team:"BAL", key:"bal"}, ...]
+    const teams = (payload?.teams || []).map(t => String(t.team)).filter(Boolean);
+
+    TEAMS = teams.slice().sort((a,b)=>a.localeCompare(b));
+
+    // Populate dropdown
+    if (teamSel){
+      teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
+    }
+
+    // Keep currentTeam if valid; else default to first.
+    if (!TEAMS.includes(currentTeam)){
+      currentTeam = TEAMS[0] || "ATL";
+    }
+
+    if (teamSel) teamSel.value = currentTeam;
+
+    // Optional: show source stamp quickly
+    if (loadedTag){
+      loadedTag.textContent = `Loaded: — (teams from ${DATABANK_BASE})`;
+    }
+  } catch(e){
+    console.error(e);
+    alert(
+      `Could not load teams.json from DataBank.\n\nExpected: ${teamsUrl()}\n\n` +
+      `Fix: set DATABANK_BASE at top of app.js to your DataBank GitHub Pages URL.`
+    );
+  }
+}
+
 /***** LOAD DATA *****/
 async function loadTeam(forceBust=false){
   const loadedTag = document.getElementById("loadedTag");
 
-  let url = dataUrl(currentTeam, SEASON);
-  if (forceBust) url += `?t=${Date.now()}`;
+  // We already bust inside dataUrl(). If forceBust=true, dataUrl() will still bust.
+  const url = dataUrl(currentTeam, SEASON);
 
   try{
     const res = await fetch(url, { cache: "no-store" });
@@ -280,12 +338,22 @@ async function loadTeam(forceBust=false){
 
     const team = DATA?.summary?.team ?? currentTeam;
     const season = DATA?.summary?.season ?? SEASON;
-    loadedTag.textContent = `Loaded: ${team} ${season}`;
+
+    // Source stamp: generated_at + max week + url
+    const gen = DATA?.generated_at ? String(DATA.generated_at) : "—";
+    const maxW = Array.isArray(DATA?.games) && DATA.games.length
+      ? Math.max(...DATA.games.map(g => Number(g.week) || 0))
+      : 0;
+
+    loadedTag.textContent = `Loaded: ${team} ${season} • gen=${gen} • maxW=${maxW}`;
   } catch(e){
     console.error(e);
     DATA = null;
     loadedTag.textContent = `Loaded: —`;
-    alert(`Could not load data for ${currentTeam}. Expected: ${url}\n\nTip: Put JSON at ${url} or change dataUrl() in app.js`);
+    alert(
+      `Could not load data for ${currentTeam}.\n\nExpected:\n${url}\n\n` +
+      `Tip: verify ${DATABANK_BASE}teams.json and ${DATABANK_BASE}${currentTeam.toLowerCase()}.json exist.`
+    );
     renderAll();
     return;
   }
@@ -431,7 +499,6 @@ function renderLens(){
 
   snapEl.textContent = n ? `SNAP n=${n}` : "—";
 
-  // Explain drawer (sanitized)
   if (explainPregame) explainPregame.textContent = sanitizeExplain(g?.oracle?.explain_pregame);
   if (explainPostgame) explainPostgame.textContent = sanitizeExplain(g?.oracle?.explain);
 }
@@ -457,11 +524,9 @@ function renderSummaryCounts(){
 function renderExperimental(){
   if (!DATA?.games?.length) return;
 
-  // Overall accuracy (calls only)
   let calls = 0, correct = 0;
-  const byOpp = new Map(); // opp -> {calls, correct}
+  const byOpp = new Map();
 
-  // Running accuracy series (over calls)
   const runX = [];
   const runY = [];
   let callIndex = 0;
@@ -490,7 +555,6 @@ function renderExperimental(){
 
   const rate = calls ? (correct / calls) : null;
 
-  // Paint summary cards
   const elCalls = document.getElementById("m_calls");
   const elCorrect = document.getElementById("m_correct");
   const elRate = document.getElementById("m_rate");
@@ -501,7 +565,6 @@ function renderExperimental(){
   if (elRate) elRate.textContent = rate === null ? "—" : `${Math.round(rate * 100)}%`;
   if (elRateBars) elRateBars.textContent = rate === null ? "—" : confBars(rate * 100);
 
-  // Opponent table
   const oppBody = document.querySelector("#oppTbl tbody");
   if (oppBody){
     oppBody.innerHTML = "";
@@ -522,7 +585,6 @@ function renderExperimental(){
     }
   }
 
-  // Graph 1: week vs exp win% + postgame coherence
   const weeks = [];
   const expSeries = [];
   const cohSeries = [];
@@ -530,14 +592,12 @@ function renderExperimental(){
   for (const g of DATA.games){
     weeks.push(Number(g.week));
     const exp = getExp(g);
-    expSeries.push(exp === null ? null : exp); // 0..1
+    expSeries.push(exp === null ? null : exp);
     const coh = g?.oracle?.coherence;
-    cohSeries.push((coh === null || coh === undefined) ? null : Number(coh) / 100); // 0..1
+    cohSeries.push((coh === null || coh === undefined) ? null : Number(coh) / 100);
   }
 
   drawDualSeries("chart1", weeks, expSeries, cohSeries, "ExpWin", "Coherence");
-
-  // Graph 2: running accuracy over calls
   drawSingleSeries("chart2", runX, runY, "HitRate");
 }
 
@@ -552,7 +612,6 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
   const W = c.width - padL - padR;
   const H = c.height - padT - padB;
 
-  // Axes
   ctx.globalAlpha = 0.35;
   ctx.beginPath();
   ctx.moveTo(padL, padT);
@@ -561,7 +620,6 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
   ctx.stroke();
   ctx.globalAlpha = 1;
 
-  // Gridlines
   ctx.globalAlpha = 0.18;
   for (let i=0;i<=4;i++){
     const yy = padT + H - (i/4)*H;
@@ -579,7 +637,6 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
   const X = (xi) => padL + ((xi - xmin) / xSpan) * W;
   const Y = (yi) => padT + H - (yi * H);
 
-  // Series 1 (solid)
   ctx.lineWidth = 2;
   ctx.beginPath();
   let started = false;
@@ -593,7 +650,6 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
   }
   ctx.stroke();
 
-  // Series 2 (dashed)
   ctx.setLineDash([6,4]);
   ctx.beginPath();
   started = false;
@@ -608,7 +664,6 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
   ctx.stroke();
   ctx.setLineDash([]);
 
-  // Labels
   ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
   ctx.globalAlpha = 0.7;
   ctx.fillText(`${name1} (solid)`, padL, padT + H + 20);
@@ -627,7 +682,6 @@ function drawSingleSeries(canvasId, x, y, name){
   const W = c.width - padL - padR;
   const H = c.height - padT - padB;
 
-  // Axes
   ctx.globalAlpha = 0.35;
   ctx.beginPath();
   ctx.moveTo(padL, padT);
@@ -644,7 +698,6 @@ function drawSingleSeries(canvasId, x, y, name){
     return;
   }
 
-  // Gridlines
   ctx.globalAlpha = 0.18;
   for (let i=0;i<=4;i++){
     const yy = padT + H - (i/4)*H;
@@ -662,7 +715,6 @@ function drawSingleSeries(canvasId, x, y, name){
   const X = (xi) => padL + ((xi - xmin) / xSpan) * W;
   const Y = (yi) => padT + H - (yi * H);
 
-  // Line
   ctx.lineWidth = 2;
   ctx.beginPath();
   for (let i=0;i<x.length;i++){
@@ -673,7 +725,6 @@ function drawSingleSeries(canvasId, x, y, name){
   }
   ctx.stroke();
 
-  // Label
   ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
   ctx.globalAlpha = 0.7;
   ctx.fillText(`${name} (solid)`, padL, padT + H + 20);
@@ -684,5 +735,6 @@ function drawSingleSeries(canvasId, x, y, name){
 (async function boot(){
   gateInit();
   uiInit();
-  await loadTeam();
+  await loadTeams();
+  await loadTeam(true);
 })();
