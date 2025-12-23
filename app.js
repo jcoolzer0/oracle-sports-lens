@@ -1,39 +1,31 @@
 /***** CONFIG *****/
 const LENS_PASSWORD = "OMA";
 
-// ✅ SET THIS to your DataBank GitHub Pages base URL (where teams.json + *.json live)
-// Example: "https://joefollis.github.io/oracle-databank/"
+// ✅ DataBank GitHub Pages root (parent that serves bal.json, teams.json, etc.)
 const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/";
 
-// Cache bust helper (prevents stale reads)
-function bust(u) {
-  const join = u.includes("?") ? "&" : "?";
-  return `${u}${join}v=${Date.now()}`;
-}
-
-// Data location (per-team JSON files) — now canonical from DataBank
+// Data location (per-team JSON files)
 function dataUrl(team, season) {
-  // Keep aliases ONLY if your generator also uses them.
-  // Your generator currently aliases GB->gb and PHI->phi, and lowercases everything else.
+  // Keep an alias map if you ever need special cases.
+  // NOTE: only use aliases if your databank filenames truly differ from team.toLowerCase()
   const ALIAS = {
-    GB: "gb",
-    PHI: "phi",
-    // NOTE: Do NOT alias LAR->la unless the generator also outputs la.json
+    // Example: LAR: "la", // only if your databank file is actually la.json (not lar.json)
   };
-
   const key = (ALIAS[team] ?? team).toLowerCase();
-  return bust(`${DATABANK_BASE}${key}.json`);
+
+  // Cache-buster on every load
+  return `${DATABANK_BASE}${key}.json?v=${Date.now()}`;
 }
 
-function teamsUrl() {
-  return bust(`${DATABANK_BASE}teams.json`);
-}
+const TEAMS = [
+  "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
+  "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"
+];
 
 const SEASON = 2025;
 
 /***** STATE *****/
 let DATA = null;
-let TEAMS = []; // now loaded dynamically
 let currentTeam = "ATL";
 let currentGameKey = null;
 let currentView = "con"; // "con" | "exp"
@@ -144,12 +136,14 @@ function sanitizeExplain(s){
   if (!s) return "—";
   let t = String(s);
 
+  // Keep it high-level.
   t = t.replace(/league-wide/gi, "historically");
   t = t.replace(/historically similar situations/gi, "similar situations");
-  t = t.replace(/\(n=\d+\)/g, "");
+  t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
 
   t = t.replace(/\s+/g, " ").trim();
 
+  // Signal Gain controls how readily we "speak up" (without exposing mechanics).
   if (signalGain === 0){
     const idx = t.search(/[.!?]\s/);
     if (idx > 0) t = t.slice(0, idx + 1);
@@ -171,19 +165,19 @@ function gateInit(){
   const err = document.getElementById("gateErr");
 
   const ok = sessionStorage.getItem("oracle_lens_ok") === "1";
-  if (ok) gate.style.display = "none";
+  if (ok && gate) gate.style.display = "none";
 
   function attempt(){
-    if (pw.value === LENS_PASSWORD){
+    if (pw && pw.value === LENS_PASSWORD){
       sessionStorage.setItem("oracle_lens_ok","1");
-      gate.style.display = "none";
+      if (gate) gate.style.display = "none";
     } else {
-      err.hidden = false;
+      if (err) err.hidden = false;
     }
   }
 
-  btn.addEventListener("click", attempt);
-  pw.addEventListener("keydown", (e)=>{ if (e.key==="Enter") attempt(); });
+  if (btn) btn.addEventListener("click", attempt);
+  if (pw) pw.addEventListener("keydown", (e)=>{ if (e.key==="Enter") attempt(); });
 }
 
 /***** UI INIT *****/
@@ -210,17 +204,54 @@ function uiInit(){
       signalGain = clampGain(gainRange.value);
       localStorage.setItem(SIGNAL_GAIN_KEY, String(signalGain));
       syncGainUi();
-      renderLens();
+      renderLens(); // re-render narration
       if (currentView === "exp") renderExperimental();
     });
   }
 
-  // teamSel is populated after loadTeams()
+  // Populate teams dropdown
   if (teamSel){
+    teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
+    teamSel.value = currentTeam;
+
     teamSel.addEventListener("change", async ()=>{
       currentTeam = teamSel.value;
-      await loadTeam(false);
+      await loadTeam(true);
     });
+  }
+
+  // ✅ Inject Prev/Next Team buttons next to Refresh (no HTML edits needed)
+  if (refresh && refresh.parentElement && !document.getElementById("prevTeam")){
+    const mkBtn = (id, label) => {
+      const b = document.createElement("button");
+      b.id = id;
+      b.textContent = label;
+      // mirror Refresh styling lightly
+      b.style.padding = "8px 10px";
+      b.style.borderRadius = "10px";
+      b.style.border = "1px solid #ccc";
+      b.style.cursor = "pointer";
+      b.style.marginLeft = "8px";
+      return b;
+    };
+
+    const prevBtn = mkBtn("prevTeam", "◀ Prev Team");
+    const nextBtn = mkBtn("nextTeam", "Next Team ▶");
+
+    refresh.insertAdjacentElement("afterend", nextBtn);
+    refresh.insertAdjacentElement("afterend", prevBtn);
+
+    const stepTeam = async (dir) => {
+      const i = TEAMS.indexOf(currentTeam);
+      const n = TEAMS.length;
+      const next = TEAMS[(i + dir + n) % n];
+      currentTeam = next;
+      if (teamSel) teamSel.value = currentTeam;
+      await loadTeam(true); // bust cache on hop
+    };
+
+    prevBtn.addEventListener("click", ()=> stepTeam(-1));
+    nextBtn.addEventListener("click", ()=> stepTeam(+1));
   }
 
   if (refresh){
@@ -254,9 +285,9 @@ function uiInit(){
     });
   }
 
-  if (toggleExplain && explainBox){
+  if (toggleExplain){
     toggleExplain.addEventListener("click", ()=>{
-      explainBox.hidden = !explainBox.hidden;
+      if (explainBox) explainBox.hidden = !explainBox.hidden;
     });
   }
 
@@ -284,52 +315,13 @@ function syncPanels(){
   expPanel.hidden = (currentView !== "exp");
 }
 
-/***** LOAD TEAMS DYNAMICALLY *****/
-async function loadTeams(){
-  const teamSel = document.getElementById("teamSel");
-  const loadedTag = document.getElementById("loadedTag");
-
-  try{
-    const res = await fetch(teamsUrl(), { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const payload = await res.json();
-
-    // payload.teams = [{team:"BAL", key:"bal"}, ...]
-    const teams = (payload?.teams || []).map(t => String(t.team)).filter(Boolean);
-
-    TEAMS = teams.slice().sort((a,b)=>a.localeCompare(b));
-
-    // Populate dropdown
-    if (teamSel){
-      teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
-    }
-
-    // Keep currentTeam if valid; else default to first.
-    if (!TEAMS.includes(currentTeam)){
-      currentTeam = TEAMS[0] || "ATL";
-    }
-
-    if (teamSel) teamSel.value = currentTeam;
-
-    // Optional: show source stamp quickly
-    if (loadedTag){
-      loadedTag.textContent = `Loaded: — (teams from ${DATABANK_BASE})`;
-    }
-  } catch(e){
-    console.error(e);
-    alert(
-      `Could not load teams.json from DataBank.\n\nExpected: ${teamsUrl()}\n\n` +
-      `Fix: set DATABANK_BASE at top of app.js to your DataBank GitHub Pages URL.`
-    );
-  }
-}
-
 /***** LOAD DATA *****/
 async function loadTeam(forceBust=false){
   const loadedTag = document.getElementById("loadedTag");
 
-  // We already bust inside dataUrl(). If forceBust=true, dataUrl() will still bust.
-  const url = dataUrl(currentTeam, SEASON);
+  let url = dataUrl(currentTeam, SEASON);
+  // (dataUrl already includes v=Date.now(); forceBust here is redundant but harmless)
+  if (forceBust) url += `&t=${Date.now()}`;
 
   try{
     const res = await fetch(url, { cache: "no-store" });
@@ -338,22 +330,12 @@ async function loadTeam(forceBust=false){
 
     const team = DATA?.summary?.team ?? currentTeam;
     const season = DATA?.summary?.season ?? SEASON;
-
-    // Source stamp: generated_at + max week + url
-    const gen = DATA?.generated_at ? String(DATA.generated_at) : "—";
-    const maxW = Array.isArray(DATA?.games) && DATA.games.length
-      ? Math.max(...DATA.games.map(g => Number(g.week) || 0))
-      : 0;
-
-    loadedTag.textContent = `Loaded: ${team} ${season} • gen=${gen} • maxW=${maxW}`;
+    if (loadedTag) loadedTag.textContent = `Loaded: ${team} ${season}`;
   } catch(e){
     console.error(e);
     DATA = null;
-    loadedTag.textContent = `Loaded: —`;
-    alert(
-      `Could not load data for ${currentTeam}.\n\nExpected:\n${url}\n\n` +
-      `Tip: verify ${DATABANK_BASE}teams.json and ${DATABANK_BASE}${currentTeam.toLowerCase()}.json exist.`
-    );
+    if (loadedTag) loadedTag.textContent = `Loaded: —`;
+    alert(`Could not load data for ${currentTeam}.\nExpected: ${url}\n\nTip: Ensure JSON exists at:\n${DATABANK_BASE}${currentTeam.toLowerCase()}.json`);
     renderAll();
     return;
   }
@@ -378,6 +360,8 @@ function renderAll(){
 /***** RENDER DROPDOWNS *****/
 function renderGameSelect(){
   const gameSel = document.getElementById("gameSel");
+  if (!gameSel) return;
+
   if (!DATA?.games?.length){
     gameSel.innerHTML = `<option value="">—</option>`;
     return;
@@ -398,8 +382,9 @@ function renderGameSelect(){
 /***** RENDER TABLE *****/
 function renderSeasonTable(){
   const tbody = document.querySelector("#tbl tbody");
-  tbody.innerHTML = "";
+  if (!tbody) return;
 
+  tbody.innerHTML = "";
   if (!DATA?.games?.length) return;
 
   for (const g of DATA.games){
@@ -431,7 +416,8 @@ function renderSeasonTable(){
 
     tr.addEventListener("click", ()=>{
       currentGameKey = gameKey(g);
-      document.getElementById("gameSel").value = currentGameKey;
+      const gameSel = document.getElementById("gameSel");
+      if (gameSel) gameSel.value = currentGameKey;
       renderLens();
       if (currentView === "exp") renderExperimental();
     });
@@ -455,14 +441,14 @@ function renderLens(){
   const explainPostgame = document.getElementById("explainPostgame");
 
   if (!DATA?.games?.length || !currentGameKey){
-    evidenceEl.textContent = "—";
-    expEl.textContent = "—";
-    confEl.textContent = "—";
-    confBarsEl.textContent = "—";
-    realityEl.textContent = "—";
-    cohEl.textContent = "—";
-    cohSubEl.textContent = "—";
-    snapEl.textContent = "—";
+    if (evidenceEl) evidenceEl.textContent = "—";
+    if (expEl) expEl.textContent = "—";
+    if (confEl) confEl.textContent = "—";
+    if (confBarsEl) confBarsEl.textContent = "—";
+    if (realityEl) realityEl.textContent = "—";
+    if (cohEl) cohEl.textContent = "—";
+    if (cohSubEl) cohSubEl.textContent = "—";
+    if (snapEl) snapEl.textContent = "—";
     if (explainPregame) explainPregame.textContent = "—";
     if (explainPostgame) explainPostgame.textContent = "—";
     return;
@@ -479,25 +465,29 @@ function renderLens(){
   const postCoh = g?.oracle?.coherence;
   const n = getN(g);
 
-  evidenceEl.textContent = evidence;
-  expEl.textContent = exp;
-  confEl.textContent = conf;
-  confBarsEl.textContent = confBars(confNum);
+  if (evidenceEl) evidenceEl.textContent = evidence;
+  if (expEl) expEl.textContent = exp;
+  if (confEl) confEl.textContent = conf;
+  if (confBarsEl) confBarsEl.textContent = confBars(confNum);
 
-  realityEl.textContent = outcomeLabel(result);
+  if (realityEl) realityEl.textContent = outcomeLabel(result);
 
-  cohEl.textContent = lockLabel;
-  cohEl.className = `v big mono ${tagClass(lockLabel)}`;
-
-  if (lockLabel === "MATCH"){
-    cohSubEl.textContent = `Story held. Postgame coherence: ${safe(postCoh)}`;
-  } else if (lockLabel === "DIVERGE"){
-    cohSubEl.textContent = `Story broke. Postgame coherence: ${safe(postCoh)}`;
-  } else {
-    cohSubEl.textContent = `No reality lock (insufficient similar-history). Postgame coherence: ${safe(postCoh)}`;
+  if (cohEl){
+    cohEl.textContent = lockLabel;
+    cohEl.className = `v big mono ${tagClass(lockLabel)}`;
   }
 
-  snapEl.textContent = n ? `SNAP n=${n}` : "—";
+  if (cohSubEl){
+    if (lockLabel === "MATCH"){
+      cohSubEl.textContent = `Story held. Postgame coherence: ${safe(postCoh)}`;
+    } else if (lockLabel === "DIVERGE"){
+      cohSubEl.textContent = `Story broke. Postgame coherence: ${safe(postCoh)}`;
+    } else {
+      cohSubEl.textContent = `No reality lock (insufficient similar-history). Postgame coherence: ${safe(postCoh)}`;
+    }
+  }
+
+  if (snapEl) snapEl.textContent = n ? `SNAP n=${n}` : "—";
 
   if (explainPregame) explainPregame.textContent = sanitizeExplain(g?.oracle?.explain_pregame);
   if (explainPostgame) explainPostgame.textContent = sanitizeExplain(g?.oracle?.explain);
@@ -506,6 +496,8 @@ function renderLens(){
 /***** SUMMARY COUNTS *****/
 function renderSummaryCounts(){
   const scoreTag = document.getElementById("scoreTag");
+  if (!scoreTag) return;
+
   if (!DATA?.games?.length){
     scoreTag.textContent = "Matches: — | Diverges: —";
     return;
@@ -598,6 +590,7 @@ function renderExperimental(){
   }
 
   drawDualSeries("chart1", weeks, expSeries, cohSeries, "ExpWin", "Coherence");
+
   drawSingleSeries("chart2", runX, runY, "HitRate");
 }
 
@@ -735,6 +728,5 @@ function drawSingleSeries(canvasId, x, y, name){
 (async function boot(){
   gateInit();
   uiInit();
-  await loadTeams();
   await loadTeam(true);
 })();
