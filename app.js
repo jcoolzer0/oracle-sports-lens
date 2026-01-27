@@ -6,12 +6,17 @@ const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/";
 
 // Data location (per-team JSON files)
 function dataUrl(team, season) {
-  // Keep an alias map if you ever need special cases.
-  // NOTE: only use aliases if your databank filenames truly differ from team.toLowerCase()
+  // ✅ Aliases for databank filenames (when file key != team.toLowerCase())
+  // Rams: your databank uses la.json, but Lens team code is LAR.
   const ALIAS = {
-    // Example: LAR: "la", // only if your databank file is actually la.json (not lar.json)
+    LAR: "la",
+    // Optional future-proofing:
+    // WSH: "was", // if you ever end up with was.json instead of wsh.json
+    // WAS: "wsh",
   };
-  const key = (ALIAS[team] ?? team).toLowerCase();
+
+  const resolved = (ALIAS[team] ?? team);
+  const key = String(resolved).toLowerCase();
 
   // Cache-buster on every load
   return `${DATABANK_BASE}${key}.json?v=${Date.now()}`;
@@ -136,14 +141,11 @@ function sanitizeExplain(s){
   if (!s) return "—";
   let t = String(s);
 
-  // Keep it high-level.
   t = t.replace(/league-wide/gi, "historically");
   t = t.replace(/historically similar situations/gi, "similar situations");
-  t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
-
+  t = t.replace(/\(n=\d+\)/g, "");
   t = t.replace(/\s+/g, " ").trim();
 
-  // Signal Gain controls how readily we "speak up" (without exposing mechanics).
   if (signalGain === 0){
     const idx = t.search(/[.!?]\s/);
     if (idx > 0) t = t.slice(0, idx + 1);
@@ -153,7 +155,6 @@ function sanitizeExplain(s){
   } else {
     if (t.length > 240) t = t.slice(0, 240).trim() + "…";
   }
-
   return t;
 }
 
@@ -194,7 +195,6 @@ function uiInit(){
 
   const gainRange = document.getElementById("gainRange");
 
-  // Signal Gain
   signalGain = clampGain(localStorage.getItem(SIGNAL_GAIN_KEY) ?? 1);
   if (gainRange) gainRange.value = String(signalGain);
   syncGainUi();
@@ -204,12 +204,11 @@ function uiInit(){
       signalGain = clampGain(gainRange.value);
       localStorage.setItem(SIGNAL_GAIN_KEY, String(signalGain));
       syncGainUi();
-      renderLens(); // re-render narration
+      renderLens();
       if (currentView === "exp") renderExperimental();
     });
   }
 
-  // Populate teams dropdown
   if (teamSel){
     teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
     teamSel.value = currentTeam;
@@ -220,13 +219,11 @@ function uiInit(){
     });
   }
 
-  // ✅ Inject Prev/Next Team buttons next to Refresh (no HTML edits needed)
   if (refresh && refresh.parentElement && !document.getElementById("prevTeam")){
     const mkBtn = (id, label) => {
       const b = document.createElement("button");
       b.id = id;
       b.textContent = label;
-      // mirror Refresh styling lightly
       b.style.padding = "8px 10px";
       b.style.borderRadius = "10px";
       b.style.border = "1px solid #ccc";
@@ -247,7 +244,7 @@ function uiInit(){
       const next = TEAMS[(i + dir + n) % n];
       currentTeam = next;
       if (teamSel) teamSel.value = currentTeam;
-      await loadTeam(true); // bust cache on hop
+      await loadTeam(true);
     };
 
     prevBtn.addEventListener("click", ()=> stepTeam(-1));
@@ -255,9 +252,7 @@ function uiInit(){
   }
 
   if (refresh){
-    refresh.addEventListener("click", async ()=>{
-      await loadTeam(true);
-    });
+    refresh.addEventListener("click", async ()=>{ await loadTeam(true); });
   }
 
   if (gameSel){
@@ -320,8 +315,10 @@ async function loadTeam(forceBust=false){
   const loadedTag = document.getElementById("loadedTag");
 
   let url = dataUrl(currentTeam, SEASON);
-  // (dataUrl already includes v=Date.now(); forceBust here is redundant but harmless)
   if (forceBust) url += `&t=${Date.now()}`;
+
+  // Helpful for debugging: shows you exactly what file key we resolved to
+  const resolvedKey = ({"LAR":"la"}[currentTeam] ?? currentTeam).toLowerCase();
 
   try{
     const res = await fetch(url, { cache: "no-store" });
@@ -335,7 +332,12 @@ async function loadTeam(forceBust=false){
     console.error(e);
     DATA = null;
     if (loadedTag) loadedTag.textContent = `Loaded: —`;
-    alert(`Could not load data for ${currentTeam}.\nExpected: ${url}\n\nTip: Ensure JSON exists at:\n${DATABANK_BASE}${currentTeam.toLowerCase()}.json`);
+    alert(
+      `Could not load data for ${currentTeam}.\n` +
+      `Expected: ${url}\n\n` +
+      `Tip: Ensure JSON exists at:\n` +
+      `${DATABANK_BASE}${resolvedKey}.json`
+    );
     renderAll();
     return;
   }
