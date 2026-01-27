@@ -6,17 +6,12 @@ const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/";
 
 // Data location (per-team JSON files)
 function dataUrl(team, season) {
-  // ✅ Aliases for databank filenames (when file key != team.toLowerCase())
-  // Rams: your databank uses la.json, but Lens team code is LAR.
+  // Keep an alias map if you ever need special cases.
+  // NOTE: only use aliases if your databank filenames truly differ from team.toLowerCase()
   const ALIAS = {
-    LAR: "la",
-    // Optional future-proofing:
-    // WSH: "was", // if you ever end up with was.json instead of wsh.json
-    // WAS: "wsh",
+    // Example: LAR: "la",
   };
-
-  const resolved = (ALIAS[team] ?? team);
-  const key = String(resolved).toLowerCase();
+  const key = (ALIAS[team] ?? team).toLowerCase();
 
   // Cache-buster on every load
   return `${DATABANK_BASE}${key}.json?v=${Date.now()}`;
@@ -136,16 +131,71 @@ function gameKey(g){
   return `${wk}_${opp}`;
 }
 
+function isCallable(g){
+  const pick = getPick(g);
+  const res = g?.result;
+  return (pick !== null) && (res === "W" || res === "L" || res === "T");
+}
+
+function computeHitMetrics(games, recentN = 8){
+  let calls = 0, hits = 0;
+  const callsList = [];
+
+  for (const g of (games || [])){
+    if (!isCallable(g)) continue;
+    calls++;
+    const hit = (getPick(g) === g.result);
+    if (hit) hits++;
+    callsList.push({ week: g.week, opp: g.opponent, hit, conf: getConf(g), n: getN(g) });
+  }
+
+  const rate = calls ? (hits / calls) : null;
+
+  const recent = callsList.slice(-recentN);
+  const rCalls = recent.length;
+  const rHits = recent.filter(x => x.hit).length;
+  const rRate = rCalls ? (rHits / rCalls) : null;
+
+  return { calls, hits, rate, recentN, rCalls, rHits, rRate, recent };
+}
+
+function confidenceBand(conf){
+  const c = Number(conf);
+  if (!Number.isFinite(c)) return "—";
+  if (c >= 80) return "HIGH";
+  if (c >= 60) return "MED";
+  if (c >= 45) return "LOW";
+  return "VLOW";
+}
+
+function lockHeatTag(g){
+  // "Lock-in" is where we had evidence and confidence and hit recently.
+  // This doesn't change predictions; it’s just a lens for calibration.
+  const n = getN(g);
+  const conf = getConf(g);
+  if (!isCallable(g)) return "—";
+  const hit = (getPick(g) === g.result);
+  const band = confidenceBand(conf);
+  if (n >= 8 && conf >= 70 && hit) return "LOCKED ✅";
+  if (n >= 8 && conf >= 70 && !hit) return "OVERCONF ⚠";
+  if (n < 2) return "THIN";
+  if (hit) return `HIT (${band})`;
+  return `MISS (${band})`;
+}
+
 /***** PATENT-SAFE EXPLAIN SANITIZER *****/
 function sanitizeExplain(s){
   if (!s) return "—";
   let t = String(s);
 
+  // Keep it high-level.
   t = t.replace(/league-wide/gi, "historically");
   t = t.replace(/historically similar situations/gi, "similar situations");
-  t = t.replace(/\(n=\d+\)/g, "");
+  t = t.replace(/\(n=\d+\)/g, ""); // removes "(n=1)" style parentheticals
+
   t = t.replace(/\s+/g, " ").trim();
 
+  // Signal Gain controls how readily we "speak up" (without exposing mechanics).
   if (signalGain === 0){
     const idx = t.search(/[.!?]\s/);
     if (idx > 0) t = t.slice(0, idx + 1);
@@ -155,6 +205,7 @@ function sanitizeExplain(s){
   } else {
     if (t.length > 240) t = t.slice(0, 240).trim() + "…";
   }
+
   return t;
 }
 
@@ -195,6 +246,7 @@ function uiInit(){
 
   const gainRange = document.getElementById("gainRange");
 
+  // Signal Gain
   signalGain = clampGain(localStorage.getItem(SIGNAL_GAIN_KEY) ?? 1);
   if (gainRange) gainRange.value = String(signalGain);
   syncGainUi();
@@ -204,11 +256,12 @@ function uiInit(){
       signalGain = clampGain(gainRange.value);
       localStorage.setItem(SIGNAL_GAIN_KEY, String(signalGain));
       syncGainUi();
-      renderLens();
+      renderLens(); // re-render narration
       if (currentView === "exp") renderExperimental();
     });
   }
 
+  // Populate teams dropdown
   if (teamSel){
     teamSel.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join("");
     teamSel.value = currentTeam;
@@ -219,6 +272,7 @@ function uiInit(){
     });
   }
 
+  // ✅ Inject Prev/Next Team buttons next to Refresh (no HTML edits needed)
   if (refresh && refresh.parentElement && !document.getElementById("prevTeam")){
     const mkBtn = (id, label) => {
       const b = document.createElement("button");
@@ -251,8 +305,41 @@ function uiInit(){
     nextBtn.addEventListener("click", ()=> stepTeam(+1));
   }
 
+  // ✅ Inject a bottom Next Team button (requested)
+  if (!document.getElementById("bottomNextTeam")){
+    const bottom = document.createElement("div");
+    bottom.id = "bottomNav";
+    bottom.style.marginTop = "18px";
+    bottom.style.display = "flex";
+    bottom.style.gap = "10px";
+    bottom.style.alignItems = "center";
+    bottom.style.justifyContent = "flex-end";
+
+    const b = document.createElement("button");
+    b.id = "bottomNextTeam";
+    b.textContent = "Next Team ▶";
+    b.style.padding = "10px 12px";
+    b.style.borderRadius = "12px";
+    b.style.border = "1px solid #ccc";
+    b.style.cursor = "pointer";
+
+    bottom.appendChild(b);
+    document.body.appendChild(bottom);
+
+    b.addEventListener("click", async ()=>{
+      const i = TEAMS.indexOf(currentTeam);
+      const n = TEAMS.length;
+      currentTeam = TEAMS[(i + 1) % n];
+      if (teamSel) teamSel.value = currentTeam;
+      await loadTeam(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
   if (refresh){
-    refresh.addEventListener("click", async ()=>{ await loadTeam(true); });
+    refresh.addEventListener("click", async ()=>{
+      await loadTeam(true);
+    });
   }
 
   if (gameSel){
@@ -317,9 +404,6 @@ async function loadTeam(forceBust=false){
   let url = dataUrl(currentTeam, SEASON);
   if (forceBust) url += `&t=${Date.now()}`;
 
-  // Helpful for debugging: shows you exactly what file key we resolved to
-  const resolvedKey = ({"LAR":"la"}[currentTeam] ?? currentTeam).toLowerCase();
-
   try{
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -332,12 +416,7 @@ async function loadTeam(forceBust=false){
     console.error(e);
     DATA = null;
     if (loadedTag) loadedTag.textContent = `Loaded: —`;
-    alert(
-      `Could not load data for ${currentTeam}.\n` +
-      `Expected: ${url}\n\n` +
-      `Tip: Ensure JSON exists at:\n` +
-      `${DATABANK_BASE}${resolvedKey}.json`
-    );
+    alert(`Could not load data for ${currentTeam}.\nExpected: ${url}\n\nTip: Ensure JSON exists at:\n${DATABANK_BASE}${currentTeam.toLowerCase()}.json`);
     renderAll();
     return;
   }
@@ -357,6 +436,7 @@ function renderAll(){
   renderSeasonTable();
   renderLens();
   renderSummaryCounts();
+  renderTeamCalibrationPanel(); // NEW
 }
 
 /***** RENDER DROPDOWNS *****/
@@ -403,10 +483,7 @@ function renderSeasonTable(){
       safe(getConf(g) === null ? "—" : Math.round(getConf(g))),
       evidenceString(g),
       coherenceLockLabel(g),
-      (() => {
-        const n = getN(g);
-        return n ? `SNAP n=${n}` : "—";
-      })()
+      lockHeatTag(g) // NEW: heat tag instead of "SNAP n="
     ];
 
     row.forEach((cell, idx)=>{
@@ -489,7 +566,7 @@ function renderLens(){
     }
   }
 
-  if (snapEl) snapEl.textContent = n ? `SNAP n=${n}` : "—";
+  if (snapEl) snapEl.textContent = n ? `n=${n} • ${confidenceBand(confNum)}` : "—";
 
   if (explainPregame) explainPregame.textContent = sanitizeExplain(g?.oracle?.explain_pregame);
   if (explainPostgame) explainPostgame.textContent = sanitizeExplain(g?.oracle?.explain);
@@ -512,6 +589,97 @@ function renderSummaryCounts(){
     if (c === "DIVERGE") d++;
   }
   scoreTag.textContent = `Matches: ${m} | Diverges: ${d}`;
+}
+
+/***** NEW: TEAM CALIBRATION PANEL (Total Calls/Hits + Recent + Confidence sanity) *****/
+function ensureCalibrationPanel(){
+  let panel = document.getElementById("calPanel");
+  if (panel) return panel;
+
+  panel = document.createElement("div");
+  panel.id = "calPanel";
+  panel.style.marginTop = "12px";
+  panel.style.padding = "12px";
+  panel.style.border = "1px solid #ddd";
+  panel.style.borderRadius = "10px";
+  panel.style.background = "#fafafa";
+
+  const anchor =
+    document.getElementById("expPanel") ||
+    document.getElementById("tbl") ||
+    document.body;
+
+  // Insert right after the season table if possible
+  const tbl = document.getElementById("tbl");
+  if (tbl && tbl.parentElement){
+    tbl.insertAdjacentElement("afterend", panel);
+  } else {
+    anchor.appendChild(panel);
+  }
+
+  return panel;
+}
+
+function renderTeamCalibrationPanel(){
+  const panel = ensureCalibrationPanel();
+  if (!panel) return;
+
+  if (!DATA?.games?.length){
+    panel.innerHTML = `<div style="font-weight:700;">Calibration</div><div>—</div>`;
+    return;
+  }
+
+  const m = computeHitMetrics(DATA.games, 8);
+
+  // Confidence sanity check: compare average confidence on hits vs misses
+  const callable = (m.recent || []).length ? m.recent : [];
+  let hitConf = [], missConf = [];
+  for (const g of (DATA.games || [])){
+    if (!isCallable(g)) continue;
+    const c = getConf(g);
+    if (!Number.isFinite(c)) continue;
+    const hit = (getPick(g) === g.result);
+    if (hit) hitConf.push(c); else missConf.push(c);
+  }
+  const avg = (arr)=> arr.length ? (arr.reduce((a,b)=>a+b,0)/arr.length) : null;
+  const avgHit = avg(hitConf);
+  const avgMiss = avg(missConf);
+
+  // Calibration pulse: if misses have higher conf than hits -> overconf flag
+  let pulse = "Stable";
+  let pulseTag = "✅";
+  if (avgHit !== null && avgMiss !== null){
+    if (avgMiss > avgHit + 6){
+      pulse = "Overconfident drift (misses were higher-confidence than hits)";
+      pulseTag = "⚠";
+    } else if (avgHit > avgMiss + 6){
+      pulse = "Well-calibrated (hits carry higher confidence than misses)";
+      pulseTag = "✅";
+    }
+  }
+
+  panel.innerHTML = `
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+      <div style="font-weight:800;">Calibration</div>
+      <div style="font-family:ui-monospace, Menlo, Consolas, monospace; opacity:0.8;">${safe(DATA?.summary?.team)} ${safe(DATA?.summary?.season)}</div>
+    </div>
+
+    <div style="margin-top:8px; display:flex; gap:14px; flex-wrap:wrap;">
+      <div><b>Total calls:</b> ${m.calls} • <b>Hits:</b> ${m.hits} • <b>Hit rate:</b> ${m.rate==null?"—":Math.round(m.rate*100)+"%"}</div>
+      <div><b>Recent (${m.recentN} calls):</b> ${m.rCalls} • <b>Hits:</b> ${m.rHits} • <b>Rate:</b> ${m.rRate==null?"—":Math.round(m.rRate*100)+"%"}</div>
+    </div>
+
+    <div style="margin-top:10px; padding:10px; border-radius:10px; border:1px dashed #ccc;">
+      <div style="font-weight:700; margin-bottom:6px;">Confidence sanity</div>
+      <div><b>Avg confidence (hits):</b> ${avgHit==null?"—":Math.round(avgHit)}/100</div>
+      <div><b>Avg confidence (misses):</b> ${avgMiss==null?"—":Math.round(avgMiss)}/100</div>
+      <div style="margin-top:6px;"><b>Pulse:</b> ${pulseTag} ${pulse}</div>
+    </div>
+
+    <div style="margin-top:10px; color:#444; font-size:12px;">
+      Tip: “LOCKED ✅” in the table means evidence n≥8 + confidence≥70 + correct. “OVERCONF ⚠” means it was confident and wrong.
+    </div>
+  `;
 }
 
 /***** EXPERIMENTAL METRICS + GRAPHS *****/
@@ -592,7 +760,6 @@ function renderExperimental(){
   }
 
   drawDualSeries("chart1", weeks, expSeries, cohSeries, "ExpWin", "Coherence");
-
   drawSingleSeries("chart2", runX, runY, "HitRate");
 }
 
@@ -624,6 +791,8 @@ function drawDualSeries(canvasId, x, y1, y2, name1, name2){
     ctx.stroke();
   }
   ctx.globalAlpha = 1;
+
+  if (!x.length) return;
 
   const xmin = Math.min(...x);
   const xmax = Math.max(...x);
