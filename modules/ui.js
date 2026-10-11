@@ -124,7 +124,7 @@ function sendTeam() {
 }
 function ensureLegacy() {
   if (authenticated && !$("legacy").getAttribute("src"))
-    $("legacy").src = "legacy.html";
+    $("legacy").src = "legacy.html?v=season2-20261011";
 }
 $("legacy").onload = sendTeam;
 function buildPredictions() {

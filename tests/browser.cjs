@@ -250,7 +250,7 @@ const { chromium } = require("playwright");
   if (process.env.ORACLE_AXE_PATH) {
     const currentFrame = page
       .frames()
-      .find((f) => f.url().endsWith("/legacy.html"));
+      .find((f) => new URL(f.url()).pathname.endsWith("/legacy.html"));
     await currentFrame.addScriptTag({ path: process.env.ORACLE_AXE_PATH });
     const report = await currentFrame.evaluate(
       async () =>
@@ -295,7 +295,7 @@ const { chromium } = require("playwright");
   if (process.env.ORACLE_AXE_PATH) {
     const legacyFrame = page
       .frames()
-      .find((f) => f.url().endsWith("/legacy.html"));
+      .find((f) => new URL(f.url()).pathname.endsWith("/legacy.html"));
     await legacyFrame.addScriptTag({ path: process.env.ORACLE_AXE_PATH });
     const report = await legacyFrame.evaluate(
       async () =>
