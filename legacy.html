@@ -5,32 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Oracle Sports Lens v0</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="season2.css" />
+  <script>
+    if (window === window.top) location.replace("index.html?lens=legacy");
+  </script>
 </head>
 <body>
-  <!-- Password gate overlay -->
-  <div id="gate" class="gate">
-    <div class="gate-card">
-      <div class="gate-title">Oracle Sports Lens <span class="chip">v0</span></div>
-      <div class="gate-sub">Private research preview.</div>
-
-      <div class="gate-row">
-        <label class="gate-label">Password</label>
-        <input id="pw" class="input" type="password" placeholder="Enter password" />
-      </div>
-
-      <div class="gate-actions">
-        <button id="enter" class="btn primary">Enter</button>
-        <div id="gateErr" class="gate-err" hidden>Wrong password.</div>
-      </div>
-
-      <div class="gate-hint">Tip: this is a *preview gate* (real lock comes next).</div>
-    </div>
-  </div>
-
   <!-- Top bar -->
   <header class="topbar">
     <div class="brand">
-      <div class="title">Oracle Sports Lens <span class="chip">v0</span></div>
+      <h1 class="title">Legacy Lens <span class="chip">2025</span></h1>
       <div class="subtitle">Coherence • Convergence • Divergence</div>
     </div>
 
@@ -47,7 +31,7 @@
 
       <div class="ctl gainctl">
         <span>Signal Gain <span class="chip mini" id="gainTag">Balanced</span></span>
-        <input id="gainRange" class="range" type="range" min="0" max="2" step="1" value="1" />
+        <input id="gainRange" aria-label="Signal gain" class="range" type="range" min="0" max="2" step="1" value="1" />
         <div id="gainHint" class="gain-hint">Controls how readily subtle patterns speak up.</div>
       </div>
 
@@ -64,7 +48,7 @@
     <!-- Lens panel -->
     <section class="panel">
       <div class="panel-h">
-        <div class="panel-title">Lens</div>
+        <h2 id="legacyLensTitle" tabindex="-1" class="panel-title">Lens</h2>
         <div class="panel-sub">ELI5 on the surface. Sharp underneath.</div>
         <div id="gainPulse" class="gain-pulse">Balanced: Lens will surface stable convergence.</div>
       </div>
@@ -114,7 +98,7 @@
 
       <!-- Explain drawer -->
       <div class="drawer">
-        <button id="toggleExplain" class="btn">Explain</button>
+        <button aria-controls="explainBox" aria-expanded="false" id="toggleExplain" class="btn">Explain</button>
         <div id="explainBox" class="explain" hidden>
           <div class="explain-row">
             <div class="explain-k">Pregame</div>
@@ -131,7 +115,7 @@
     <!-- Season view -->
     <section class="panel">
       <div class="panel-h">
-        <div class="panel-title">Season View</div>
+        <h2 class="panel-title">Season View</h2>
         <div class="panel-sub">
           <span id="loadedTag">Loaded: —</span>
           <span class="dot">•</span>
@@ -207,13 +191,13 @@
         <div class="card wide">
           <div class="k">Signal Timeline</div>
           <div class="sub">Exp Win% (when available) + Postgame Coherence.</div>
-          <canvas id="chart1" width="980" height="240"></canvas>
+          <canvas role="img" aria-label="Expected win rate and reality chart. Individual results are available in the Season View table." id="chart1" width="980" height="240"></canvas>
         </div>
 
         <div class="card wide">
           <div class="k">Running Accuracy</div>
           <div class="sub">How hit rate evolves as more calls occur.</div>
-          <canvas id="chart2" width="980" height="240"></canvas>
+          <canvas role="img" aria-label="Running accuracy chart. Individual results are available in the Season View table." id="chart2" width="980" height="240"></canvas>
         </div>
       </div>
     </section>

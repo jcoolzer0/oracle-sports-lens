@@ -8,74 +8,146 @@
     <link rel="stylesheet" href="season2.css" />
   </head>
   <body>
-    <div id="gate" class="gate">
+    <div
+      id="gate"
+      class="gate"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="gateTitle"
+    >
       <form id="login" class="gate-card">
-        <h1>Oracle Football</h1>
-        <p>Season 2 research preview</p>
-        <label
-          >Password
-          <input
-            id="pw"
-            class="input"
-            type="password"
-            autocomplete="current-password"
-            required /></label
-        ><button class="btn primary">Enter</button>
-        <p id="gateErr" hidden>Wrong password.</p>
+        <h1 id="gateTitle">Oracle Football</h1>
+        <p>One password. Every lens.</p>
+        <label for="pw">Password</label
+        ><input
+          id="pw"
+          class="input"
+          type="password"
+          autocomplete="current-password"
+          aria-describedby="gateErr"
+          required
+          autofocus
+        /><button class="btn primary">Enter</button>
+        <p id="gateErr" role="alert" hidden>
+          Wrong password. Please try again.
+        </p>
       </form>
     </div>
-    <header class="topbar">
-      <div>
-        <h1>Oracle Football</h1>
-        <p>One DataBank. Multiple observers.</p>
-      </div>
-      <nav aria-label="Lens">
-        <button class="btn" data-lens="legacy">Legacy · 2025</button
-        ><button class="btn primary" data-lens="precog">Pre-Cog · 2026</button
-        ><button class="btn" data-lens="community">
-          Future Community Lenses
-        </button>
-      </nav>
-      <label
-        >Team
-        <select id="team" class="select"></select
-      ></label>
-    </header>
-    <main class="wrap">
-      <p id="status" role="status">Loading authoritative DataBank…</p>
-      <section id="current">
-        <label
-          >Matchup
-          <select id="matchup" class="select"></select
+    <div id="appShell" inert>
+      <a class="skip-link" href="#current">Skip to schedule</a>
+      <header class="topbar">
+        <div>
+          <h1>Oracle Football</h1>
+          <p>One DataBank. Multiple observers.</p>
+        </div>
+        <nav aria-label="Lens">
+          <button class="btn" data-lens="legacy" aria-pressed="false">
+            Legacy · 2025</button
+          ><button class="btn primary" data-lens="precog" aria-pressed="true">
+            Pre-Cog · 2026</button
+          ><button class="btn" data-lens="community" aria-pressed="false">
+            Future Community Lenses
+          </button>
+        </nav>
+        <label for="team"
+          >Team
+          <select id="team" class="select"></select
         ></label>
-        <div id="prediction"></div>
-        <button id="save" class="btn">Record pregame prediction</button
-        ><button id="export" class="btn">Export prediction journal</button>
-        <details>
-          <summary>Prediction accountability</summary>
-          <p>
-            Records stay in this browser. Entries are append-only through this
-            app, but browser storage is editable and is not a trusted public
-            ledger. Export backups before clearing storage. No historical
-            predictions are backfilled.
+      </header>
+      <main class="wrap">
+        <p id="status" role="status">Loading authoritative DataBank…</p>
+        <section id="current" tabindex="-1" aria-labelledby="scheduleTitle">
+          <h2 id="scheduleTitle">2026 season schedule</h2>
+          <p class="muted">
+            Every matchup, one view. Select a prediction for its evidence, or a
+            team to explore its season. Estimates are experimental; “No call”
+            means the observers do not support a prediction.
           </p>
-          <pre id="evaluation"></pre>
-        </details>
-      </section>
-      <iframe
-        id="legacy"
-        title="Legacy Lens 2025"
-        src="legacy.html"
-        hidden
-      ></iframe>
-      <section id="community" hidden>
-        <h2>Create another observer</h2>
-        <p>
-          Community extensions can register a model and choose a skin through
-          the documented interface. No community lens is installed yet.
-        </p>
-      </section>
-    </main>
+          <div class="schedule-filters">
+            <label for="weekFilter"
+              >Week
+              <select id="weekFilter" class="select">
+                <option value="all">All weeks</option>
+              </select></label
+            ><label for="stateFilter"
+              >Games
+              <select id="stateFilter" class="select">
+                <option value="all">All games</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="final">Completed</option>
+              </select></label
+            ><label class="checkbox-label"
+              ><input id="teamOnly" type="checkbox" /> Selected team only</label
+            ><button id="refreshData" class="btn" type="button">
+              Refresh data
+            </button>
+            <button id="resetFilters" class="btn">Show full season</button>
+          </div>
+          <p id="scheduleCount" role="status"></p>
+          <button id="nextGames" class="btn" type="button">
+            Jump to next game
+          </button>
+          <div
+            class="table-wrap schedule-wrap"
+            role="region"
+            aria-label="Season schedule, scroll horizontally for more columns"
+            tabindex="0"
+          >
+            <table id="schedule">
+              <caption>
+                2026 matchups and predictions. Historical previews are
+                retrospective calculations, not recorded pregame calls. Future
+                projections use evidence available now.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Week / date</th>
+                  <th scope="col">Matchup</th>
+                  <th scope="col">Prediction / probability</th>
+                  <th scope="col">Evidence / reality</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <section
+            id="matchupDetail"
+            class="detail-panel"
+            aria-labelledby="detailTitle"
+          >
+            <h2 id="detailTitle" tabindex="-1">Matchup observations</h2>
+            <label for="matchup"
+              >Matchup
+              <select id="matchup" class="select"></select
+            ></label>
+            <div id="prediction"></div>
+            <div class="detail-actions">
+              <button id="save" class="btn">Record pregame prediction</button
+              ><button id="export" class="btn">Export prediction journal</button
+              ><button id="backSchedule" class="btn">Back to schedule</button>
+            </div>
+            <details>
+              <summary>Prediction accountability</summary>
+              <p>
+                Records stay in this browser. Entries are append-only through
+                this app, but browser storage is editable and is not a trusted
+                public ledger. Export backups before clearing storage. No
+                historical predictions are backfilled.
+              </p>
+              <pre id="evaluation"></pre>
+            </details>
+          </section>
+        </section>
+        <iframe id="legacy" title="Legacy Lens 2025" hidden></iframe>
+        <section id="community" hidden>
+          <h2>Create another observer</h2>
+          <p>
+            Community extensions can register a model and choose a skin through
+            the documented interface. No community lens is installed yet.
+          </p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="modules/ui.js"></script>
   </body>
 </html>

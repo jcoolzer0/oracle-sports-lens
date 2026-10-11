@@ -45,3 +45,164 @@ button {
 iframe {
   background: #10151d;
 }
+:focus-visible {
+  outline: 3px solid #83bfff;
+  outline-offset: 4px;
+}
+#gate .input {
+  width: 100%;
+  margin: 0.75rem 0;
+}
+#gate .btn {
+  margin-top: 0.5rem;
+}
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  background: #fff;
+  color: #10151d;
+  padding: 0.75rem;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+.topbar {
+  flex-wrap: wrap;
+  position: relative;
+}
+#team {
+  width: min(300px, 100%);
+}
+#matchup {
+  width: min(620px, 100%);
+}
+.muted,
+caption {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.schedule-filters {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.schedule-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.schedule-filters .checkbox-label {
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+}
+.schedule-filters input {
+  width: 20px;
+  height: 20px;
+}
+#schedule {
+  width: 100%;
+  min-width: 620px;
+}
+#schedule caption {
+  text-align: left;
+  padding: 0.5rem 0;
+}
+#schedule th,
+#schedule td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.85rem;
+  white-space: normal;
+}
+#schedule th div,
+#schedule small {
+  display: block;
+  font-weight: normal;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+.text-button {
+  color: #a5ceff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  padding: 0.45rem 0.2rem;
+  min-height: 44px;
+  font: inherit;
+  text-align: left;
+}
+.text-button:hover {
+  color: #fff;
+}
+.detail-panel {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-top: 2rem;
+  scroll-margin-top: 1rem;
+}
+.detail-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.observer-grid details,
+.data-details {
+  margin: 1rem 0;
+}
+summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0.6rem 0;
+  color: #a5ceff;
+}
+.evidence-table {
+  width: 100%;
+  min-width: 520px;
+}
+.evidence-table th,
+.evidence-table td {
+  text-align: left;
+  white-space: normal;
+}
+#prediction h3 {
+  margin-top: 1.3rem;
+}
+@media (max-width: 600px) {
+  .wrap {
+    padding: 12px;
+  }
+  .topbar {
+    padding: 12px;
+  }
+  .detail-panel {
+    padding: 0.85rem;
+  }
+  .schedule-filters .select {
+    width: 130px;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .observer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+.brand .title,
+h2.panel-title {
+  margin: 0;
+}
