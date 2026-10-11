@@ -1,8 +1,8 @@
 /***** CONFIG *****/
-const LENS_PASSWORD = "OMA";
+const LENS_PASSWORD = "oraclefootball";
 
 // ✅ DataBank GitHub Pages root (parent that serves bal.json, teams.json, etc.)
-const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/";
+const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/history/2025/";
 
 // Data location (per-team JSON files)
 function dataUrl(team, season) {
@@ -11,7 +11,7 @@ function dataUrl(team, season) {
   const ALIAS = {
     // Example: LAR: "la",
   };
-  const key = (ALIAS[team] ?? team).toLowerCase();
+  const key = ({LAR: "la", WSH: "was"}[team] ?? ALIAS[team] ?? team).toLowerCase();
 
   // Cache-buster on every load
   return `${DATABANK_BASE}${key}.json?v=${Date.now()}`;
@@ -19,7 +19,7 @@ function dataUrl(team, season) {
 
 const TEAMS = [
   "PHI","GB","DAL","KC","SF","BUF","BAL","NYG","NYJ","MIA","DET","MIN","LAR","LAC",
-  "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU"
+  "DEN","TB","WAS","CHI","SEA","ARI","CLE","CIN","PIT","TEN","IND","JAX","ATL","CAR","NO","HOU","NE","LV"
 ];
 
 const SEASON = 2025;
@@ -405,7 +405,9 @@ async function loadTeam(forceBust=false){
   if (forceBust) url += `&t=${Date.now()}`;
 
   try{
-    const res = await fetch(url, { cache: "no-store" });
+    let res;
+    try { res = await fetch(url, { cache: "no-store" }); if (!res.ok) throw new Error("archive unavailable"); }
+    catch { res = await fetch(`data/${({LAR:"la",WSH:"was"}[currentTeam] ?? currentTeam).toLowerCase()}.json`); }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     DATA = await res.json();
 
@@ -901,3 +903,7 @@ function drawSingleSeries(canvasId, x, y, name){
   uiInit();
   await loadTeam(true);
 })();
+
+window.addEventListener("message", async e => { if (e.origin !== location.origin || e.source !== parent) return; if (e.data?.type === "team" && TEAMS.includes(e.data.team)) { currentTeam=e.data.team; document.getElementById("teamSel").value=currentTeam; await loadTeam(); } });
+
+window.addEventListener("message", e => { if (e.origin === location.origin && e.source === parent && e.data?.type === "unlock" && sessionStorage.getItem("oracle_lens_ok") === "1") document.getElementById("gate").style.display="none"; });

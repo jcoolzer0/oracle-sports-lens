@@ -1,0 +1,47 @@
+nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+h1 {
+  font-size: 1.4rem;
+  margin: 0.25rem 0;
+}
+#prediction {
+  margin: 1.2rem 0;
+}
+#legacy {
+  width: 100%;
+  min-height: 1600px;
+  border: 0;
+}
+.observer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.observer-grid .card {
+  padding: 1rem;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 450px;
+  overflow: auto;
+}
+.warning {
+  color: #f3ca78;
+}
+[hidden] {
+  display: none !important;
+}
+#matchup {
+  max-width: 100%;
+  margin: 0.5rem;
+}
+button {
+  cursor: pointer;
+}
+iframe {
+  background: #10151d;
+}
