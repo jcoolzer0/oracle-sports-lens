@@ -3,7 +3,10 @@ const el = (tag, text) => {
   n.textContent = text;
   return n;
 };
-export function renderPrediction(root, { prediction: p, game: g, bank }) {
+export function renderPrediction(
+  root,
+  { prediction: p, game: g, bank, cutoff, onGame, onTeam, record },
+) {
   root.replaceChildren();
   root.append(
     el("h2", `${g.away_team} at ${g.home_team} · Week ${g.week}`),
@@ -21,13 +24,40 @@ export function renderPrediction(root, { prediction: p, game: g, bank }) {
       `${p.confidence} · ${p.sample} prior games per team (minimum) · ${p.motifs.join(", ")}`,
     ),
   );
+  if (record) {
+    const saved = el(
+      "p",
+      `Recorded pregame call: ${record.winner} · ${Math.round(Math.max(record.probabilityHome, 1 - record.probabilityHome) * 100)}% · saved ${record.createdAt}. This original call is retained for evaluation.`,
+    );
+    saved.className = "warning";
+    root.append(saved);
+  }
+  root.append(
+    el(
+      "p",
+      `Observation cutoff: ${cutoff ?? "unavailable"}. No future games or season totals enter these calculations.`,
+    ),
+  );
   const grid = el("div", "");
   grid.className = "observer-grid";
   for (const m of p.models) {
     const card = el("article", "");
     card.className = "card";
+    const names = {
+      "baseline-margin": "Season baseline",
+      "unit-efficiency": "Offense & defense",
+      "recent-trajectory": "Recent trajectory",
+    };
+    const explanations = {
+      "baseline-margin":
+        "Compares scoring margins from all eligible prior games. Higher margin means a stronger scoring baseline.",
+      "unit-efficiency":
+        "Compares offensive EPA per passing attempt or carry minus opponent EPA per attempt or carry. EPA measures expected points added; higher net efficiency is favorable. Only games with both teams’ weekly statistics are included.",
+      "recent-trajectory":
+        "Compares scoring margins from the last three eligible games. Compare these averages with the season baseline to see improvement or drift.",
+    };
     card.append(
-      el("h3", m.id),
+      el("h3", names[m.id] ?? m.id),
       el(
         "p",
         m.p === null
@@ -35,6 +65,16 @@ export function renderPrediction(root, { prediction: p, game: g, bank }) {
           : `${g.home_team} ${Math.round(m.p * 100)}% · n=${m.n} · baseline ${m.home.toFixed(2)} vs ${m.away.toFixed(2)}`,
       ),
     );
+    const explanation = el("details", "");
+    explanation.append(
+      el("summary", "How this observer works"),
+      el("p", explanations[m.id] ?? "See this lens’s model documentation."),
+      el(
+        "p",
+        `Model ${m.id} · version ${m.version ?? p.version}. Probabilities come from pairwise comparisons with symmetric smoothing; observations are correlated, not independent votes.`,
+      ),
+    );
+    card.append(explanation);
     grid.append(card);
   }
   root.append(grid);
@@ -63,6 +103,99 @@ export function renderPrediction(root, { prediction: p, game: g, bank }) {
         `Reality: ${g.away_team} ${g.away_score} – ${g.home_team} ${g.home_score}. Retrospective exploration, not a recorded pregame prediction.`,
       ),
     );
+  const teamsSection = el("section", "");
+  teamsSection.append(el("h3", "Explore the teams and evidence"));
+  for (const [side, team] of [
+    ["away", g.away_team],
+    ["home", g.home_team],
+  ]) {
+    const b = el("button", `Explore ${team} season`);
+    b.className = "text-button";
+    b.type = "button";
+    b.onclick = () => onTeam?.(team);
+    teamsSection.append(b);
+    const evidence = el("details", "");
+    evidence.className = "data-details";
+    const ids = p.evidence?.[side + "Games"] ?? [];
+    evidence.append(
+      el(
+        "summary",
+        `${team}: ${ids.length} prior games supporting this observation`,
+      ),
+    );
+    const wrap = el("div", "");
+    wrap.className = "table-wrap";
+    const table = el("table", "");
+    table.className = "evidence-table";
+    const caption = el(
+      "caption",
+      `${team} eligible prior results, before the observation cutoff`,
+    );
+    table.append(caption);
+    const head = el("thead", ""),
+      headRow = el("tr", "");
+    for (const name of ["Game", "Points for / against", "Weekly data"]) {
+      const th = el("th", name);
+      th.scope = "col";
+      headRow.append(th);
+    }
+    head.append(headRow);
+    table.append(head);
+    const body = el("tbody", "");
+    for (const id of ids) {
+      const prior = bank.games.find((x) => x.game_id === id);
+      if (!prior) continue;
+      const tr = el("tr", "");
+      const matchup = el("td", "");
+      const link = el(
+        "button",
+        `W${prior.week}: ${prior.away_team} at ${prior.home_team}`,
+      );
+      link.className = "text-button";
+      link.type = "button";
+      link.onclick = () => onGame?.(id);
+      matchup.append(link);
+      const home = prior.home_team === team;
+      const scores = el(
+        "td",
+        `${home ? prior.home_score : prior.away_score} / ${home ? prior.away_score : prior.home_score}`,
+      );
+      const raw = el("td", "");
+      const stats = bank.stats?.weekly?.find(
+        (w) => w.game_id === id && w.team === team && w.season === g.season,
+      );
+      if (stats) {
+        const details = el("details", "");
+        details.append(
+          el("summary", `${team} weekly source statistics`),
+          el("pre", JSON.stringify(stats, null, 2)),
+        );
+        raw.append(details);
+      } else raw.textContent = "Weekly statistics unavailable";
+      tr.append(matchup, scores, raw);
+      body.append(tr);
+    }
+    table.append(body);
+    wrap.append(table);
+    evidence.append(wrap);
+    if (!ids.length)
+      evidence.append(
+        el("p", "No eligible prior games; no values are invented."),
+      );
+    teamsSection.append(evidence);
+  }
+  root.append(teamsSection);
+  const source = el("details", "");
+  source.className = "data-details";
+  source.append(
+    el("summary", "Inspect source data and validation metadata"),
+    el(
+      "p",
+      "Schedule fields below describe the selected matchup; final outcomes are descriptive only and are never used to predict that same game.",
+    ),
+    el("pre", JSON.stringify({ game: g, manifest: bank.manifest }, null, 2)),
+  );
+  root.append(source);
   const list = el("ul", "");
   for (const reason of p.uncertainty) list.append(el("li", reason));
   root.append(

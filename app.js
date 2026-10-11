@@ -1,5 +1,4 @@
 /***** CONFIG *****/
-const LENS_PASSWORD = "oraclefootball";
 
 // ✅ DataBank GitHub Pages root (parent that serves bal.json, teams.json, etc.)
 const DATABANK_BASE = "https://jcoolzer0.github.io/packers-oracle-v0/history/2025/";
@@ -209,29 +208,6 @@ function sanitizeExplain(s){
   return t;
 }
 
-/***** PASSWORD GATE *****/
-function gateInit(){
-  const gate = document.getElementById("gate");
-  const pw = document.getElementById("pw");
-  const btn = document.getElementById("enter");
-  const err = document.getElementById("gateErr");
-
-  const ok = sessionStorage.getItem("oracle_lens_ok") === "1";
-  if (ok && gate) gate.style.display = "none";
-
-  function attempt(){
-    if (pw && pw.value === LENS_PASSWORD){
-      sessionStorage.setItem("oracle_lens_ok","1");
-      if (gate) gate.style.display = "none";
-    } else {
-      if (err) err.hidden = false;
-    }
-  }
-
-  if (btn) btn.addEventListener("click", attempt);
-  if (pw) pw.addEventListener("keydown", (e)=>{ if (e.key==="Enter") attempt(); });
-}
-
 /***** UI INIT *****/
 function uiInit(){
   const teamSel = document.getElementById("teamSel");
@@ -298,6 +274,7 @@ function uiInit(){
       const next = TEAMS[(i + dir + n) % n];
       currentTeam = next;
       if (teamSel) teamSel.value = currentTeam;
+      if(window !== parent) parent.postMessage({type:"legacy-team",team:currentTeam},location.origin);
       await loadTeam(true);
     };
 
@@ -331,8 +308,9 @@ function uiInit(){
       const n = TEAMS.length;
       currentTeam = TEAMS[(i + 1) % n];
       if (teamSel) teamSel.value = currentTeam;
+      if(window !== parent) parent.postMessage({type:"legacy-team",team:currentTeam},location.origin);
       await loadTeam(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     });
   }
 
@@ -398,23 +376,29 @@ function syncPanels(){
 }
 
 /***** LOAD DATA *****/
+let loadVersion = 0;
 async function loadTeam(forceBust=false){
+  const requestVersion = ++loadVersion;
+  const requestedTeam = currentTeam;
   const loadedTag = document.getElementById("loadedTag");
 
-  let url = dataUrl(currentTeam, SEASON);
+  let url = dataUrl(requestedTeam, SEASON);
   if (forceBust) url += `&t=${Date.now()}`;
 
   try{
     let res;
     try { res = await fetch(url, { cache: "no-store" }); if (!res.ok) throw new Error("archive unavailable"); }
-    catch { res = await fetch(`data/${({LAR:"la",WSH:"was"}[currentTeam] ?? currentTeam).toLowerCase()}.json`); }
+    catch { res = await fetch(`data/${({LAR:"la",WSH:"was"}[requestedTeam] ?? requestedTeam).toLowerCase()}.json`); }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    DATA = await res.json();
+    const loaded = await res.json();
+    if (requestVersion !== loadVersion) return;
+    DATA = loaded;
 
     const team = DATA?.summary?.team ?? currentTeam;
     const season = DATA?.summary?.season ?? SEASON;
     if (loadedTag) loadedTag.textContent = `Loaded: ${team} ${season}`;
   } catch(e){
+    if (requestVersion !== loadVersion) return;
     console.error(e);
     DATA = null;
     if (loadedTag) loadedTag.textContent = `Loaded: —`;
@@ -490,7 +474,13 @@ function renderSeasonTable(){
 
     row.forEach((cell, idx)=>{
       const td = document.createElement("td");
-      td.textContent = cell;
+      if (idx === 0) {
+        const button = document.createElement("button");
+        button.type = "button"; button.className = "text-button"; button.textContent = cell;
+        button.setAttribute("aria-label", `Inspect week ${g.week} against ${g.opponent}`);
+        button.addEventListener("click", () => { document.getElementById("legacyLensTitle")?.focus(); });
+        td.appendChild(button);
+      } else td.textContent = cell;
       if (idx === 8) td.className = tagClass(cell);
       tr.appendChild(td);
     });
@@ -602,9 +592,9 @@ function ensureCalibrationPanel(){
   panel.id = "calPanel";
   panel.style.marginTop = "12px";
   panel.style.padding = "12px";
-  panel.style.border = "1px solid #ddd";
+  panel.style.border = "1px solid var(--line)";
   panel.style.borderRadius = "10px";
-  panel.style.background = "#fafafa";
+  panel.style.background = "var(--card)";
 
   const anchor =
     document.getElementById("expPanel") ||
@@ -678,7 +668,7 @@ function renderTeamCalibrationPanel(){
       <div style="margin-top:6px;"><b>Pulse:</b> ${pulseTag} ${pulse}</div>
     </div>
 
-    <div style="margin-top:10px; color:#444; font-size:12px;">
+    <div style="margin-top:10px; color:var(--muted); font-size:12px;">
       Tip: “LOCKED ✅” in the table means evidence n≥8 + confidence≥70 + correct. “OVERCONF ⚠” means it was confident and wrong.
     </div>
   `;
@@ -899,11 +889,17 @@ function drawSingleSeries(canvasId, x, y, name){
 
 /***** BOOT *****/
 (async function boot(){
-  gateInit();
   uiInit();
   await loadTeam(true);
 })();
 
 window.addEventListener("message", async e => { if (e.origin !== location.origin || e.source !== parent) return; if (e.data?.type === "team" && TEAMS.includes(e.data.team)) { currentTeam=e.data.team; document.getElementById("teamSel").value=currentTeam; await loadTeam(); } });
 
-window.addEventListener("message", e => { if (e.origin === location.origin && e.source === parent && e.data?.type === "unlock" && sessionStorage.getItem("oracle_lens_ok") === "1") document.getElementById("gate").style.display="none"; });
+
+document.getElementById("teamSel")?.addEventListener("change", () => {
+  if (window !== parent) parent.postMessage({type:"legacy-team",team:currentTeam}, location.origin);
+});
+
+document.getElementById("toggleExplain")?.addEventListener("click", () => {
+  document.getElementById("toggleExplain").setAttribute("aria-expanded", String(!document.getElementById("explainBox").hidden));
+});

@@ -120,7 +120,8 @@ the same journal/evaluation contract. Escape untrusted source text with
 ## Validation and publication
 
 `npm test` covers cutoff leakage, aliases, kickoff timezone conversion,
-abstention, append-only records, probability evaluation and equivalent cohorts.
+abstention, append-only records, probability evaluation, equivalent cohorts,
+schedule filtering and prediction labels.
 Browser smoke checks exercise gate unlocking, all 32 teams, matchup navigation,
 record deduplication, Legacy season rows, and the community placeholder.
 
@@ -145,3 +146,40 @@ available on `NODE_PATH`. This uses TLS-verified curl HTTPS responses through
 browser interception and retains manifest checksum verification. It validates
 live payloads and rendering, **not direct Chromium HTTPS connectivity**. No TLS
 verification bypass or persistent trust-store change is required.
+
+## Schedule navigation and one login
+
+The main `oraclefootball` login now covers all lenses. Legacy has no password
+form and is loaded only when selected after login. Direct visits to
+`legacy.html` route to `index.html?lens=legacy`, reusing the session. If session
+storage is disabled, the current page still supports one in-memory login.
+
+Pre-Cog shows all 272 season matchups by default. Filter by week, outcome or the
+selected team; **Show full season** clears the filters and **Jump to next game**
+moves directly to a confirmed future matchup. Team buttons open a
+17-game team season; prediction buttons move keyboard focus to matchup details.
+Details expose the observer explanation, eligible prior-game results and weekly
+statistics, source schedule and manifest metadata. Evidence game buttons open
+that game’s observations. `#game=<game_id>` links can reopen a matchup.
+
+Upcoming schedule estimates share a common observation cutoff. Completed games
+are labeled **Historical preview**, not archived pregame calls. Saved predictions
+are labeled **Recorded pregame call** and retain their original probabilities.
+Merely browsing the schedule never records predictions. Recording remains an
+explicit action for a future matchup; **Refresh data** reloads the source without
+removing the prediction journal or requiring another login when session storage
+is available. Weather/injury gaps and experimental probability limitations remain.
+
+Accessibility improvements include an inert background and focus containment for
+the login, visible focus outlines, semantic schedule headers, labeled filters,
+keyboard-operated team/prediction links, focus placement after drill-down, a skip
+link, responsive horizontal table scrolling, and reduced-motion support. Legacy
+now has keyboard-accessible season rows, labeled signal controls and charts,
+and a corrected calibration-panel background for readable contrast.
+
+Optional automated WCAG checks can be included in the browser smoke test by
+setting `ORACLE_AXE_PATH` to a separately installed `axe-core/axe.min.js`. The
+browser test checks both Pre-Cog and Legacy, keyboard navigation, 390px mobile
+layout, repeated lens switches, direct Legacy links, and unavailable-source /
+disabled-session-storage fallback. These checks supplement manual assistive
+technology testing; they are not a claim of complete WCAG conformance.
