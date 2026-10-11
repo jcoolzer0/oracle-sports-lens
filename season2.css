@@ -206,3 +206,19 @@ summary {
 h2.panel-title {
   margin: 0;
 }
+#legacy2026Table {
+  width: 100%;
+  min-width: 560px;
+}
+#legacy2026Table th,
+#legacy2026Table td {
+  text-align: left;
+  white-space: normal;
+}
+#legacy2026Table small {
+  display: block;
+  color: var(--muted);
+}
+#legacy2026Next {
+  margin-bottom: 1rem;
+}

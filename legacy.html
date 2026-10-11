@@ -1,208 +1,305 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Oracle Sports Lens v0</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="season2.css" />
-  <script>
-    if (window === window.top) location.replace("index.html?lens=legacy");
-  </script>
-</head>
-<body>
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="brand">
-      <h1 class="title">Legacy Lens <span class="chip">2025</span></h1>
-      <div class="subtitle">Coherence • Convergence • Divergence</div>
-    </div>
-
-    <div class="controls">
-      <div class="viewtoggle">
-        <button id="viewCon" class="btn primary">Conservative</button>
-        <button id="viewExp" class="btn">Experimental</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Oracle Sports Lens v0</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="season2.css" />
+    <script>
+      if (window === window.top) location.replace("index.html?lens=legacy");
+    </script>
+  </head>
+  <body>
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="brand">
+        <h1 class="title">
+          Legacy Lens
+          <span id="legacySeasonTag" class="chip">Season 2 · 2026/27</span>
+        </h1>
+        <div class="subtitle">Coherence • Convergence • Divergence</div>
       </div>
 
-      <label class="ctl">
-        <span>Team</span>
-        <select id="teamSel" class="select"></select>
-      </label>
-
-      <div class="ctl gainctl">
-        <span>Signal Gain <span class="chip mini" id="gainTag">Balanced</span></span>
-        <input id="gainRange" aria-label="Signal gain" class="range" type="range" min="0" max="2" step="1" value="1" />
-        <div id="gainHint" class="gain-hint">Controls how readily subtle patterns speak up.</div>
-      </div>
-
-      <button id="refresh" class="btn">Refresh</button>
-
-      <label class="ctl">
-        <span>Game</span>
-        <select id="gameSel" class="select"></select>
-      </label>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <!-- Lens panel -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2 id="legacyLensTitle" tabindex="-1" class="panel-title">Lens</h2>
-        <div class="panel-sub">ELI5 on the surface. Sharp underneath.</div>
-        <div id="gainPulse" class="gain-pulse">Balanced: Lens will surface stable convergence.</div>
-      </div>
-
-      <div class="lens-grid">
-        <div class="card">
-          <div class="k">Evidence</div>
-          <div id="evidence" class="v big mono">—</div>
-          <div class="hint">n = count • C/D</div>
+      <div class="controls">
+        <label class="ctl"
+          ><span>Season</span
+          ><select id="legacySeason" class="select">
+            <option value="2026">Season 2 · 2026/27</option>
+            <option value="2025">Season 1 · 2025</option>
+          </select></label
+        >
+        <div class="viewtoggle legacy-season1-control">
+          <button id="viewCon" class="btn primary">Conservative</button>
+          <button id="viewExp" class="btn">Experimental</button>
         </div>
 
-        <div class="card">
-          <div class="k">Expectation</div>
-          <div class="v big">—</div>
-          <div class="hint">Exp W%</div>
-          <div id="exp" class="v mono">—</div>
-        </div>
+        <label class="ctl">
+          <span>Team</span>
+          <select id="teamSel" class="select"></select>
+        </label>
 
-        <div class="card">
-          <div class="k">Alignment</div>
-          <div class="v big">—</div>
-          <div class="hint">Confidence</div>
-          <div class="row">
-            <div id="conf" class="v mono">—</div>
-            <div id="confBars" class="mono">—</div>
+        <div class="ctl gainctl legacy-season1-control">
+          <span
+            >Signal Gain
+            <span class="chip mini" id="gainTag">Balanced</span></span
+          >
+          <input
+            id="gainRange"
+            aria-label="Signal gain"
+            class="range"
+            type="range"
+            min="0"
+            max="2"
+            step="1"
+            value="1"
+          />
+          <div id="gainHint" class="gain-hint">
+            Controls how readily subtle patterns speak up.
           </div>
         </div>
 
-        <div class="card">
-          <div class="k">Reality</div>
-          <div id="reality" class="v big">—</div>
-          <div class="hint">Result</div>
-        </div>
+        <button id="refresh" class="btn">Refresh</button>
 
-        <div class="card wide">
-          <div class="k">Coherence Check</div>
-          <div id="coherence" class="v big mono">—</div>
-          <div id="coherenceSub" class="sub">—</div>
-        </div>
-
-        <div class="card wide">
-          <div class="k">Snapshot</div>
-          <div id="snapshot" class="v mono">—</div>
-          <div class="sub">“Seen-before” marker for this situation shape (optional).</div>
-        </div>
+        <label class="ctl">
+          <span>Game</span>
+          <select id="gameSel" class="select"></select>
+        </label>
       </div>
+    </header>
 
-      <!-- Explain drawer -->
-      <div class="drawer">
-        <button aria-controls="explainBox" aria-expanded="false" id="toggleExplain" class="btn">Explain</button>
-        <div id="explainBox" class="explain" hidden>
-          <div class="explain-row">
-            <div class="explain-k">Pregame</div>
-            <div id="explainPregame" class="explain-v">—</div>
-          </div>
-          <div class="explain-row">
-            <div class="explain-k">Postgame</div>
-            <div id="explainPostgame" class="explain-v">—</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Season view -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2 class="panel-title">Season View</h2>
-        <div class="panel-sub">
-          <span id="loadedTag">Loaded: —</span>
-          <span class="dot">•</span>
-          <span id="scoreTag">Matches: — | Diverges: —</span>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table id="tbl">
+    <main class="wrap" id="legacy2026" aria-labelledby="legacy2026Title">
+      <h2 id="legacy2026Title">Season 2 · 2026 NFL season</h2>
+      <p>
+        The 2026 regular season continues into early 2027. Last year contributes
+        at most one game’s worth of baseline evidence per team; current-season
+        results take over. This does not transfer last year’s oracle patterns
+        into this year.
+      </p>
+      <p id="legacy2026Status" role="status">Loading current schedule…</p>
+      <p id="legacy2026NextSummary"></p>
+      <button id="legacy2026Next" class="btn" type="button" disabled>
+        View next matchup
+      </button>
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-label="Legacy Season 2 team schedule"
+      >
+        <table id="legacy2026Table">
+          <caption>
+            Current team’s 2026 matchups. Historical previews are not recorded
+            pregame calls.
+          </caption>
           <thead>
             <tr>
-              <th>Week</th>
-              <th>Opp</th>
-              <th>Result</th>
-              <th>Score</th>
-              <th>Pick</th>
-              <th>Exp W%</th>
-              <th>Conf</th>
-              <th>Evidence</th>
-              <th>Reality</th>
-              <th>Snapshot</th>
+              <th scope="col">Week / date</th>
+              <th scope="col">Matchup</th>
+              <th scope="col">Prediction</th>
+              <th scope="col">Reality</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
-    </section>
-
-    <!-- Experimental panel -->
-    <section id="expPanel" class="panel" hidden>
-      <div class="panel-h">
-        <div class="panel-title">Experimental</div>
-        <div class="panel-sub">Cumulative rollups + graphs (still conservative about claims).</div>
-      </div>
-
-      <div class="exp-grid">
-        <div class="card">
-          <div class="k">Oracle Calls</div>
-          <div id="m_calls" class="v big">—</div>
-          <div class="hint">Games where Oracle made a pregame pick.</div>
-        </div>
-
-        <div class="card">
-          <div class="k">Correct</div>
-          <div id="m_correct" class="v big">—</div>
-          <div class="hint">Pick matched result (W/L/T).</div>
-        </div>
-
-        <div class="card">
-          <div class="k">Hit Rate</div>
-          <div id="m_rate" class="v big">—</div>
-          <div class="bars"><span id="m_rateBars" class="mono">—</span></div>
-        </div>
-
-        <div class="card wide">
-          <div class="k">By Opponent (calls only)</div>
-          <div class="sub">Shows which matchups Oracle has actually “spoken on.”</div>
-          <div class="table-wrap">
-            <table id="oppTbl">
-              <thead>
-                <tr>
-                  <th>Opp</th>
-                  <th>Calls</th>
-                  <th>Correct</th>
-                  <th>Hit%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+      <section id="legacy2026Detail" class="detail-panel">
+        <h2 id="legacy2026Heading" tabindex="-1">Matchup observations</h2>
+        <div id="legacy2026Observation"></div>
+        <button id="legacy2026Save" class="btn" disabled>
+          Record pregame prediction
+        </button>
+      </section>
+    </main>
+    <main class="wrap" id="legacy2025" hidden>
+      <!-- Lens panel -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2 id="legacyLensTitle" tabindex="-1" class="panel-title">Lens</h2>
+          <div class="panel-sub">ELI5 on the surface. Sharp underneath.</div>
+          <div id="gainPulse" class="gain-pulse">
+            Balanced: Lens will surface stable convergence.
           </div>
         </div>
 
-        <div class="card wide">
-          <div class="k">Signal Timeline</div>
-          <div class="sub">Exp Win% (when available) + Postgame Coherence.</div>
-          <canvas role="img" aria-label="Expected win rate and reality chart. Individual results are available in the Season View table." id="chart1" width="980" height="240"></canvas>
+        <div class="lens-grid">
+          <div class="card">
+            <div class="k">Evidence</div>
+            <div id="evidence" class="v big mono">—</div>
+            <div class="hint">n = count • C/D</div>
+          </div>
+
+          <div class="card">
+            <div class="k">Expectation</div>
+            <div class="v big">—</div>
+            <div class="hint">Exp W%</div>
+            <div id="exp" class="v mono">—</div>
+          </div>
+
+          <div class="card">
+            <div class="k">Alignment</div>
+            <div class="v big">—</div>
+            <div class="hint">Confidence</div>
+            <div class="row">
+              <div id="conf" class="v mono">—</div>
+              <div id="confBars" class="mono">—</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="k">Reality</div>
+            <div id="reality" class="v big">—</div>
+            <div class="hint">Result</div>
+          </div>
+
+          <div class="card wide">
+            <div class="k">Coherence Check</div>
+            <div id="coherence" class="v big mono">—</div>
+            <div id="coherenceSub" class="sub">—</div>
+          </div>
+
+          <div class="card wide">
+            <div class="k">Snapshot</div>
+            <div id="snapshot" class="v mono">—</div>
+            <div class="sub">
+              “Seen-before” marker for this situation shape (optional).
+            </div>
+          </div>
         </div>
 
-        <div class="card wide">
-          <div class="k">Running Accuracy</div>
-          <div class="sub">How hit rate evolves as more calls occur.</div>
-          <canvas role="img" aria-label="Running accuracy chart. Individual results are available in the Season View table." id="chart2" width="980" height="240"></canvas>
+        <!-- Explain drawer -->
+        <div class="drawer">
+          <button
+            aria-controls="explainBox"
+            aria-expanded="false"
+            id="toggleExplain"
+            class="btn"
+          >
+            Explain
+          </button>
+          <div id="explainBox" class="explain" hidden>
+            <div class="explain-row">
+              <div class="explain-k">Pregame</div>
+              <div id="explainPregame" class="explain-v">—</div>
+            </div>
+            <div class="explain-row">
+              <div class="explain-k">Postgame</div>
+              <div id="explainPostgame" class="explain-v">—</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <script src="app.js"></script>
-</body>
+      <!-- Season view -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2 class="panel-title">Season View</h2>
+          <div class="panel-sub">
+            <span id="loadedTag">Loaded: —</span>
+            <span class="dot">•</span>
+            <span id="scoreTag">Matches: — | Diverges: —</span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th>Week</th>
+                <th>Opp</th>
+                <th>Result</th>
+                <th>Score</th>
+                <th>Pick</th>
+                <th>Exp W%</th>
+                <th>Conf</th>
+                <th>Evidence</th>
+                <th>Reality</th>
+                <th>Snapshot</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Experimental panel -->
+      <section id="expPanel" class="panel" hidden>
+        <div class="panel-h">
+          <div class="panel-title">Experimental</div>
+          <div class="panel-sub">
+            Cumulative rollups + graphs (still conservative about claims).
+          </div>
+        </div>
+
+        <div class="exp-grid">
+          <div class="card">
+            <div class="k">Oracle Calls</div>
+            <div id="m_calls" class="v big">—</div>
+            <div class="hint">Games where Oracle made a pregame pick.</div>
+          </div>
+
+          <div class="card">
+            <div class="k">Correct</div>
+            <div id="m_correct" class="v big">—</div>
+            <div class="hint">Pick matched result (W/L/T).</div>
+          </div>
+
+          <div class="card">
+            <div class="k">Hit Rate</div>
+            <div id="m_rate" class="v big">—</div>
+            <div class="bars"><span id="m_rateBars" class="mono">—</span></div>
+          </div>
+
+          <div class="card wide">
+            <div class="k">By Opponent (calls only)</div>
+            <div class="sub">
+              Shows which matchups Oracle has actually “spoken on.”
+            </div>
+            <div class="table-wrap">
+              <table id="oppTbl">
+                <thead>
+                  <tr>
+                    <th>Opp</th>
+                    <th>Calls</th>
+                    <th>Correct</th>
+                    <th>Hit%</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card wide">
+            <div class="k">Signal Timeline</div>
+            <div class="sub">
+              Exp Win% (when available) + Postgame Coherence.
+            </div>
+            <canvas
+              role="img"
+              aria-label="Expected win rate and reality chart. Individual results are available in the Season View table."
+              id="chart1"
+              width="980"
+              height="240"
+            ></canvas>
+          </div>
+
+          <div class="card wide">
+            <div class="k">Running Accuracy</div>
+            <div class="sub">How hit rate evolves as more calls occur.</div>
+            <canvas
+              role="img"
+              aria-label="Running accuracy chart. Individual results are available in the Season View table."
+              id="chart2"
+              width="980"
+              height="240"
+            ></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script type="module" src="modules/legacy-season2-ui.js"></script>
+  </body>
 </html>
