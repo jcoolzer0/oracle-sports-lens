@@ -183,3 +183,41 @@ browser test checks both Pre-Cog and Legacy, keyboard navigation, 390px mobile
 layout, repeated lens switches, direct Legacy links, and unavailable-source /
 disabled-session-storage fallback. These checks supplement manual assistive
 technology testing; they are not a claim of complete WCAG conformance.
+
+## Legacy: two seasons with limited historical learning
+
+Legacy defaults to **Season 2 · 2026/27**, with a 17-game regular-season team
+schedule, a next-matchup summary, clickable observations and explicit pregame
+recording. **Season 1 · 2025** preserves the original panels, oracle calculations
+and archive. The current DataBank contains regular-season schedules, not a
+postseason bracket. The 2026 season includes regular-season games in early 2027.
+Pre-Cog remains unchanged and independently versioned.
+
+Season 2 is a separate Legacy bridge (`legacy-season2@1.0.0`), not fabricated
+2026 oracle fields or a replay of 2025 motifs. Only internally consistent archived
+score/results are used: canonical teams, regular-season weeks, unique team/week,
+and matching W/L/T labels. Invalid rows are excluded. The archive is partial and
+not independently verified; the UI reports accepted/rejected counts, provenance
+and SHA-256 hashes. Missing or insufficient history yields a neutral baseline.
+
+For each team, the historical win rate is `(2025 wins + ties/2 + 1)/(2025 games + 2)`.
+With at least three accepted historical games, it contributes **one equivalent
+game** at most. Add it to a symmetric Beta(1,1) baseline and eligible 2026 wins:
+`team rate = (2026 wins + ties/2 + 1 + history_strength * old_rate) /
+(2026 games + 2 + history_strength)`, where history_strength is 0 or 1.
+The historical evidence share is therefore at most `1/(2026 games + 3)`,
+shrinking as this year's actual evidence grows. It is a conservative design
+choice, not a fitted or proven optimal weight. Relative home and away team rates
+use the log5 formula: `p_home = h*(1-a)/(h*(1-a) + a*(1-h))`.
+
+At least three prior 2026 games per team are required before making a call.
+Last year's data alone cannot predict this year. Future/same-day results and
+season aggregates are excluded through the shared pregame filtering utilities.
+Roster/coaching changes, opponent strength and contextual effects are not
+modeled; probabilities are experimental and uncalibrated. Historical oracle
+predictions never enter training or current-season performance claims.
+
+Current-season pregame calls use the shared journal and record the historical
+baseline inputs/hashes alongside current evidence and model version. Historical
+previews cannot be recorded as pregame calls. Switching seasons preserves the
+shared login and team navigation; network failure leaves Season 1 available.

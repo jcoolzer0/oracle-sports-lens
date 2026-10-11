@@ -206,6 +206,67 @@ const { chromium } = require("playwright");
   }
   await page.locator('[data-lens="legacy"]').click();
   const frame = page.frameLocator("#legacy");
+  await frame
+    .locator("#legacy2026Status")
+    .filter({ hasText: "17 scheduled games" })
+    .waitFor();
+  if ((await frame.locator("#legacy2026Table tbody tr").count()) !== 17)
+    throw Error("Legacy current schedule");
+  await frame
+    .locator("#legacy2026Table tbody tr")
+    .last()
+    .locator("button")
+    .click();
+  if (
+    !(await frame.locator("#legacy2026Observation").innerText()).includes(
+      "maximum one equivalent game",
+    )
+  )
+    throw Error("Weak historical baseline explanation");
+  if (await frame.locator("#legacy2025").isVisible())
+    throw Error("Season panels overlap");
+  await frame.locator("#legacy2026Next").click();
+  if (
+    !(await frame
+      .locator("#legacy2026Heading")
+      .evaluate((e) => e === document.activeElement))
+  )
+    throw Error("Next current matchup focus");
+  await frame
+    .locator("#legacy2026Table tbody tr")
+    .last()
+    .locator("button")
+    .click();
+  if (!(await frame.locator("#legacy2026Save").isDisabled())) {
+    await frame.locator("#legacy2026Save").click();
+    const recorded = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("oracle-predictions-v1")).find(
+        (r) => r.lens === "legacy-season2",
+      ),
+    );
+    if (!recorded?.evidence?.history?.home?.sha256)
+      throw Error("Legacy history provenance not recorded");
+  }
+  if (process.env.ORACLE_AXE_PATH) {
+    const currentFrame = page
+      .frames()
+      .find((f) => f.url().endsWith("/legacy.html"));
+    await currentFrame.addScriptTag({ path: process.env.ORACLE_AXE_PATH });
+    const report = await currentFrame.evaluate(
+      async () =>
+        await axe.run(document, {
+          runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa"] },
+        }),
+    );
+    console.log(
+      "Legacy Season 2 accessibility findings:",
+      report.violations.map((v) => v.id),
+    );
+    if (report.violations.length) throw Error("Current Legacy accessibility");
+  }
+  await frame.locator("#legacySeason").selectOption("2025");
+  if (!(await frame.locator("#legacy2025").isVisible()))
+    throw Error("Season 1 unavailable");
   await frame.locator("#loadedTag").filter({ hasText: "GB" }).waitFor();
   if ((await frame.locator("#tbl tbody tr").count()) === 0)
     throw Error("Legacy rows");
@@ -275,6 +336,10 @@ const { chromium } = require("playwright");
     throw Error("Standalone Legacy should reuse login");
   await page
     .frameLocator("#legacy")
+    .locator("#legacySeason")
+    .selectOption("2025");
+  await page
+    .frameLocator("#legacy")
     .locator("#loadedTag")
     .filter({ hasText: "ATL" })
     .waitFor();
@@ -299,6 +364,10 @@ const { chromium } = require("playwright");
   await offline.fill("#pw", "oraclefootball");
   await offline.locator("#login button").click();
   await offline.locator('[data-lens="legacy"]').click();
+  await offline
+    .frameLocator("#legacy")
+    .locator("#legacySeason")
+    .selectOption("2025");
   await offline
     .frameLocator("#legacy")
     .locator("#loadedTag")
