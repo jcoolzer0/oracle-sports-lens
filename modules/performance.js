@@ -2,22 +2,26 @@ import { evaluate, summary } from "./tracking.js";
 
 const callable = (p) => Number.isFinite(p) && p >= 0 && p <= 1 && p !== 0.5;
 const final = (g) => g.status === "final" && Number.isFinite(g.home_score) && Number.isFinite(g.away_score);
-export function performance({ games, predictions, records, lens, version, mode = "recorded" }) {
+export function performance({ games, predictions, records, lens, version, mode = "recorded", earlyRecords = [] }) {
+  if (mode === "early") records = earlyRecords;
+  else if (mode === "recorded") records = records.filter(r=>r.recording === "automatic");
+  else if (mode === "personal") records = records.filter(r=>r.recording !== "automatic");
+  const recorded = mode !== "historical";
   const saved = records.filter((r) => r.lens === lens && r.version === version && games.some((g) => g.game_id === r.game));
   const rows = [], calls = [];
   for (const g of games) {
     const p = predictions.get(g.game_id);
     const r = saved.find((r) => r.game === g.game_id);
-    if (mode === "recorded" && (!r || !callable(r.probabilityHome))) continue;
-    if (mode !== "recorded" && (!p?.winner || !callable(p.p))) continue;
-    const probabilityHome = mode === "recorded" ? r.probabilityHome : p.p;
+    if (recorded && (!r || !callable(r.probabilityHome))) continue;
+    if (!recorded && (!p?.winner || !callable(p.p))) continue;
+    const probabilityHome = recorded ? r.probabilityHome : p.p;
     calls.push(g);
     if (!final(g) || g.home_score === g.away_score) continue;
-    if (mode === "recorded" && !evaluate([r], [g]).overall.n) continue;
+    if (recorded && !evaluate([r], [g]).overall.n) continue;
     rows.push({ game: g.game_id, home: g.home_team, away: g.away_team,
       actual: g.home_score > g.away_score ? 1 : 0, probabilityHome,
-      models: (mode === "recorded" ? r.models : p.models) ?? [],
-      motifs: (mode === "recorded" ? r.motifs : p.motifs) ?? [] });
+      models: (recorded ? r.models : p.models) ?? [],
+      motifs: (recorded ? r.motifs : p.motifs) ?? [] });
   }
   const group = (names, pick) => names.map((name) => ({ name, ...summary(pick(name)) }));
   const teams = [...new Set(games.flatMap((g) => [g.home_team, g.away_team]))].sort();
@@ -45,17 +49,17 @@ export function renderPerformance(root, options) {
   const label = el("label", "Scorecard ");
   const select = document.createElement("select");
   select.setAttribute("aria-label", `${options.label} performance scorecard`);
-  for (const [value, text] of [["recorded", "Recorded pregame calls"], ["historical", "Historical previews / current projections"]]) {
+  for (const [value, text] of [["recorded", "Automatic frozen pregame calls"], ["early", "Automatic earliest calls"], ["personal", "Personal saved calls"], ["historical", "Historical previews / current projections"]]) {
     const o = el("option", text); o.value = value; select.append(o);
   }
   select.value = mode;
   select.onchange = () => { root.dataset.mode = select.value; renderPerformance(root, options); };
   label.append(select); root.append(label);
-  root.append(el("p", mode === "recorded"
-    ? "Original calls saved before kickoff in this browser, for this lens and model version. Browsing projections does not record them. Export the journal to keep a backup."
+  root.append(el("p", mode !== "historical"
+    ? mode === "personal" ? "Personal calls saved in this browser; separate from the shared automatic record." : mode === "early" ? "First supported call during the seven-day window, scored once per game. Later changes never replace it." : "Shared automatic calls: latest eligible snapshot at least three hours before kickoff. No-call freezes and missed windows are never backfilled. Original calls remain unchanged as the model learns."
     : "Retrospective exploration using today’s source snapshot, plus current future projections. These were not saved before kickoff and do not establish live prediction accuracy."));
   const cards = el("div", ""); cards.className = "performance-cards";
-  for (const [title, value] of [[mode === "recorded" ? "Recorded this season" : "Current calls", report.calls], ["Correct / scored", `${report.correct ?? 0} / ${report.n}`], ["Accuracy", report.n ? pct(report.accuracy) : "No scored calls"], ["Incorrect", report.incorrect ?? 0], ["Awaiting final", report.pending]]) {
+  for (const [title, value] of [[mode !== "historical" ? "Recorded this season" : "Current calls", report.calls], ["Correct / scored", `${report.correct ?? 0} / ${report.n}`], ["Accuracy", report.n ? pct(report.accuracy) : "No scored calls"], ["Incorrect", report.incorrect ?? 0], ["Awaiting final", report.pending]]) {
     const card = el("div", ""); card.append(el("strong", String(value)), el("span", title)); cards.append(card);
   }
   root.append(cards, el("p", `Whole season · ${report.ties} ties excluded · ${report.unscored} final calls unscored. No-call games are excluded. ${report.n ? `95% accuracy interval ${pct(report.accuracy95[0])}–${pct(report.accuracy95[1])}. Brier score ${report.brier.toFixed(3)} (lower is better; 0.250 is a constant 50% forecast).` : "No settled evidence yet; historical previews are available in the scorecard selector."}`));

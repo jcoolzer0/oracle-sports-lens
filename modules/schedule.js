@@ -81,7 +81,7 @@ export function renderSchedule(
         `View observations for ${g.away_team} at ${g.home_team}, week ${g.week}`,
         () => onGame(g.game_id),
       ),
-      el("small", saved ? "Recorded pregame call" : predictionKind(g, cutoff)),
+      el("small", saved ? saved.recording === "automatic" ? "Frozen pregame call" : "Personal pregame call" : predictionKind(g, cutoff)),
     );
     const evidence = el(
       "td",
@@ -103,6 +103,9 @@ export function renderSchedule(
             : "See observation details",
         ),
       );
+    if (saved?.recording === "automatic" && g.status === "final" && Number.isFinite(g.home_score) && Number.isFinite(g.away_score)) {
+      evidence.append(el("div", g.home_score === g.away_score ? "Tie · excluded" : !Number.isFinite(saved.probabilityHome) || saved.probabilityHome === .5 ? "Frozen no-call · excluded" : (saved.probabilityHome > .5) === (g.home_score > g.away_score) ? "Frozen call correct" : "Frozen call incorrect"));
+    }
     row.append(date, teams, prediction, evidence);
     root.append(row);
   }

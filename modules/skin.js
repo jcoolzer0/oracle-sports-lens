@@ -27,7 +27,7 @@ export function renderPrediction(
   if (record) {
     const saved = el(
       "p",
-      `Recorded pregame call: ${record.winner} · ${Math.round(Math.max(record.probabilityHome, 1 - record.probabilityHome) * 100)}% · saved ${record.createdAt}. This original call is retained for evaluation.`,
+      `${record.recording === "automatic" ? "Frozen automatic pregame call" : "Personal pregame call"}: ${record.winner ?? "No call"} · ${Number.isFinite(record.probabilityHome) ? Math.round(Math.max(record.probabilityHome, 1 - record.probabilityHome) * 100)+"%" : "abstention"} · saved ${record.createdAt}. This original call is retained for evaluation.`,
     );
     saved.className = "warning";
     root.append(saved);
@@ -38,6 +38,7 @@ export function renderPrediction(
       `Observation cutoff: ${cutoff ?? "unavailable"}. No future games or season totals enter these calculations.`,
     ),
   );
+  if (p.learning) root.append(el("p", `Learning: ${p.learning.n} eligible settled training games · observer weights ${Object.entries(p.learning.weights).map(([id,w])=>`${id} ${(w*100).toFixed(1)}%`).join(", ")} · trained through ${p.learning.trainedThrough ?? "no settled games yet"}.`));
   const grid = el("div", "");
   grid.className = "observer-grid";
   for (const m of p.models) {
@@ -100,7 +101,7 @@ export function renderPrediction(
     root.append(
       el(
         "p",
-        `Reality: ${g.away_team} ${g.away_score} – ${g.home_team} ${g.home_score}. Retrospective exploration, not a recorded pregame prediction.`,
+        `Reality: ${g.away_team} ${g.away_score} – ${g.home_team} ${g.home_score}. ${record?.recording === "automatic" ? "Shown prediction is the frozen pregame forecast." : "Retrospective exploration, not a recorded pregame prediction."}`,
       ),
     );
   const teamsSection = el("section", "");

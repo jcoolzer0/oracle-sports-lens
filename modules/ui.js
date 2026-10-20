@@ -1,6 +1,10 @@
 import { renderPerformance } from "./performance.js";
 import { loadBank, CODES, kickoff, canonical } from "./data.js";
-import { precog } from "./precog.js";
+import { adaptivePrecog as precog } from "./learning.js";
+import { loadSharedJournal, frozenRecords } from "./forecast-journal.js";
+import { renderJournalStatus, renderLearning, renderForecastHistory } from "./journal-ui.js";
+let sharedJournal = { events: [] }, journalError = null;
+try { sharedJournal = await loadSharedJournal(); } catch(e) { journalError = e.message; }
 import { Registry } from "./registry.js";
 import { renderPrediction } from "./skin.js";
 import { recordPrediction, evaluate, STORAGE } from "./tracking.js";
@@ -134,16 +138,16 @@ function buildPredictions() {
   predictions = new Map(
     bank.games.map((g) => [
       g.game_id,
-      registry.lenses.get(lens).predict({ bank, game: g, cutoff: viewCutoff }),
+      registry.lenses.get(lens).predict({ bank, game: g, cutoff: viewCutoff, journal: sharedJournal.events }),
     ]),
   );
 }
 function recordsOrEmpty() {
   try {
-    return journal();
+    return [...frozenRecords(sharedJournal.events), ...journal()];
   } catch (e) {
     status(`${e.message}. Prediction recording is unavailable.`);
-    return [];
+    return frozenRecords(sharedJournal.events);
   }
 }
 function renderTable() {
@@ -153,7 +157,9 @@ function renderTable() {
     state: $("stateFilter").value,
     team: $("teamOnly").checked ? $("team").value : null,
   });
-  renderPerformance($("performance"), { games: bank.games, predictions, records: recordsOrEmpty(), lens, version: registry.lenses.get(lens).version, label: registry.lenses.get(lens).label ?? lens, onTeam: openTeam });
+  renderJournalStatus($("recorderStatus"), sharedJournal, journalError);
+  renderLearning($("learningReview"), sharedJournal.events, lens, registry.lenses.get(lens).version);
+  renderPerformance($("performance"), { games: bank.games, predictions, records: recordsOrEmpty(), lens, version: registry.lenses.get(lens).version, label: registry.lenses.get(lens).label ?? lens, earlyRecords: frozenRecords(sharedJournal.events, {early:true}), onTeam: openTeam });
   renderSchedule($("schedule").querySelector("tbody"), {
     games,
     predictions,
@@ -245,6 +251,9 @@ function render() {
   if (!game) return;
   cutoff = viewCutoff;
   prediction = predictions.get(game.game_id);
+  const frozen = frozenRecords(sharedJournal.events).find(r=>r.game===game.game_id && r.lens===lens && r.version===prediction.version);
+  if (frozen?.predictionSnapshot) { prediction = frozen.predictionSnapshot; cutoff = frozen.createdAt; }
+
   registry.skins.get(registry.lenses.get(lens).skin ?? "plain")(
     $("prediction"),
     {
@@ -262,6 +271,7 @@ function render() {
       ),
     },
   );
+  renderForecastHistory($("prediction"), sharedJournal.events, game, lens, prediction.version);
   $("save").disabled =
     prediction.p === null ||
     game.status === "final" ||
@@ -285,7 +295,7 @@ $("matchup").onchange = () => {
 $("save").onclick = () => {
   try {
     cutoff = new Date().toISOString();
-    prediction = registry.lenses.get(lens).predict({ bank, game, cutoff });
+    prediction = registry.lenses.get(lens).predict({ bank, game, cutoff, journal: sharedJournal.events });
     const existing = journal();
     const records = recordPrediction(existing, prediction, game, bank, cutoff);
     localStorage.setItem(STORAGE, JSON.stringify(records));
@@ -303,7 +313,7 @@ $("save").onclick = () => {
 $("export").onclick = () => {
   try {
     const blob = new Blob(
-      [JSON.stringify({ schema: 1, records: journal() }, null, 2)],
+      [JSON.stringify({ schema: 2, personalRecords: journal(), sharedJournal }, null, 2)],
       { type: "application/json" },
     );
     const url = URL.createObjectURL(blob);
@@ -387,3 +397,16 @@ $("nextGames").onclick = () => {
   link?.focus();
   row?.scrollIntoView({ block: "start" });
 };
+
+// Refresh shared history and live evidence while the page is open. Background collection runs in Actions.
+let refreshing = false;
+setInterval(async () => {
+  if (refreshing) return;
+  refreshing = true;
+  try {
+    const [newBank, newJournal] = await Promise.all([loadBank(), loadSharedJournal()]);
+    bank = newBank; sharedJournal = newJournal; journalError = null;
+    buildPredictions(); renderTable(); render();
+  } catch (e) { journalError = e.message; renderJournalStatus($("recorderStatus"), sharedJournal, journalError); }
+  finally { refreshing = false; }
+}, 300000);

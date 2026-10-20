@@ -57,6 +57,8 @@
       <main class="wrap">
         <p id="status" role="status">Loading authoritative DataBank…</p>
         <section id="current" tabindex="-1" aria-labelledby="scheduleTitle">
+          <div id="recorderStatus" role="status"></div>
+          <section id="learningReview" class="performance-panel"></section>
           <section id="performance" aria-label="Season performance"></section>
           <h2 id="scheduleTitle">2026 season schedule</h2>
           <p class="muted">
@@ -123,7 +125,7 @@
             ></label>
             <div id="prediction"></div>
             <div class="detail-actions">
-              <button id="save" class="btn">Record pregame prediction</button
+              <button id="save" class="btn">Save personal early call</button
               ><button id="export" class="btn">Export prediction journal</button
               ><button id="backSchedule" class="btn">Back to schedule</button>
             </div>
@@ -132,7 +134,7 @@
               <p>
                 Records stay in this browser. Entries are append-only through
                 this app, but browser storage is editable and is not a trusted
-                public ledger. Export backups before clearing storage. No
+                public ledger. Export backups before clearing storage. Automatic shared calls are saved by the scheduled recorder. No
                 historical predictions are backfilled.
               </p>
               <pre id="evaluation"></pre>

@@ -15,7 +15,7 @@ export function recordPrediction(
     Date.parse(now) >= Date.parse(start) ||
     !Number.isFinite(Date.parse(collected)) ||
     Date.parse(collected) > Date.parse(now) ||
-    prediction.p === null
+    !prediction.winner || prediction.p === null || prediction.p === 0.5
   )
     throw Error("Only timestamped, available pregame evidence can be recorded");
   if (!Number.isFinite(prediction.p) || prediction.p < 0 || prediction.p > 1)
@@ -101,7 +101,7 @@ export function evaluate(records, games, cohorts = []) {
         r.createdAt === r.cutoff &&
         Number.isFinite(r.probabilityHome) &&
         r.probabilityHome >= 0 &&
-        r.probabilityHome <= 1,
+        r.probabilityHome <= 1 && r.probabilityHome !== 0.5,
     )
     .flatMap((r) => {
       const g = outcomes.get(r.game);
@@ -151,7 +151,7 @@ export function evaluate(records, games, cohorts = []) {
             const m = r.models.find(
               (m) => m.id + "@" + (m.version ?? r.version) === id,
             );
-            return m?.p !== null && m?.p !== undefined
+            return Number.isFinite(m?.p) && m.p >= 0 && m.p <= 1 && m.p !== 0.5
               ? [{ ...r, probabilityHome: m.p }]
               : [];
           }),

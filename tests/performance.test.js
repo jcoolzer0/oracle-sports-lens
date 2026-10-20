@@ -5,7 +5,7 @@ import { kickoff } from '../modules/data.js';
 const game = { game_id: 'a', season: 2026, home_team: 'GB', away_team: 'CHI', week: 4, gameday: '2026-10-04', gametime: '13:00', status: 'final', home_score: 24, away_score: 10 };
 const prediction = { winner: 'GB', p: .7, models: [{ id: 'margin', p: .8 }, { id: 'neutral', p: .5 }], motifs: ['alignment'] };
 const options = { games: [game], predictions: new Map([['a', prediction]]), records: [], lens: 'precog', version: '1' };
-const record = { game: 'a', lens: 'precog', version: '1', home: 'GB', away: 'CHI', probabilityHome: .3, createdAt: '2026-10-01T00:00:00Z', cutoff: '2026-10-01T00:00:00Z', kickoff: kickoff(game), sourceCollectedAt: '2026-09-30T00:00:00Z', models: [{id:'margin',p:.2}], motifs: [] };
+const record = { recording: 'automatic', game: 'a', lens: 'precog', version: '1', home: 'GB', away: 'CHI', probabilityHome: .3, createdAt: '2026-10-01T00:00:00Z', cutoff: '2026-10-01T00:00:00Z', kickoff: kickoff(game), sourceCollectedAt: '2026-09-30T00:00:00Z', models: [{id:'margin',p:.2}], motifs: [] };
 test('retrospective success never becomes a recorded success', () => {
   assert.equal(performance(options).calls, 0);
   const historical = performance({...options,mode:'historical'});

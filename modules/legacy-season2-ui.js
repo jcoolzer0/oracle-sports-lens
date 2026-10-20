@@ -1,3 +1,7 @@
+import { loadSharedJournal, frozenRecords } from "./forecast-journal.js";
+import { renderJournalStatus, renderLearning, renderForecastHistory } from "./journal-ui.js";
+let sharedJournal = {events:[]}, journalError = null;
+try { sharedJournal = await loadSharedJournal(); } catch(e) { journalError = e.message; }
 import { renderPerformance } from "./performance.js";
 import { loadBank, CODES, canonical, kickoff } from "./data.js";
 import { loadHistory, legacySeason2 } from "./legacy-season2.js";
@@ -44,6 +48,8 @@ function observe(id, focus = false) {
   if (!selected) return;
   cutoff = new Date().toISOString();
   prediction = legacySeason2({ bank, game: selected, cutoff, history });
+  const frozen = frozenRecords(sharedJournal.events).find(r=>r.game===selected.game_id&&r.lens===prediction.lens&&r.version===prediction.version);
+  if(frozen?.predictionSnapshot) { prediction = frozen.predictionSnapshot; cutoff = frozen.createdAt; }
   const root = $("legacy2026Observation");
   root.replaceChildren();
   root.append(
@@ -52,7 +58,7 @@ function observe(id, focus = false) {
       `${selected.away_team} at ${selected.home_team} · Week ${selected.week}`,
     ),
     el("p", `${predictionLabel(prediction)} · experimental, uncalibrated`),
-    el("p", predictionKind(selected, cutoff)),
+    el("p", frozen ? "Frozen automatic pregame call" : predictionKind(selected, cutoff)),
   );
   for (const side of [prediction.away, prediction.home])
     root.append(
@@ -96,6 +102,7 @@ function observe(id, focus = false) {
         el("p", `Recorded call retained: ${saved.winner} · ${saved.createdAt}`),
       );
   } catch {}
+  renderForecastHistory(root, sharedJournal.events, selected, prediction.lens, prediction.version);
   $("legacy2026Save").disabled =
     prediction.p === null ||
     !prediction.winner ||
@@ -121,13 +128,17 @@ async function refresh() {
     const games = filterGames(bank.games, { team: team() });
     let journal = [];
     try { journal = records(); } catch {}
+    journal = [...frozenRecords(sharedJournal.events), ...journal];
+    renderJournalStatus($("legacyRecorderStatus"), sharedJournal, journalError);
+    renderLearning($("legacyLearningReview"), sharedJournal.events, "legacy-season2", "1.0.0");
     const allPredictions = new Map(bank.games.map((g) => [g.game_id, legacySeason2({ bank, game: g, cutoff: new Date().toISOString(), history })]));
-    renderPerformance($("legacyPerformance"), { games: bank.games, predictions: allPredictions, records: journal, lens: "legacy-season2", version: "1.0.0", label: "Legacy Season 2", onTeam: (t) => { $("teamSel").value = t === "WSH" ? "WAS" : t; $("teamSel").dispatchEvent(new Event("change")); } });
+    renderPerformance($("legacyPerformance"), { games: bank.games, predictions: allPredictions, records: journal, lens: "legacy-season2", version: "1.0.0", label: "Legacy Season 2", earlyRecords: frozenRecords(sharedJournal.events,{early:true}), onTeam: (t) => { $("teamSel").value = t === "WSH" ? "WAS" : t; $("teamSel").dispatchEvent(new Event("change")); } });
     const tbody = $("legacy2026Table").querySelector("tbody");
     tbody.replaceChildren();
     const now = new Date().toISOString();
     for (const g of games) {
-      const p = legacySeason2({ bank, game: g, cutoff: now, history }),
+      const saved = frozenRecords(sharedJournal.events).find(r=>r.game===g.game_id&&r.lens==="legacy-season2"&&r.version==="1.0.0");
+      const p = saved?.predictionSnapshot ?? legacySeason2({ bank, game: g, cutoff: now, history }),
         row = el("tr", "");
       row.dataset.game = g.game_id;
       const week = el("th", `W${g.week} · ${g.gameday}`);
@@ -142,7 +153,7 @@ async function refresh() {
         `Inspect ${g.away_team} at ${g.home_team}, week ${g.week}`,
       );
       button.onclick = () => observe(g.game_id, true);
-      cell.append(button, el("small", predictionKind(g, now)));
+      cell.append(button, el("small", saved ? "Frozen pregame call" : predictionKind(g, now)));
       row.append(
         week,
         matchup,
@@ -217,3 +228,8 @@ toggle();
 $("legacy2026Next").onclick = () => {
   if (nextGameId) observe(nextGameId, true);
 };
+
+setInterval(async () => {
+  try { sharedJournal = await loadSharedJournal(); journalError = null; ready = null; await refresh(); }
+  catch(e) { journalError = e.message; renderJournalStatus($("legacyRecorderStatus"), sharedJournal, journalError); }
+}, 300000);

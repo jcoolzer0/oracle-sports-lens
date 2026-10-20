@@ -86,6 +86,7 @@ const { chromium } = require("playwright");
   await page.locator('#performance details').first().locator('summary').click();
   if ((await page.locator('#performance tbody').first().locator('tr').count()) !== 32) throw Error('Team scorecard');
   await page.locator('#performance select').selectOption('recorded');
+  if (!(await page.locator('#recorderStatus').innerText()).includes('freezes 3 hours')) throw Error('Automatic freeze policy missing');
   if (!(await page.locator('#performance').innerText()).includes('No scored calls')) throw Error('Historical calls leaked into recorded dashboard');
   const fullCount = await page.locator("#schedule tbody tr[data-game]").count();
   if (fullCount !== 272) throw Error("Full season schedule");
@@ -204,10 +205,10 @@ const { chromium } = require("playwright");
     const savedGame = await page.locator("#matchup").inputValue();
     if (
       !(await page.locator(`[data-game="${savedGame}"]`).innerText()).includes(
-        "Recorded pregame call",
+        "Personal pregame call",
       )
     )
-      throw Error("Saved call missing from schedule");
+      throw Error("Personal call missing from schedule");
     console.log("Pregame append-only recording passed");
   }
   await page.locator('[data-lens="legacy"]').click();

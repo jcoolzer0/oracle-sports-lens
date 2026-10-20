@@ -239,3 +239,65 @@ breakdowns support review, not causal attribution or automatic weight changes.
 A model change should use frozen pregame evidence, common comparison cohorts,
 chronological held-out evaluation and a new version. Weather, injury and spread
 weights need trustworthy timestamped inputs before evaluation.
+
+## Automatic pregame journal (2026 onward)
+
+The shared `data/forecast-journal.json` is an append-only event history. The
+scheduled **Record pregame forecasts and publish** GitHub Actions workflow runs
+at minutes 7 and 37 each hour, on pushes to main, and on manual dispatch. It
+requires Actions enabled, repository Contents write permission, and Pages using
+**GitHub Actions** as its deployment source. It collects both lenses without
+any browser being open. Schedules are best effort, not an exact-time service.
+Run `node scripts/record-forecasts.mjs` from the checkout root to reproduce a
+collection; Node 24 and TLS-verified curl suffice. No third-party API keys.
+
+Fixed policy `seven-day-three-hour-v1`: begin observing seven days before known
+kickoff. Preserve forecast changes, abstentions, model versions, individual
+observer probabilities, diagnostic scoring form, hashes, and source snapshots.
+The **earliest** supported call is never replaced. The **frozen** call is the
+latest available snapshot made at least three hours before kickoff, including
+an explicit no-call if that is what the latest snapshot said. At the deadline,
+a later scheduler run can seal an already-existing eligible snapshot, but cannot
+invent or backdate one. If the recorder never captured an eligible snapshot,
+there is no official call for that game. Unknown kickoffs and already-started
+or finished games cannot acquire new forecasts. Before freezing, rescheduled
+kickoffs require new snapshots for the new kickoff; a frozen call never changes.
+
+The dashboard defaults to automatic frozen calls. Earliest calls, personal
+browser records, and retrospective previews have separate scorecards. Frozen
+probabilities, observers and evidence are shown when inspecting a recorded game;
+current recomputations cannot overwrite them. The timeline shows every saved
+revision. Public history and the current source are refreshed every five minutes
+while viewing. Check **Last recorder check**: an old timestamp indicates collection
+has stopped. A running web page is not evidence that the scheduled recorder ran.
+The export includes both personal records and the shared journal. Original Git
+commits and content-addressed raw source snapshots permit auditing; repository
+administrators can still edit history, so this is not an external trusted ledger.
+
+Final results produce a timestamped settlement event. Accuracy excludes ties and
+no-calls; earliest and frozen results score each game once. Early lead-time bins,
+confidence increases/decreases, direction changes and diagnostic points MAE are
+reported. Offensive/defensive signal hits mean the team with better prior scoring
+form won; they are not causal explanations or validated unit-level predictions.
+There are no bookmaker-spread, timestamped injury or weather forecasts to score.
+The input snapshots preserve the actual source bodies; do not remove them while
+retaining dependent journal entries. Historical games are never backfilled.
+
+Pre-Cog **1.1.0** retains the three-observer majority/abstention rule and introduces
+prequential learning. Only previously settled frozen 1.1.0 calls can train weights;
+the target game and future settlements are excluded. At least 20 non-tied games
+with all three non-neutral observer forecasts are required. Observer mean Brier
+losses shrink toward 20 pseudo-games at 0.25, then weights use half uniform and
+half exponential loss weighting. Each observer retains at least 1/6 weight;
+weights are never inverted. Every forecast stores its weights, training count,
+and training-through time. Historical previews never update this learner.
+Learning may improve or worsen accuracy; confidence is not forced to grow.
+Legacy 1.0.0 keeps its existing analytical model and gains automatic recording.
+
+Activation: after this change lands, check the workflow in repository Actions.
+If Pages deployment reports that the source is not configured, set repository
+Settings → Pages → Build and deployment → Source to **GitHub Actions**, then run
+**Record pregame forecasts and publish**. The workflow commits new events and
+explicitly deploys a static artifact because token-authored commits alone may not
+trigger branch-based Pages builds. Failed writes/deployments must be resolved;
+this configuration file alone does not establish the scheduler is running.
