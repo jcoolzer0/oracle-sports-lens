@@ -221,3 +221,21 @@ Current-season pregame calls use the shared journal and record the historical
 baseline inputs/hashes alongside current evidence and model version. Historical
 previews cannot be recorded as pregame calls. Switching seasons preserves the
 shared login and team navigation; network failure leaves Season 1 available.
+
+## Season performance dashboard
+
+Pre-Cog and Legacy Season 2 include whole-season scorecards above their schedules.
+The default scores original pregame calls saved in this browser for the selected
+lens/version; merely viewing a projection does not save it. Use the scorecard
+selector for separately labeled retrospective previews and current projections.
+Neither view imports the unvalidated Season 1 archive predictions.
+
+Cards show calls, correct/scored, accuracy, incorrect and awaiting finals. Team
+tables count each matchup for both participating teams (not twice in the season
+total). Ties, missing scores and no-calls do not count as correct or incorrect.
+Rankings require five scored calls, with Wilson 95% intervals and Brier scores
+shown to expose small-sample uncertainty. Observer and overlapping pattern
+breakdowns support review, not causal attribution or automatic weight changes.
+A model change should use frozen pregame evidence, common comparison cohorts,
+chronological held-out evaluation and a new version. Weather, injury and spread
+weights need trustworthy timestamped inputs before evaluation.

@@ -1,3 +1,4 @@
+import { renderPerformance } from "./performance.js";
 import { loadBank, CODES, kickoff, canonical } from "./data.js";
 import { precog } from "./precog.js";
 import { Registry } from "./registry.js";
@@ -152,6 +153,7 @@ function renderTable() {
     state: $("stateFilter").value,
     team: $("teamOnly").checked ? $("team").value : null,
   });
+  renderPerformance($("performance"), { games: bank.games, predictions, records: recordsOrEmpty(), lens, version: registry.lenses.get(lens).version, label: registry.lenses.get(lens).label ?? lens, onTeam: openTeam });
   renderSchedule($("schedule").querySelector("tbody"), {
     games,
     predictions,

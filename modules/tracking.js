@@ -44,7 +44,7 @@ export function recordPrediction(
   };
   return [...records, JSON.parse(JSON.stringify(record))];
 }
-function summary(rows) {
+export function summary(rows) {
   const n = rows.length;
   if (!n) return { n: 0 };
   const correct = rows.filter(
@@ -73,6 +73,8 @@ function summary(rows) {
       (z * Math.sqrt((rate * (1 - rate)) / n + (z * z) / (4 * n * n))) / den;
   return {
     n,
+    correct,
+    incorrect: n - correct,
     accuracy: rate,
     accuracy95: [center - half, center + half],
     brier:

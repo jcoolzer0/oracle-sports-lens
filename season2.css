@@ -222,3 +222,14 @@ h2.panel-title {
 #legacy2026Next {
   margin-bottom: 1rem;
 }
+
+.performance-panel { margin: 1.5rem 0 2rem; padding: 1.25rem; border: 1px solid #33445a; border-radius: 16px; background: #101a29; }
+.performance-panel h2 { margin-top: 0; }
+.performance-panel select { max-width: 100%; padding: .6rem; color: #e5edf8; background: #111c2c; border: 1px solid #526581; border-radius: 8px; }
+.performance-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: .75rem; margin: 1rem 0; }
+.performance-cards > div { padding: 1rem; background: #17263c; border-radius: 10px; }
+.performance-cards strong, .performance-cards span { display: block; }
+.performance-cards strong { font-size: 1.6rem; color: #b5dcff; }
+.performance-panel details { margin: 1rem 0; }
+.performance-panel summary { cursor: pointer; }
+.performance-panel p { line-height: 1.6; }

@@ -81,6 +81,12 @@ const { chromium } = require("playwright");
   if (await page.locator("#gate").isVisible()) throw Error("Gate");
   if ((await page.locator("#team option").count()) !== 32)
     throw Error("32 teams");
+  await page.locator('#performance select').selectOption('historical');
+  if (!(await page.locator('#performance').innerText()).includes('Retrospective exploration')) throw Error('Historical scorecard labeling');
+  await page.locator('#performance details').first().locator('summary').click();
+  if ((await page.locator('#performance tbody').first().locator('tr').count()) !== 32) throw Error('Team scorecard');
+  await page.locator('#performance select').selectOption('recorded');
+  if (!(await page.locator('#performance').innerText()).includes('No scored calls')) throw Error('Historical calls leaked into recorded dashboard');
   const fullCount = await page.locator("#schedule tbody tr[data-game]").count();
   if (fullCount !== 272) throw Error("Full season schedule");
   if (
@@ -210,6 +216,8 @@ const { chromium } = require("playwright");
     .locator("#legacy2026Status")
     .filter({ hasText: "17 scheduled games" })
     .waitFor();
+  await frame.locator('#legacyPerformance select').selectOption('historical');
+  if (!(await frame.locator('#legacyPerformance').innerText()).includes('Retrospective exploration')) throw Error('Legacy scorecard');
   if ((await frame.locator("#legacy2026Table tbody tr").count()) !== 17)
     throw Error("Legacy current schedule");
   await frame

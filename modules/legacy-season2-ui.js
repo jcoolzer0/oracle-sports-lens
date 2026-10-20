@@ -1,3 +1,4 @@
+import { renderPerformance } from "./performance.js";
 import { loadBank, CODES, canonical, kickoff } from "./data.js";
 import { loadHistory, legacySeason2 } from "./legacy-season2.js";
 import { filterGames, predictionLabel, predictionKind } from "./schedule.js";
@@ -118,6 +119,10 @@ async function refresh() {
     bank = b;
     history = Object.fromEntries(h);
     const games = filterGames(bank.games, { team: team() });
+    let journal = [];
+    try { journal = records(); } catch {}
+    const allPredictions = new Map(bank.games.map((g) => [g.game_id, legacySeason2({ bank, game: g, cutoff: new Date().toISOString(), history })]));
+    renderPerformance($("legacyPerformance"), { games: bank.games, predictions: allPredictions, records: journal, lens: "legacy-season2", version: "1.0.0", label: "Legacy Season 2", onTeam: (t) => { $("teamSel").value = t === "WSH" ? "WAS" : t; $("teamSel").dispatchEvent(new Event("change")); } });
     const tbody = $("legacy2026Table").querySelector("tbody");
     tbody.replaceChildren();
     const now = new Date().toISOString();
@@ -202,6 +207,7 @@ $("legacy2026Save").onclick = () => {
     $("legacy2026Status").textContent =
       "Pregame call saved; original calls are retained.";
     observe(selected.game_id);
+    refresh();
   } catch (e) {
     $("legacy2026Status").textContent = `Not saved: ${e.message}`;
   }
