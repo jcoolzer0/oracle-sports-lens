@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "lastCheckedAt": "2026-11-10T18:34:19.470Z",
+  "lastCheckedAt": "2026-11-10T23:40:17.436Z",
   "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
   "events": [
     {
@@ -493910,6 +493910,3222 @@
           "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
         },
         "learning": null,
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-13T01:15:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_BUF_NYJ",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_BUF_NYJ:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "NYJ",
+      "away": "BUF",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.16735776943619385,
+        "winner": "BUF",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.1554054054054054,
+            "n": 8,
+            "home": -4.555555555555555,
+            "away": 8.625,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.25675675675675674,
+            "n": 8,
+            "home": -0.026138347758896754,
+            "away": 0.22357760552785153,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.09090909090909091,
+            "n": 3,
+            "home": -10.333333333333334,
+            "away": 15.333333333333334,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_NYJ_TEN",
+            "2026_02_GB_NYJ",
+            "2026_03_NYJ_DET",
+            "2026_04_NYJ_CHI",
+            "2026_05_CLE_NYJ",
+            "2026_06_NYJ_NE",
+            "2026_07_MIA_NYJ",
+            "2026_08_LV_NYJ",
+            "2026_09_NYJ_KC"
+          ],
+          "awayGames": [
+            "2026_01_BUF_HOU",
+            "2026_02_DET_BUF",
+            "2026_03_LAC_BUF",
+            "2026_04_NE_BUF",
+            "2026_05_BUF_LAR",
+            "2026_06_BUF_LV",
+            "2026_08_BAL_BUF",
+            "2026_09_BUF_MIN"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.16735776943619385,
+          "winner": "BUF",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.1554054054054054,
+              "n": 8,
+              "home": -4.555555555555555,
+              "away": 8.625,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.25675675675675674,
+              "n": 8,
+              "home": -0.026138347758896754,
+              "away": 0.22357760552785153,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.09090909090909091,
+              "n": 3,
+              "home": -10.333333333333334,
+              "away": 15.333333333333334,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_NYJ_TEN",
+              "2026_02_GB_NYJ",
+              "2026_03_NYJ_DET",
+              "2026_04_NYJ_CHI",
+              "2026_05_CLE_NYJ",
+              "2026_06_NYJ_NE",
+              "2026_07_MIA_NYJ",
+              "2026_08_LV_NYJ",
+              "2026_09_NYJ_KC"
+            ],
+            "awayGames": [
+              "2026_01_BUF_HOU",
+              "2026_02_DET_BUF",
+              "2026_03_LAC_BUF",
+              "2026_04_NE_BUF",
+              "2026_05_BUF_LAR",
+              "2026_06_BUF_LV",
+              "2026_08_BAL_BUF",
+              "2026_09_BUF_MIN"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 20.22222222222222,
+              "defense": 24.77777777777778
+            },
+            "away": {
+              "offense": 32,
+              "defense": 23.375
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 20.22222222222222,
+            "defense": 24.77777777777778
+          },
+          "away": {
+            "n": 8,
+            "offense": 32,
+            "defense": 23.375
+          },
+          "pointsHome": 21.79861111111111,
+          "pointsAway": 28.38888888888889,
+          "offenseSide": -1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_CAR_NO",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_CAR_NO:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "NO",
+      "away": "CAR",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": null,
+        "winner": null,
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.49242424242424243,
+            "n": 8,
+            "home": -3.875,
+            "away": -2.5,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.4393939393939394,
+            "n": 8,
+            "home": -0.10353670950713195,
+            "away": -0.01415624735433764,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.8181818181818182,
+            "n": 3,
+            "home": 0.6666666666666666,
+            "away": -14.333333333333334,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "no-convergence",
+          "disagreement"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_NO_DET",
+            "2026_02_NO_BAL",
+            "2026_03_LV_NO",
+            "2026_04_ATL_NO",
+            "2026_05_MIN_NO",
+            "2026_06_NO_NYG",
+            "2026_07_PIT_NO",
+            "2026_09_CLE_NO"
+          ],
+          "awayGames": [
+            "2026_01_CHI_CAR",
+            "2026_02_CAR_ATL",
+            "2026_03_CAR_CLE",
+            "2026_04_DET_CAR",
+            "2026_06_CAR_PHI",
+            "2026_07_TB_CAR",
+            "2026_08_CAR_GB",
+            "2026_09_DEN_CAR"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": null,
+          "winner": null,
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.49242424242424243,
+              "n": 8,
+              "home": -3.875,
+              "away": -2.5,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.4393939393939394,
+              "n": 8,
+              "home": -0.10353670950713195,
+              "away": -0.01415624735433764,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.8181818181818182,
+              "n": 3,
+              "home": 0.6666666666666666,
+              "away": -14.333333333333334,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "no-convergence",
+            "disagreement"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_NO_DET",
+              "2026_02_NO_BAL",
+              "2026_03_LV_NO",
+              "2026_04_ATL_NO",
+              "2026_05_MIN_NO",
+              "2026_06_NO_NYG",
+              "2026_07_PIT_NO",
+              "2026_09_CLE_NO"
+            ],
+            "awayGames": [
+              "2026_01_CHI_CAR",
+              "2026_02_CAR_ATL",
+              "2026_03_CAR_CLE",
+              "2026_04_DET_CAR",
+              "2026_06_CAR_PHI",
+              "2026_07_TB_CAR",
+              "2026_08_CAR_GB",
+              "2026_09_DEN_CAR"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 23.125,
+              "defense": 27
+            },
+            "away": {
+              "offense": 24.875,
+              "defense": 27.375
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 8,
+            "offense": 23.125,
+            "defense": 27
+          },
+          "away": {
+            "n": 8,
+            "offense": 24.875,
+            "defense": 27.375
+          },
+          "pointsHome": 25.25,
+          "pointsAway": 25.9375,
+          "offenseSide": -1,
+          "defenseSide": 1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_HOU_CLE",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_HOU_CLE:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "CLE",
+      "away": "HOU",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.4099391378328058,
+        "winner": "HOU",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.49324324324324326,
+            "n": 8,
+            "home": -3.888888888888889,
+            "away": 2.125,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.4189189189189189,
+            "n": 8,
+            "home": -0.0767450627303085,
+            "away": 0.06044804193905701,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.3181818181818182,
+            "n": 3,
+            "home": -6.333333333333333,
+            "away": 6.333333333333333,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_CLE_JAX",
+            "2026_02_CLE_TB",
+            "2026_03_CAR_CLE",
+            "2026_04_PIT_CLE",
+            "2026_05_CLE_NYJ",
+            "2026_06_BAL_CLE",
+            "2026_07_CLE_TEN",
+            "2026_08_CLE_PIT",
+            "2026_09_CLE_NO"
+          ],
+          "awayGames": [
+            "2026_01_BUF_HOU",
+            "2026_02_CIN_HOU",
+            "2026_03_HOU_IND",
+            "2026_04_DAL_HOU",
+            "2026_05_HOU_TEN",
+            "2026_06_HOU_JAX",
+            "2026_07_NYG_HOU",
+            "2026_09_HOU_LAC"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.4099391378328058,
+          "winner": "HOU",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.49324324324324326,
+              "n": 8,
+              "home": -3.888888888888889,
+              "away": 2.125,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.4189189189189189,
+              "n": 8,
+              "home": -0.0767450627303085,
+              "away": 0.06044804193905701,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.3181818181818182,
+              "n": 3,
+              "home": -6.333333333333333,
+              "away": 6.333333333333333,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_CLE_JAX",
+              "2026_02_CLE_TB",
+              "2026_03_CAR_CLE",
+              "2026_04_PIT_CLE",
+              "2026_05_CLE_NYJ",
+              "2026_06_BAL_CLE",
+              "2026_07_CLE_TEN",
+              "2026_08_CLE_PIT",
+              "2026_09_CLE_NO"
+            ],
+            "awayGames": [
+              "2026_01_BUF_HOU",
+              "2026_02_CIN_HOU",
+              "2026_03_HOU_IND",
+              "2026_04_DAL_HOU",
+              "2026_05_HOU_TEN",
+              "2026_06_HOU_JAX",
+              "2026_07_NYG_HOU",
+              "2026_09_HOU_LAC"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 17.88888888888889,
+              "defense": 21.77777777777778
+            },
+            "away": {
+              "offense": 26.125,
+              "defense": 24
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 17.88888888888889,
+            "defense": 21.77777777777778
+          },
+          "away": {
+            "n": 8,
+            "offense": 26.125,
+            "defense": 24
+          },
+          "pointsHome": 20.944444444444443,
+          "pointsAway": 23.95138888888889,
+          "offenseSide": -1,
+          "defenseSide": 1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_JAX_TEN",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_JAX_TEN:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "TEN",
+      "away": "JAX",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.17189162364641097,
+        "winner": "JAX",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.15151515151515152,
+            "n": 8,
+            "home": -6.875,
+            "away": 13.5,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.13636363636363635,
+            "n": 8,
+            "home": -0.13695743042870948,
+            "away": 0.29902370007842344,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.22727272727272727,
+            "n": 3,
+            "home": -1.3333333333333333,
+            "away": 18.333333333333332,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_NYJ_TEN",
+            "2026_02_PHI_TEN",
+            "2026_03_TEN_NYG",
+            "2026_04_TEN_BAL",
+            "2026_05_HOU_TEN",
+            "2026_06_TEN_IND",
+            "2026_07_CLE_TEN",
+            "2026_08_TEN_CIN"
+          ],
+          "awayGames": [
+            "2026_01_CLE_JAX",
+            "2026_02_JAX_DEN",
+            "2026_03_NE_JAX",
+            "2026_04_JAX_CIN",
+            "2026_05_PHI_JAX",
+            "2026_06_HOU_JAX",
+            "2026_08_IND_JAX",
+            "2026_09_JAX_BAL"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.17189162364641097,
+          "winner": "JAX",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.15151515151515152,
+              "n": 8,
+              "home": -6.875,
+              "away": 13.5,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.13636363636363635,
+              "n": 8,
+              "home": -0.13695743042870948,
+              "away": 0.29902370007842344,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.22727272727272727,
+              "n": 3,
+              "home": -1.3333333333333333,
+              "away": 18.333333333333332,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_NYJ_TEN",
+              "2026_02_PHI_TEN",
+              "2026_03_TEN_NYG",
+              "2026_04_TEN_BAL",
+              "2026_05_HOU_TEN",
+              "2026_06_TEN_IND",
+              "2026_07_CLE_TEN",
+              "2026_08_TEN_CIN"
+            ],
+            "awayGames": [
+              "2026_01_CLE_JAX",
+              "2026_02_JAX_DEN",
+              "2026_03_NE_JAX",
+              "2026_04_JAX_CIN",
+              "2026_05_PHI_JAX",
+              "2026_06_HOU_JAX",
+              "2026_08_IND_JAX",
+              "2026_09_JAX_BAL"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 18,
+              "defense": 24.875
+            },
+            "away": {
+              "offense": 28.625,
+              "defense": 15.125
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 8,
+            "offense": 18,
+            "defense": 24.875
+          },
+          "away": {
+            "n": 8,
+            "offense": 28.625,
+            "defense": 15.125
+          },
+          "pointsHome": 16.5625,
+          "pointsAway": 26.75,
+          "offenseSide": -1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_KC_ATL",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_KC_ATL:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "ATL",
+      "away": "KC",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.32359717558587076,
+        "winner": "KC",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.30405405405405406,
+            "n": 8,
+            "home": -3.888888888888889,
+            "away": 7.375,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.25675675675675674,
+            "n": 8,
+            "home": -0.0919518407746135,
+            "away": 0.19415579068111163,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.4090909090909091,
+            "n": 3,
+            "home": -8,
+            "away": 0.6666666666666666,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_ATL_PIT",
+            "2026_02_CAR_ATL",
+            "2026_03_ATL_GB",
+            "2026_04_ATL_NO",
+            "2026_05_BAL_ATL",
+            "2026_06_CHI_ATL",
+            "2026_07_SF_ATL",
+            "2026_08_ATL_TB",
+            "2026_09_CIN_ATL"
+          ],
+          "awayGames": [
+            "2026_01_DEN_KC",
+            "2026_02_IND_KC",
+            "2026_03_KC_MIA",
+            "2026_04_KC_LV",
+            "2026_06_LAC_KC",
+            "2026_07_KC_SEA",
+            "2026_08_KC_DEN",
+            "2026_09_NYJ_KC"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.32359717558587076,
+          "winner": "KC",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.30405405405405406,
+              "n": 8,
+              "home": -3.888888888888889,
+              "away": 7.375,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.25675675675675674,
+              "n": 8,
+              "home": -0.0919518407746135,
+              "away": 0.19415579068111163,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.4090909090909091,
+              "n": 3,
+              "home": -8,
+              "away": 0.6666666666666666,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_ATL_PIT",
+              "2026_02_CAR_ATL",
+              "2026_03_ATL_GB",
+              "2026_04_ATL_NO",
+              "2026_05_BAL_ATL",
+              "2026_06_CHI_ATL",
+              "2026_07_SF_ATL",
+              "2026_08_ATL_TB",
+              "2026_09_CIN_ATL"
+            ],
+            "awayGames": [
+              "2026_01_DEN_KC",
+              "2026_02_IND_KC",
+              "2026_03_KC_MIA",
+              "2026_04_KC_LV",
+              "2026_06_LAC_KC",
+              "2026_07_KC_SEA",
+              "2026_08_KC_DEN",
+              "2026_09_NYJ_KC"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 20.88888888888889,
+              "defense": 24.77777777777778
+            },
+            "away": {
+              "offense": 25.25,
+              "defense": 17.875
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 20.88888888888889,
+            "defense": 24.77777777777778
+          },
+          "away": {
+            "n": 8,
+            "offense": 25.25,
+            "defense": 17.875
+          },
+          "pointsHome": 19.381944444444443,
+          "pointsAway": 25.01388888888889,
+          "offenseSide": -1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_LAC_BAL",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_LAC_BAL:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "BAL",
+      "away": "LAC",
+      "week": 10,
+      "kickoff": "2026-11-17T01:15:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": null,
+        "winner": null,
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.6486486486486487,
+            "n": 8,
+            "home": -5.222222222222222,
+            "away": -12.25,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.6351351351351351,
+            "n": 8,
+            "home": -0.08265277649817564,
+            "away": -0.22651605093802563,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.13636363636363635,
+            "n": 3,
+            "home": -23.666666666666668,
+            "away": -17.666666666666668,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "no-convergence",
+          "disagreement"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_BAL_IND",
+            "2026_02_NO_BAL",
+            "2026_03_BAL_DAL",
+            "2026_04_TEN_BAL",
+            "2026_05_BAL_ATL",
+            "2026_06_BAL_CLE",
+            "2026_07_CIN_BAL",
+            "2026_08_BAL_BUF",
+            "2026_09_JAX_BAL"
+          ],
+          "awayGames": [
+            "2026_01_ARI_LAC",
+            "2026_02_LV_LAC",
+            "2026_03_LAC_BUF",
+            "2026_04_LAC_SEA",
+            "2026_05_DEN_LAC",
+            "2026_06_LAC_KC",
+            "2026_08_LAC_LAR",
+            "2026_09_HOU_LAC"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": null,
+          "winner": null,
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.6486486486486487,
+              "n": 8,
+              "home": -5.222222222222222,
+              "away": -12.25,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.6351351351351351,
+              "n": 8,
+              "home": -0.08265277649817564,
+              "away": -0.22651605093802563,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.13636363636363635,
+              "n": 3,
+              "home": -23.666666666666668,
+              "away": -17.666666666666668,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "no-convergence",
+            "disagreement"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_BAL_IND",
+              "2026_02_NO_BAL",
+              "2026_03_BAL_DAL",
+              "2026_04_TEN_BAL",
+              "2026_05_BAL_ATL",
+              "2026_06_BAL_CLE",
+              "2026_07_CIN_BAL",
+              "2026_08_BAL_BUF",
+              "2026_09_JAX_BAL"
+            ],
+            "awayGames": [
+              "2026_01_ARI_LAC",
+              "2026_02_LV_LAC",
+              "2026_03_LAC_BUF",
+              "2026_04_LAC_SEA",
+              "2026_05_DEN_LAC",
+              "2026_06_LAC_KC",
+              "2026_08_LAC_LAR",
+              "2026_09_HOU_LAC"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 21,
+              "defense": 26.22222222222222
+            },
+            "away": {
+              "offense": 15.125,
+              "defense": 27.375
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 21,
+            "defense": 26.22222222222222
+          },
+          "away": {
+            "n": 8,
+            "offense": 15.125,
+            "defense": 27.375
+          },
+          "pointsHome": 24.1875,
+          "pointsAway": 20.67361111111111,
+          "offenseSide": 1,
+          "defenseSide": 1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-17T01:15:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_LAR_ARI",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_LAR_ARI:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "ARI",
+      "away": "LAR",
+      "week": 10,
+      "kickoff": "2026-11-15T21:05:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.19063509993408706,
+        "winner": "LAR",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.2289156626506024,
+            "n": 9,
+            "home": -8.555555555555555,
+            "away": 3.6666666666666665,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.25301204819277107,
+            "n": 9,
+            "home": -0.14068900154314407,
+            "away": 0.15713244369341275,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.09090909090909091,
+            "n": 3,
+            "home": -8.333333333333334,
+            "away": 12,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_ARI_LAC",
+            "2026_02_SEA_ARI",
+            "2026_03_ARI_SF",
+            "2026_04_ARI_NYG",
+            "2026_05_DET_ARI",
+            "2026_06_ARI_LAR",
+            "2026_07_DEN_ARI",
+            "2026_08_ARI_DAL",
+            "2026_09_ARI_SEA"
+          ],
+          "awayGames": [
+            "2026_01_SF_LAR",
+            "2026_02_NYG_LAR",
+            "2026_03_LAR_DEN",
+            "2026_04_LAR_PHI",
+            "2026_05_BUF_LAR",
+            "2026_06_ARI_LAR",
+            "2026_07_LAR_LV",
+            "2026_08_LAC_LAR",
+            "2026_09_LAR_WSH"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.19063509993408706,
+          "winner": "LAR",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.2289156626506024,
+              "n": 9,
+              "home": -8.555555555555555,
+              "away": 3.6666666666666665,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.25301204819277107,
+              "n": 9,
+              "home": -0.14068900154314407,
+              "away": 0.15713244369341275,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.09090909090909091,
+              "n": 3,
+              "home": -8.333333333333334,
+              "away": 12,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 9,
+          "evidence": {
+            "homeGames": [
+              "2026_01_ARI_LAC",
+              "2026_02_SEA_ARI",
+              "2026_03_ARI_SF",
+              "2026_04_ARI_NYG",
+              "2026_05_DET_ARI",
+              "2026_06_ARI_LAR",
+              "2026_07_DEN_ARI",
+              "2026_08_ARI_DAL",
+              "2026_09_ARI_SEA"
+            ],
+            "awayGames": [
+              "2026_01_SF_LAR",
+              "2026_02_NYG_LAR",
+              "2026_03_LAR_DEN",
+              "2026_04_LAR_PHI",
+              "2026_05_BUF_LAR",
+              "2026_06_ARI_LAR",
+              "2026_07_LAR_LV",
+              "2026_08_LAC_LAR",
+              "2026_09_LAR_WSH"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 19.77777777777778,
+              "defense": 28.333333333333332
+            },
+            "away": {
+              "offense": 23.77777777777778,
+              "defense": 20.11111111111111
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 19.77777777777778,
+            "defense": 28.333333333333332
+          },
+          "away": {
+            "n": 9,
+            "offense": 23.77777777777778,
+            "defense": 20.11111111111111
+          },
+          "pointsHome": 19.944444444444443,
+          "pointsAway": 26.055555555555557,
+          "offenseSide": -1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T21:05:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_MIA_IND",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_MIA_IND:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "IND",
+      "away": "MIA",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.5216492046775071,
+        "winner": "IND",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.5945945945945946,
+            "n": 8,
+            "home": -7.222222222222222,
+            "away": -9.25,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.6081081081081081,
+            "n": 8,
+            "home": -0.1810132297700951,
+            "away": -0.19707835244432845,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.36363636363636365,
+            "n": 3,
+            "home": -15,
+            "away": -4,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "2-observer-convergence",
+          "disagreement"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_BAL_IND",
+            "2026_02_IND_KC",
+            "2026_03_HOU_IND",
+            "2026_04_IND_WSH",
+            "2026_05_IND_PIT",
+            "2026_06_TEN_IND",
+            "2026_07_IND_MIN",
+            "2026_08_IND_JAX",
+            "2026_09_DAL_IND"
+          ],
+          "awayGames": [
+            "2026_01_MIA_LV",
+            "2026_02_MIA_SF",
+            "2026_03_KC_MIA",
+            "2026_04_MIA_MIN",
+            "2026_05_CIN_MIA",
+            "2026_07_MIA_NYJ",
+            "2026_08_NE_MIA",
+            "2026_09_DET_MIA"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.5216492046775071,
+          "winner": "IND",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.5945945945945946,
+              "n": 8,
+              "home": -7.222222222222222,
+              "away": -9.25,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.6081081081081081,
+              "n": 8,
+              "home": -0.1810132297700951,
+              "away": -0.19707835244432845,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.36363636363636365,
+              "n": 3,
+              "home": -15,
+              "away": -4,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "2-observer-convergence",
+            "disagreement"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_BAL_IND",
+              "2026_02_IND_KC",
+              "2026_03_HOU_IND",
+              "2026_04_IND_WSH",
+              "2026_05_IND_PIT",
+              "2026_06_TEN_IND",
+              "2026_07_IND_MIN",
+              "2026_08_IND_JAX",
+              "2026_09_DAL_IND"
+            ],
+            "awayGames": [
+              "2026_01_MIA_LV",
+              "2026_02_MIA_SF",
+              "2026_03_KC_MIA",
+              "2026_04_MIA_MIN",
+              "2026_05_CIN_MIA",
+              "2026_07_MIA_NYJ",
+              "2026_08_NE_MIA",
+              "2026_09_DET_MIA"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 20.444444444444443,
+              "defense": 27.666666666666668
+            },
+            "away": {
+              "offense": 15.75,
+              "defense": 25
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 20.444444444444443,
+            "defense": 27.666666666666668
+          },
+          "away": {
+            "n": 8,
+            "offense": 15.75,
+            "defense": 25
+          },
+          "pointsHome": 22.72222222222222,
+          "pointsAway": 21.708333333333336,
+          "offenseSide": 1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_MIN_GB",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_MIN_GB:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "GB",
+      "away": "MIN",
+      "week": 10,
+      "kickoff": "2026-11-15T18:00:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.6334883075825437,
+        "winner": "GB",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.4864864864864865,
+            "n": 8,
+            "home": 2.7777777777777777,
+            "away": 3.75,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.5945945945945946,
+            "n": 8,
+            "home": 0.10151147350378209,
+            "away": -0.010915135193658804,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.8181818181818182,
+            "n": 3,
+            "home": 7.666666666666667,
+            "away": -5,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "2-observer-convergence",
+          "disagreement"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_GB_MIN",
+            "2026_02_GB_NYJ",
+            "2026_03_ATL_GB",
+            "2026_04_GB_TB",
+            "2026_05_CHI_GB",
+            "2026_06_DAL_GB",
+            "2026_07_GB_DET",
+            "2026_08_CAR_GB",
+            "2026_09_GB_NE"
+          ],
+          "awayGames": [
+            "2026_01_GB_MIN",
+            "2026_02_MIN_CHI",
+            "2026_03_MIN_TB",
+            "2026_04_MIA_MIN",
+            "2026_05_MIN_NO",
+            "2026_07_IND_MIN",
+            "2026_08_MIN_DET",
+            "2026_09_BUF_MIN"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.6334883075825437,
+          "winner": "GB",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.4864864864864865,
+              "n": 8,
+              "home": 2.7777777777777777,
+              "away": 3.75,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.5945945945945946,
+              "n": 8,
+              "home": 0.10151147350378209,
+              "away": -0.010915135193658804,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.8181818181818182,
+              "n": 3,
+              "home": 7.666666666666667,
+              "away": -5,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "2-observer-convergence",
+            "disagreement"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_GB_MIN",
+              "2026_02_GB_NYJ",
+              "2026_03_ATL_GB",
+              "2026_04_GB_TB",
+              "2026_05_CHI_GB",
+              "2026_06_DAL_GB",
+              "2026_07_GB_DET",
+              "2026_08_CAR_GB",
+              "2026_09_GB_NE"
+            ],
+            "awayGames": [
+              "2026_01_GB_MIN",
+              "2026_02_MIN_CHI",
+              "2026_03_MIN_TB",
+              "2026_04_MIA_MIN",
+              "2026_05_MIN_NO",
+              "2026_07_IND_MIN",
+              "2026_08_MIN_DET",
+              "2026_09_BUF_MIN"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 24,
+              "defense": 21.22222222222222
+            },
+            "away": {
+              "offense": 18.25,
+              "defense": 14.5
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 24,
+            "defense": 21.22222222222222
+          },
+          "away": {
+            "n": 8,
+            "offense": 18.25,
+            "defense": 14.5
+          },
+          "pointsHome": 19.25,
+          "pointsAway": 19.73611111111111,
+          "offenseSide": 1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T18:00:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_NE_DET",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_NE_DET:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "DET",
+      "away": "NE",
+      "week": 10,
+      "kickoff": "2026-11-15T14:30:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.5919613102419653,
+        "winner": "DET",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.5472972972972973,
+            "n": 8,
+            "home": 4.125,
+            "away": 0.4444444444444444,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.5,
+            "n": 8,
+            "home": 0.04310804719959005,
+            "away": 0.0042204778260272096,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.7272727272727273,
+            "n": 3,
+            "home": 5.666666666666667,
+            "away": -6.333333333333333,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "2-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_NO_DET",
+            "2026_02_DET_BUF",
+            "2026_03_NYJ_DET",
+            "2026_04_DET_CAR",
+            "2026_05_DET_ARI",
+            "2026_07_GB_DET",
+            "2026_08_MIN_DET",
+            "2026_09_DET_MIA"
+          ],
+          "awayGames": [
+            "2026_01_NE_SEA",
+            "2026_02_PIT_NE",
+            "2026_03_NE_JAX",
+            "2026_04_NE_BUF",
+            "2026_05_LV_NE",
+            "2026_06_NYJ_NE",
+            "2026_07_NE_CHI",
+            "2026_08_NE_MIA",
+            "2026_09_GB_NE"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.5919613102419653,
+          "winner": "DET",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.5472972972972973,
+              "n": 8,
+              "home": 4.125,
+              "away": 0.4444444444444444,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.5,
+              "n": 8,
+              "home": 0.04310804719959005,
+              "away": 0.0042204778260272096,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.7272727272727273,
+              "n": 3,
+              "home": 5.666666666666667,
+              "away": -6.333333333333333,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "2-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_NO_DET",
+              "2026_02_DET_BUF",
+              "2026_03_NYJ_DET",
+              "2026_04_DET_CAR",
+              "2026_05_DET_ARI",
+              "2026_07_GB_DET",
+              "2026_08_MIN_DET",
+              "2026_09_DET_MIA"
+            ],
+            "awayGames": [
+              "2026_01_NE_SEA",
+              "2026_02_PIT_NE",
+              "2026_03_NE_JAX",
+              "2026_04_NE_BUF",
+              "2026_05_LV_NE",
+              "2026_06_NYJ_NE",
+              "2026_07_NE_CHI",
+              "2026_08_NE_MIA",
+              "2026_09_GB_NE"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 27.75,
+              "defense": 23.625
+            },
+            "away": {
+              "offense": 23.444444444444443,
+              "defense": 23
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 8,
+            "offense": 27.75,
+            "defense": 23.625
+          },
+          "away": {
+            "n": 9,
+            "offense": 23.444444444444443,
+            "defense": 23
+          },
+          "pointsHome": 25.375,
+          "pointsAway": 23.53472222222222,
+          "offenseSide": 1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T14:30:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_PIT_CIN",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_PIT_CIN:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "CIN",
+      "away": "PIT",
+      "week": 10,
+      "kickoff": "2026-11-16T01:20:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.6264025794610582,
+        "winner": "CIN",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.5909090909090909,
+            "n": 8,
+            "home": 8.125,
+            "away": 4.5,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.6060606060606061,
+            "n": 8,
+            "home": 0.12358630185992546,
+            "away": 0.03514549034706502,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.6818181818181818,
+            "n": 3,
+            "home": 15.333333333333334,
+            "away": 11.333333333333334,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_TB_CIN",
+            "2026_02_CIN_HOU",
+            "2026_03_CIN_PIT",
+            "2026_04_JAX_CIN",
+            "2026_05_CIN_MIA",
+            "2026_07_CIN_BAL",
+            "2026_08_TEN_CIN",
+            "2026_09_CIN_ATL"
+          ],
+          "awayGames": [
+            "2026_01_ATL_PIT",
+            "2026_02_PIT_NE",
+            "2026_03_CIN_PIT",
+            "2026_04_PIT_CLE",
+            "2026_05_IND_PIT",
+            "2026_06_PIT_TB",
+            "2026_07_PIT_NO",
+            "2026_08_CLE_PIT"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.6264025794610582,
+          "winner": "CIN",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.5909090909090909,
+              "n": 8,
+              "home": 8.125,
+              "away": 4.5,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.6060606060606061,
+              "n": 8,
+              "home": 0.12358630185992546,
+              "away": 0.03514549034706502,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.6818181818181818,
+              "n": 3,
+              "home": 15.333333333333334,
+              "away": 11.333333333333334,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_TB_CIN",
+              "2026_02_CIN_HOU",
+              "2026_03_CIN_PIT",
+              "2026_04_JAX_CIN",
+              "2026_05_CIN_MIA",
+              "2026_07_CIN_BAL",
+              "2026_08_TEN_CIN",
+              "2026_09_CIN_ATL"
+            ],
+            "awayGames": [
+              "2026_01_ATL_PIT",
+              "2026_02_PIT_NE",
+              "2026_03_CIN_PIT",
+              "2026_04_PIT_CLE",
+              "2026_05_IND_PIT",
+              "2026_06_PIT_TB",
+              "2026_07_PIT_NO",
+              "2026_08_CLE_PIT"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 30,
+              "defense": 21.875
+            },
+            "away": {
+              "offense": 22.5,
+              "defense": 18
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 8,
+            "offense": 30,
+            "defense": 21.875
+          },
+          "away": {
+            "n": 8,
+            "offense": 22.5,
+            "defense": 18
+          },
+          "pointsHome": 24,
+          "pointsAway": 22.1875,
+          "offenseSide": 1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-16T01:20:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_SEA_LV",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_SEA_LV:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "LV",
+      "away": "SEA",
+      "week": 10,
+      "kickoff": "2026-11-15T21:05:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.32570539286025535,
+        "winner": "SEA",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.35542168674698793,
+            "n": 9,
+            "home": -3.3333333333333335,
+            "away": 4.444444444444445,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.3493975903614458,
+            "n": 9,
+            "home": -0.08488308708894787,
+            "away": 0.056815682364021965,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.2727272727272727,
+            "n": 3,
+            "home": -10,
+            "away": 4.666666666666667,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_MIA_LV",
+            "2026_02_LV_LAC",
+            "2026_03_LV_NO",
+            "2026_04_KC_LV",
+            "2026_05_LV_NE",
+            "2026_06_BUF_LV",
+            "2026_07_LAR_LV",
+            "2026_08_LV_NYJ",
+            "2026_09_LV_SF"
+          ],
+          "awayGames": [
+            "2026_01_NE_SEA",
+            "2026_02_SEA_ARI",
+            "2026_03_SEA_WSH",
+            "2026_04_LAC_SEA",
+            "2026_05_SF_SEA",
+            "2026_06_SEA_DEN",
+            "2026_07_KC_SEA",
+            "2026_08_CHI_SEA",
+            "2026_09_ARI_SEA"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.32570539286025535,
+          "winner": "SEA",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.35542168674698793,
+              "n": 9,
+              "home": -3.3333333333333335,
+              "away": 4.444444444444445,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.3493975903614458,
+              "n": 9,
+              "home": -0.08488308708894787,
+              "away": 0.056815682364021965,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.2727272727272727,
+              "n": 3,
+              "home": -10,
+              "away": 4.666666666666667,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 9,
+          "evidence": {
+            "homeGames": [
+              "2026_01_MIA_LV",
+              "2026_02_LV_LAC",
+              "2026_03_LV_NO",
+              "2026_04_KC_LV",
+              "2026_05_LV_NE",
+              "2026_06_BUF_LV",
+              "2026_07_LAR_LV",
+              "2026_08_LV_NYJ",
+              "2026_09_LV_SF"
+            ],
+            "awayGames": [
+              "2026_01_NE_SEA",
+              "2026_02_SEA_ARI",
+              "2026_03_SEA_WSH",
+              "2026_04_LAC_SEA",
+              "2026_05_SF_SEA",
+              "2026_06_SEA_DEN",
+              "2026_07_KC_SEA",
+              "2026_08_CHI_SEA",
+              "2026_09_ARI_SEA"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 26.444444444444443,
+              "defense": 29.77777777777778
+            },
+            "away": {
+              "offense": 22.444444444444443,
+              "defense": 18
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 26.444444444444443,
+            "defense": 29.77777777777778
+          },
+          "away": {
+            "n": 9,
+            "offense": 22.444444444444443,
+            "defense": 18
+          },
+          "pointsHome": 22.22222222222222,
+          "pointsAway": 26.11111111111111,
+          "offenseSide": 1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T21:05:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_SF_DAL",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_SF_DAL:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "DAL",
+      "away": "SF",
+      "week": 10,
+      "kickoff": "2026-11-15T21:25:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.3141066898079313,
+        "winner": "SF",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.25675675675675674,
+            "n": 8,
+            "home": 1.1111111111111112,
+            "away": 9.875,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.22972972972972974,
+            "n": 8,
+            "home": 0.01936775012699758,
+            "away": 0.25866885551831587,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.45454545454545453,
+            "n": 3,
+            "home": 6,
+            "away": 6,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "3-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_DAL_NYG",
+            "2026_02_WSH_DAL",
+            "2026_03_BAL_DAL",
+            "2026_04_DAL_HOU",
+            "2026_05_TB_DAL",
+            "2026_06_DAL_GB",
+            "2026_07_DAL_PHI",
+            "2026_08_ARI_DAL",
+            "2026_09_DAL_IND"
+          ],
+          "awayGames": [
+            "2026_01_SF_LAR",
+            "2026_02_MIA_SF",
+            "2026_03_ARI_SF",
+            "2026_04_DEN_SF",
+            "2026_05_SF_SEA",
+            "2026_06_WSH_SF",
+            "2026_07_SF_ATL",
+            "2026_09_LV_SF"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.3141066898079313,
+          "winner": "SF",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.25675675675675674,
+              "n": 8,
+              "home": 1.1111111111111112,
+              "away": 9.875,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.22972972972972974,
+              "n": 8,
+              "home": 0.01936775012699758,
+              "away": 0.25866885551831587,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.45454545454545453,
+              "n": 3,
+              "home": 6,
+              "away": 6,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "3-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_DAL_NYG",
+              "2026_02_WSH_DAL",
+              "2026_03_BAL_DAL",
+              "2026_04_DAL_HOU",
+              "2026_05_TB_DAL",
+              "2026_06_DAL_GB",
+              "2026_07_DAL_PHI",
+              "2026_08_ARI_DAL",
+              "2026_09_DAL_IND"
+            ],
+            "awayGames": [
+              "2026_01_SF_LAR",
+              "2026_02_MIA_SF",
+              "2026_03_ARI_SF",
+              "2026_04_DEN_SF",
+              "2026_05_SF_SEA",
+              "2026_06_WSH_SF",
+              "2026_07_SF_ATL",
+              "2026_09_LV_SF"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 27.333333333333332,
+              "defense": 26.22222222222222
+            },
+            "away": {
+              "offense": 29.375,
+              "defense": 19.5
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 9,
+            "offense": 27.333333333333332,
+            "defense": 26.22222222222222
+          },
+          "away": {
+            "n": 8,
+            "offense": 29.375,
+            "defense": 19.5
+          },
+          "pointsHome": 23.416666666666664,
+          "pointsAway": 27.79861111111111,
+          "offenseSide": -1,
+          "defenseSide": -1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
+        "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
+        "sourceHashes": {
+          "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "ari.json": "ec646bc5930e48b676ec21465f540279ebea4e8ccdc8530c9af318daed0f7bf3",
+          "atl.json": "0fa30b117bb7bf722e0d7d5b443c63360f95d53d68f2ef5a95ec8e106d9ad5be",
+          "bal.json": "6de682ac4e1fd19de2db6cf919e9f927a55a3e636bbcf01fd70c6b28944edf61",
+          "buf.json": "bfabd8f58dbed961088ab30a346f425c31363d715ea3e7aba3dea3fe27372c2c",
+          "car.json": "38050038b244c5c8f0b5d67d8f02f924e0ded0e91741d2e5e0f23603843afc87",
+          "chi.json": "4c51cb32bcd35688186f0fc914f60dcef9c4d9db3f259fc30b04a9b7b1ee1e1e",
+          "cin.json": "071a0962bb1be463a99496a1a50bab797ba48e21b9366ca206d01870f735cefe",
+          "cle.json": "86cfefe85ce24aac2bc3e1beab3d4dbeed8baf5a6e248952091acf6385584bdf",
+          "dal.json": "08e402b8fa49a472d571a5a1cb4183ff54824192dc33773b8f7a7ba0e09490a5",
+          "data.json": "82bf7714ea5f68519f46da0e9ec406922b2b21548372c6ec578db1e930ee8cc9",
+          "den.json": "1cbb483bbc9410d8943eba73afb252bde09e283bb290ea9b755cf091617f770a",
+          "det.json": "a90b55fff4a36b080b22c0ba1ff753d604b1b5be715f5065de82b36c18e04bde",
+          "gb.json": "c615049bd7c13aaa404831f9cd2170656235232601fa4a0028492c04429f9598",
+          "hou.json": "04edd1714375de97f9e45405c737c1ed1b444406dc02cd65ddb7d1337b1ce076",
+          "ind.json": "f98285ae1d67d48f3e837f2c1a412006b66255b69d4bd10159c78a4c3fb06d82",
+          "jax.json": "7c09a5952f9ec3dc9df826d16320c65ce8e9642050ec7dcd6207533bfd14b2dd",
+          "kc.json": "ba9091b0ff63778fa1816456ff2cc76ed77372ad36b49415d8727c62f3cb30de",
+          "la.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lac.json": "63c1b8aaf467d79a7551637af68e17b36d27906ce485512c936eb336ad35503c",
+          "lar.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
+          "lv.json": "b4487c9add6db52aef9bfafa1f2502d280bc46c5b405f8a078dbb9c84135b86c",
+          "mia.json": "40fb64a577eb89213fd057bd1254b44aa6c0de8f11c4306d1611e47b282c9382",
+          "min.json": "5001afed74d59f21ca86267e48e0533389d1ecbfea01086f94d07de8c3beb8ff",
+          "ne.json": "a4e4acf327e4bacaa685e1645a3d5384493ef1801488bbddda4f315ad3d8d486",
+          "no.json": "bc6efa62e0d7730ff13cf348b3bbd549fb6533d384af501a0b54eb32e776143c",
+          "nyg.json": "be77728668e20fccb22703acfbe24d33a0bff4a824250b5c1c95ea20d45ba6b1",
+          "nyj.json": "f0ae4ffc8b5b687d3c6dd20ced2db4590cd92da8238e616f144ac5399da40612",
+          "phi.json": "29e4833bbce9f8840e05556d0a55860a8cdb2d802a1be0b4d694a3e9be41795d",
+          "pit.json": "f554dbd4db9e4c5384d5df0c07e1ef7b68f9094fc4e3843b81c9b5d99c3db2ed",
+          "schedule.json": "a95d5a5da5f28c55c72542c61dec3f8e0797142b45c3fbf95f93b3c7f4a73fe9",
+          "sea.json": "4a0c12e16f22585dcc6fd5c95d14e20541dd985399750204eb96f5f8fb885160",
+          "sf.json": "9cd5b65023d5ecaecec4c7acda6a237a4934ae48d65ebc2bafc9556e553dd4b9",
+          "tb.json": "635a3f075167d37b7fcda9bc4f9ab59c972a934077037b0f6f9425ccf603c249",
+          "team_stats.json": "9cfc069c956894f6f16148eeca9fc7f274552865200ed69c3ce4620bbede8421",
+          "teams.json": "1f0c0f906ed30a59b212b5367c034dc4af9a5cde9521da829646975e30f191ea",
+          "ten.json": "2d2b396d23440d977551ab2356f196066468c0200fb69a602f86cc57fa318665",
+          "was.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25",
+          "wsh.json": "a44c2b7c5be3fa7dcea3768c025c8048f74516269e19e3fdb21a1bb320b3cc25"
+        },
+        "snapshot": "data/forecast-snapshots/104b2c4694c45b0547cf9b508a8ebb5a17eb98e557c21cb3bc359a558780092f.json",
+        "kickoff": "2026-11-15T21:25:00.000Z"
+      }
+    },
+    {
+      "game": "2026_10_WSH_NYG",
+      "season": 2026,
+      "lens": "precog",
+      "version": "1.1.0",
+      "id": "precog@1.1.0:2026_10_WSH_NYG:2026-11-10T23:40:17.436Z",
+      "type": "forecast",
+      "createdAt": "2026-11-10T23:40:17.436Z",
+      "cutoff": "2026-11-10T23:40:17.436Z",
+      "home": "NYG",
+      "away": "WSH",
+      "week": 10,
+      "kickoff": "2026-11-13T01:15:00.000Z",
+      "policy": "seven-day-three-hour-v1",
+      "payload": {
+        "probabilityHome": 0.6208346350693089,
+        "winner": "NYG",
+        "models": [
+          {
+            "id": "baseline-margin",
+            "p": 0.6666666666666666,
+            "n": 8,
+            "home": 1.25,
+            "away": -3.75,
+            "version": "1.0.0"
+          },
+          {
+            "id": "unit-efficiency",
+            "p": 0.696969696969697,
+            "n": 8,
+            "home": 0.01368481819700058,
+            "away": -0.06053639537972376,
+            "version": "1.0.0"
+          },
+          {
+            "id": "recent-trajectory",
+            "p": 0.5,
+            "n": 3,
+            "home": 2.3333333333333335,
+            "away": 1.3333333333333333,
+            "version": "1.0.0"
+          }
+        ],
+        "motifs": [
+          "2-observer-convergence",
+          "alignment"
+        ],
+        "evidence": {
+          "homeGames": [
+            "2026_01_DAL_NYG",
+            "2026_02_NYG_LAR",
+            "2026_03_TEN_NYG",
+            "2026_04_ARI_NYG",
+            "2026_05_NYG_WSH",
+            "2026_06_NO_NYG",
+            "2026_07_NYG_HOU",
+            "2026_09_NYG_PHI"
+          ],
+          "awayGames": [
+            "2026_01_WSH_PHI",
+            "2026_02_WSH_DAL",
+            "2026_03_SEA_WSH",
+            "2026_04_IND_WSH",
+            "2026_05_NYG_WSH",
+            "2026_06_WSH_SF",
+            "2026_08_PHI_WSH",
+            "2026_09_LAR_WSH"
+          ]
+        },
+        "predictionSnapshot": {
+          "lens": "precog",
+          "version": "1.1.0",
+          "p": 0.6208346350693089,
+          "winner": "NYG",
+          "models": [
+            {
+              "id": "baseline-margin",
+              "p": 0.6666666666666666,
+              "n": 8,
+              "home": 1.25,
+              "away": -3.75,
+              "version": "1.0.0"
+            },
+            {
+              "id": "unit-efficiency",
+              "p": 0.696969696969697,
+              "n": 8,
+              "home": 0.01368481819700058,
+              "away": -0.06053639537972376,
+              "version": "1.0.0"
+            },
+            {
+              "id": "recent-trajectory",
+              "p": 0.5,
+              "n": 3,
+              "home": 2.3333333333333335,
+              "away": 1.3333333333333333,
+              "version": "1.0.0"
+            }
+          ],
+          "motifs": [
+            "2-observer-convergence",
+            "alignment"
+          ],
+          "confidence": "Experimental / uncalibrated",
+          "sample": 8,
+          "evidence": {
+            "homeGames": [
+              "2026_01_DAL_NYG",
+              "2026_02_NYG_LAR",
+              "2026_03_TEN_NYG",
+              "2026_04_ARI_NYG",
+              "2026_05_NYG_WSH",
+              "2026_06_NO_NYG",
+              "2026_07_NYG_HOU",
+              "2026_09_NYG_PHI"
+            ],
+            "awayGames": [
+              "2026_01_WSH_PHI",
+              "2026_02_WSH_DAL",
+              "2026_03_SEA_WSH",
+              "2026_04_IND_WSH",
+              "2026_05_NYG_WSH",
+              "2026_06_WSH_SF",
+              "2026_08_PHI_WSH",
+              "2026_09_LAR_WSH"
+            ]
+          },
+          "health": {
+            "home": {
+              "offense": 22.75,
+              "defense": 21.5
+            },
+            "away": {
+              "offense": 21.5,
+              "defense": 25.25
+            }
+          },
+          "uncertainty": [
+            "Observers share game evidence and are correlated; convergence is not independent confirmation.",
+            "No injury feed: scoring form is not player health.",
+            "Home advantage, rest and weather are context only until validated predictive effects exist.",
+            "2025 archive predictions are preserved in Legacy and never treated as training truth."
+          ],
+          "learning": {
+            "weights": {
+              "baseline-margin": 0.33352857606696507,
+              "unit-efficiency": 0.331251659833675,
+              "recent-trajectory": 0.33521976409935994
+            },
+            "n": 40,
+            "policy": "paired-brier-shrinkage-v1",
+            "trainedThrough": "2026-11-10T18:34:19.470Z"
+          }
+        },
+        "diagnostic": {
+          "home": {
+            "n": 8,
+            "offense": 22.75,
+            "defense": 21.5
+          },
+          "away": {
+            "n": 8,
+            "offense": 21.5,
+            "defense": 25.25
+          },
+          "pointsHome": 24,
+          "pointsAway": 21.5,
+          "offenseSide": 1,
+          "defenseSide": 1,
+          "note": "Scoring-form diagnostics; points are not player health, EPA, or bookmaker spreads."
+        },
+        "learning": {
+          "weights": {
+            "baseline-margin": 0.33352857606696507,
+            "unit-efficiency": 0.331251659833675,
+            "recent-trajectory": 0.33521976409935994
+          },
+          "n": 40,
+          "policy": "paired-brier-shrinkage-v1",
+          "trainedThrough": "2026-11-10T18:34:19.470Z"
+        },
         "sourceCollectedAt": "2026-11-10T17:51:14.932743+00:00",
         "sourceHashes": {
           "LA.json": "24cee3b2cfa26a92373a676a3d00f9fa7a77951cb552128853862fff03689d5e",
