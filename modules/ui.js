@@ -32,7 +32,7 @@ let bank,
   prediction,
   game,
   cutoff,
-  lens = "precog",
+  lens = new URLSearchParams(location.search).get("lens") === "legacy" ? "legacy" : "precog",
   authenticated = false,
   viewCutoff,
   predictions = new Map();
