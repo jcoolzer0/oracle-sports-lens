@@ -28,7 +28,7 @@ test('only original frozen prospective comparisons and prior settlements inform 
 });
 test('active forecast stores baseline, coherent candidate, influence and revert decision without changing baseline',()=>{
  const args={bank,game,cutoff,journal:[]},baseline=adaptivePrecog.predict(args),p=promotedPrecog.predict(args);
- assert.equal(p.version,'1.2.0');assert.equal(p.promotion.baselineHome,baseline.p);assert.equal(p.p,p.promotion.candidateHome);assert.equal(p.promotion.selected,'adaptive');assert.equal(p.p+p.promotion.officialAway,1);
+ assert.equal(p.version,'1.2.1');assert.equal(p.promotion.baselineHome,baseline.p);assert.equal(p.p,p.promotion.candidateHome);assert.equal(p.promotion.selected,'adaptive');assert.equal(p.p+p.promotion.officialAway,1);
  assert.ok(Math.abs(p.promotion.effectiveWeights.reduce((s,w)=>s+w.weight,0)-1)<1e-12);
  assert.equal(p.promotion.effectiveWeights.find(w=>w.id==='unit-efficiency').weight,0);
  const degraded=promotedPrecog.predict({...args,journal:journal()});assert.equal(degraded.p,baseline.p);assert.equal(degraded.promotion.selected,'baseline');
@@ -39,7 +39,7 @@ test('parallel baseline and adaptive recording preserves frozen evidence and exp
  let events=advanceJournal([],{bank,lenses:[adaptivePrecog,promotedPrecog],now:cutoff});const original=JSON.stringify(events);
  events=advanceJournal(events,{bank,lenses:[adaptivePrecog,promotedPrecog],now:'2026-11-22T15:01:00Z'});
  assert.equal(JSON.stringify(events.slice(0,2)),original);const records=frozenRecords(events);assert.equal(records.length,2);
- assert.equal(officialRecord(records,game.game_id,'precog','1.2.0').version,'1.2.0');
+ assert.equal(officialRecord(records,game.game_id,'precog','1.2.1').version,'1.2.1');
  assert.equal(officialRecord(records.filter(r=>r.version==='1.1.0'),game.game_id,'precog','1.2.0').version,'1.1.0');
  const old=JSON.stringify(events);events=advanceJournal(events,{bank,lenses:[adaptivePrecog,promotedPrecog],now:'2026-11-22T16:00:00Z'});assert.equal(JSON.stringify(events),old);
 });

@@ -392,3 +392,28 @@ new team-specific algorithm: zero recorded active candidate pairs existed.
 Deploy by merging/publishing this Lens checkout through the existing workflow.
 The workflow now retains the independent market-reference history alongside
 forecast records. No new service, key, paid account or manual setup is needed.
+
+## Adaptive Plus 1.2.1
+
+The observer calculations are unchanged. Team reliability now learns continuously
+from prospectively frozen, settled Pre-Cog 1.0.0, 1.1.0, 1.2.0 and 1.2.1 observer
+forecasts. These versions share the same three observer definitions. Only records
+containing all three observer identities qualify; abstentions are not scored.
+Each game contributes once, preferring the newest compatible version available
+before the forecast cutoff. Target games, future settlements and retrospective
+previews are excluded. Frozen forecasts are never rewritten.
+
+Global reliability uses the latest 100 games; each team uses its latest 20.
+Team losses shrink toward global loss with eight pseudo-games. Reliability gives
+80% influence to the two teams' average, 10% to global performance and 10% to
+recent global performance. This allows a team specialist to outrank a globally
+stronger observer. Half-uniform weighting retains recovery opportunities.
+The official forecast retains the 50% baseline / 50% team-pool blend. The 1.1.0
+baseline learner is unchanged so the rollback comparison remains interpretable.
+The rollback guard retains eligible 1.2.0 comparisons, counting each game once.
+All raw observer forecasts and influence diagnostics continue to be recorded.
+
+This release scores win probabilities using Brier loss. It does not learn separate
+offensive, defensive, spread or home-advantage components: those require explicit
+prospective component predictions and scoring targets. Better accuracy is an
+experiment to measure, not a guaranteed consequence of adaptation.

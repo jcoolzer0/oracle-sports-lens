@@ -18,7 +18,7 @@ export function renderMarket(root,g,p,market) {
 }
 export function renderShadow(root,s,game,promotion) {
   if(!s)return;
-  if(promotion)s={...s,version:"team-weighted-active-1.2.0",config:{...s.config,maxBlend:promotion.config.candidateBlend},probabilityHome:promotion.candidateHome,probabilityAway:promotion.candidateAway};
+  if(promotion)s={...s,version:`team-weighted-active-${promotion.version}`,config:{...s.config,maxBlend:promotion.config.candidateBlend},probabilityHome:promotion.candidateHome,probabilityAway:promotion.candidateAway};
   const d=el('details','');d.append(el('summary',promotion?'Team-specific observer influence · active candidate':'Team-specific observer influence · shadow experiment'),el('p',`Production ${game.home_team}: ${pct(s.baselineHome)}. Candidate ${game.home_team}: ${pct(s.probabilityHome)}; ${game.away_team}: ${pct(s.probabilityAway)}. ${s.trainingN} previously settled games. ${promotion?"The candidate may be promoted under the policy below; frozen calls never change.":"Production and frozen calls remain authoritative."}`),el('p',promotion?'Derived alignment/convergence are never extra votes. Active candidate blends 50% baseline with 50% team-weighted pool; a change of favorite is possible.':s.note));
   const wrap=el('div','');wrap.className='table-wrap';const table=el('table','');table.append(el('caption','One influence per observer; team evidence shrinks toward global evidence'));
   const head=el('thead',''),hr=el('tr','');for(const text of ['Observer','Availability / influence','Global evidence','Home-team evidence','Away-team evidence','Fallback']) {const th=el('th',text);th.scope='col';hr.append(th);}head.append(hr);table.append(head);

@@ -3,14 +3,14 @@ import { adaptivePrecog as baselinePrecog } from './learning.js';
 import { frozenRecords, isCall } from './forecast-journal.js';
 import { kickoff } from './data.js';
 import { summary } from './tracking.js';
-export const PROMOTION_VERSION = '1.2.0';
+export const PROMOTION_VERSION = '1.2.1';
 export const PROMOTION_CONFIG = Object.freeze({
   id: 'team-promotion-guard-v1', enabled: true, candidateBlend: .5, minPairs: 20, recentGames: 20,
   brierTolerance: .005, recentBrierTolerance: .01,
   accuracyTolerance: .05, resumeBrierGain: .005, recoveryGames: 10,
 });
 export function promotionPairs(events, cutoff, target = null) {
-  return frozenRecords(events).filter(r => r.lens === 'precog' && r.version === PROMOTION_VERSION && r.game !== target).flatMap(r => {
+  const rows = frozenRecords(events).filter(r => r.lens === 'precog' && ['1.2.0', PROMOTION_VERSION].includes(r.version) && r.game !== target).flatMap(r => {
     const p = r.predictionSnapshot?.promotion;
     const settlement = events.find(e => e.type === 'settlement' && e.freezeId === r.key);
     if (!p || p.config?.id !== PROMOTION_CONFIG.id || p.cutoff !== r.createdAt || p.game !== r.game ||
@@ -22,6 +22,7 @@ export function promotionPairs(events, cutoff, target = null) {
       baseline: p.baselineHome, candidate: p.candidateHome, official: r.probabilityHome,
       settledAt: settlement.createdAt, forecastAt: r.createdAt }];
   }).sort((a,b) => Date.parse(a.settledAt)-Date.parse(b.settledAt) || a.game.localeCompare(b.game));
+  return rows.filter((r,i)=>rows.findIndex(x=>x.game===r.game)===i);
 }
 function pairStats(rows) {
   const score = key => summary(rows.map(r => ({probabilityHome:r[key],actual:r.actual})));

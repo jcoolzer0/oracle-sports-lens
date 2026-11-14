@@ -3,12 +3,20 @@ import { frozenRecords, isCall } from './forecast-journal.js';
 import { summary } from './tracking.js';
 const BASE_OBSERVER_IDS=['baseline-margin','unit-efficiency','recent-trajectory'];
 export const SHADOW_VERSION='team-reliability-shadow-v1';
-export const SHADOW_CONFIG={prior:20,teamPrior:20,recent:10,maxBlend:.25};
+export const SHADOW_CONFIG={prior:20,teamPrior:8,recent:10,globalWindow:100,teamWindow:20,maxBlend:.25};
 export function evidenceRows(events,cutoff,target=null) {
-  return frozenRecords(events).filter(r=>r.lens==='precog'&&r.version==='1.1.0'&&r.game!==target && Date.parse(r.createdAt)<Date.parse(r.kickoff)&&Date.parse(r.kickoff)<Date.parse(cutoff)&&Date.parse(r.sourceCollectedAt)<=Date.parse(r.createdAt)).flatMap(r=>{
+  const rows = frozenRecords(events).filter(r=>r.lens==='precog'&&['1.0.0','1.1.0','1.2.0','1.2.1'].includes(r.version)&&r.game!==target && Date.parse(r.createdAt)<Date.parse(r.kickoff)&&Date.parse(r.kickoff)<Date.parse(cutoff)&&Date.parse(r.sourceCollectedAt)<=Date.parse(r.createdAt)).flatMap(r=>{
     const s=events.find(e=>e.type==='settlement'&&e.freezeId===r.key&&Date.parse(e.createdAt)<Date.parse(cutoff)&&Date.parse(e.createdAt)>Date.parse(r.kickoff));
     return s&&Number.isFinite(s.homeScore)&&Number.isFinite(s.awayScore)&&s.homeScore!==s.awayScore?[{...r,actual:s.homeScore>s.awayScore?1:0,settledAt:s.createdAt}]:[];
   }).sort((a,b)=>Date.parse(a.settledAt)-Date.parse(b.settledAt));
+  // One prospective observer vector per game; prefer the newest compatible version.
+  const unique=new Map();
+  for(const row of rows) {
+    if(!BASE_OBSERVER_IDS.every(id=>row.models?.some(m=>m.id===id))) continue;
+    const old=unique.get(row.game);
+    if(!old || row.version.localeCompare(old.version,undefined,{numeric:true})>0) unique.set(row.game,row);
+  }
+  return [...unique.values()].sort((a,b)=>Date.parse(a.settledAt)-Date.parse(b.settledAt)||a.game.localeCompare(b.game));
 }
 function reliability(rows,id,prior=.25,strength=20) {
   const xs=rows.flatMap(r=>{const m=r.models?.find(m=>m.id===id);return isCall(m?.p)?[{...r,probabilityHome:m.p}]:[];});
@@ -19,12 +27,12 @@ function reliability(rows,id,prior=.25,strength=20) {
 export function teamShadow(prediction,game,events,cutoff) {
   const rows=evidenceRows(events,cutoff,game.game_id);
   const diagnostics=prediction.models.filter(m=>BASE_OBSERVER_IDS.includes(m.id)).map(m=>{
-    const global=reliability(rows,m.id);
-    const home=reliability(rows.filter(r=>[r.home,r.away].includes(game.home_team)),m.id,global.loss);
-    const away=reliability(rows.filter(r=>[r.home,r.away].includes(game.away_team)),m.id,global.loss);
+    const global=reliability(rows.slice(-SHADOW_CONFIG.globalWindow),m.id);
+    const home=reliability(rows.filter(r=>[r.home,r.away].includes(game.home_team)).slice(-SHADOW_CONFIG.teamWindow),m.id,global.loss,SHADOW_CONFIG.teamPrior);
+    const away=reliability(rows.filter(r=>[r.home,r.away].includes(game.away_team)).slice(-SHADOW_CONFIG.teamWindow),m.id,global.loss,SHADOW_CONFIG.teamPrior);
     // One reliability per observer: equal team average, shrunk to global. Never two votes.
     const recentLoss=(global.recent.n ? (global.recent.n*global.recent.brier+20*global.loss)/(global.recent.n+20) : global.loss);
-    const loss=.375*global.loss+.375*(home.loss+away.loss)/2+.25*recentLoss;
+    const loss=.1*global.loss+.8*(home.loss+away.loss)/2+.1*recentLoss;
     return {id:m.id,eligible:isCall(m.p),global,home,away,score:Math.exp(-4*loss),fallback:!global.n?'No settled global evidence; conservative prior':!home.n||!away.n?'Sparse team evidence shrinks to global':'Team evidence shrunk toward global',weight:0};
   });
   const eligible=diagnostics.filter(d=>d.eligible), total=eligible.reduce((s,d)=>s+d.score,0);

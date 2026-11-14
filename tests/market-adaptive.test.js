@@ -58,3 +58,21 @@ test('prospective validation scores identical frozen pairs and rejects mismatche
  const v=shadowValidation(events,'2026-11-21');assert.equal(v.paired,3);assert.equal(v.baseline.n,v.adaptive.n);assert.equal(v.adaptive.correct,3);assert.ok(v.pairedBrierDelta<0);
  events.find(e=>e.type==='forecast').payload.predictionSnapshot.shadow.cutoff='2027-01-01';assert.equal(shadowValidation(events,'2026-11-21').paired,2);
 });
+test('new-version judgments close the feedback loop and duplicate games count once',()=>{
+ const old=history(3), fresh=old.map(e=>({...e,version:'1.2.1',id:e.id?e.id+'new':undefined,forecastId:e.forecastId?e.forecastId+'new':undefined,freezeId:e.freezeId?e.freezeId+'new':undefined}));
+ assert.equal(evidenceRows([...old,...fresh],'2026-11-21').length,3);
+ assert.ok(evidenceRows([...old,...fresh],'2026-11-21').every(r=>r.version==='1.2.1'));
+ assert.equal(teamShadow(prediction,game,fresh,'2026-11-21').trainingN,3);
+ assert.equal(teamShadow(prediction,game,fresh,'2026-10-21').trainingN,0);
+});
+test('team specialist can outrank a globally stronger observer',()=>{
+ const events=history(100);
+ for(const e of events.filter(e=>e.type==='forecast')) {
+   const specialist=Number(e.game.slice(1))>=80;
+   e.home=specialist?'GB':'NYJ';e.away=specialist?'CHI':'BUF';
+   e.payload.models=modelIds.map((id,i)=>({id,p:i===0?(specialist?.9:.1):i===1?(specialist?.1:.9):.5}));
+ }
+ const s=teamShadow(prediction,game,events,'2026-11-21');
+ assert.ok(s.diagnostics[0].global.loss>s.diagnostics[1].global.loss);
+ assert.ok(s.diagnostics[0].weight>s.diagnostics[1].weight);
+});
