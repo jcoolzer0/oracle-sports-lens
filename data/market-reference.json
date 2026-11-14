@@ -1,1 +1,14 @@
-{"schema_version":1,"observations":[]}
+{
+  "schema_version": 1,
+  "checkedAt": "2026-11-14T01:27:08.419Z",
+  "status": {
+    "attempted_at": "2026-11-14T00:53:22.828972+00:00",
+    "errors": [
+      "Scoreboard unavailable: 400 Client Error: Bad Request for url: https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261114-20261128&limit=1000"
+    ],
+    "observations_collected": 0,
+    "schema_version": 1,
+    "status": "unavailable"
+  },
+  "observations": []
+}
