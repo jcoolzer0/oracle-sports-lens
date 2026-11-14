@@ -1,3 +1,6 @@
+import { loadMarket } from "./market.js";
+import { renderMarket } from "./comparison-ui.js";
+let market = {observations:[]};
 import { loadSharedJournal, frozenRecords } from "./forecast-journal.js";
 import { renderJournalStatus, renderLearning, renderForecastHistory } from "./journal-ui.js";
 let sharedJournal = {events:[]}, journalError = null;
@@ -102,6 +105,7 @@ function observe(id, focus = false) {
         el("p", `Recorded call retained: ${saved.winner} · ${saved.createdAt}`),
       );
   } catch {}
+  renderMarket(root, selected, prediction.p, market);
   renderForecastHistory(root, sharedJournal.events, selected, prediction.lens, prediction.version);
   $("legacy2026Save").disabled =
     prediction.p === null ||
@@ -121,8 +125,10 @@ async function refresh() {
       ready = Promise.all([
         loadBank(),
         Promise.all(CODES.map(async (t) => [t, await loadHistory(t)])),
+        loadMarket(),
       ]);
-    const [b, h] = await ready;
+    const [b, h, m] = await ready;
+    market = m;
     bank = b;
     history = Object.fromEntries(h);
     const games = filterGames(bank.games, { team: team() });

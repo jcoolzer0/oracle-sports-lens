@@ -1,3 +1,4 @@
+import { teamShadow } from "./adaptive-shadow.js";
 import { frozenRecords, isCall } from "./forecast-journal.js";
 import { kickoff } from "./data.js";
 import { precog } from "./precog.js";
@@ -26,5 +27,6 @@ export const adaptivePrecog = { ...precog, version:"1.1.0", predict(args) {
   const pooled=total?valid.reduce((s,m)=>s+m.p*learning.weights[m.id],0)/total:null;
   // Keep original minimum evidence / majority abstention contract.
   const probability=p.p===null || pooled===.5 || Math.sign(pooled-.5)!==Math.sign(p.p-.5)?null:pooled;
-  return {...p,version:"1.1.0",p:probability,winner:probability===null?null:probability>.5?args.game.home_team:args.game.away_team,learning};
+  const production = {...p,version:"1.1.0",p:probability,winner:probability===null?null:probability>.5?args.game.home_team:args.game.away_team,learning};
+  return {...production, shadow:teamShadow(production,args.game,args.journal??[],learningCutoff)};
 }};

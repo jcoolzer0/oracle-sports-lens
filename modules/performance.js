@@ -42,7 +42,8 @@ const el = (tag, text) => { const n = document.createElement(tag); n.textContent
 const pct = (x) => `${Math.round(x * 100)}%`;
 export function renderPerformance(root, options) {
   const mode = root.dataset.mode ?? "recorded";
-  const report = performance({ ...options, mode });
+  const version=root.dataset.version??options.version;
+  const report = performance({ ...options, version, mode });
   root.replaceChildren();
   root.className = "performance-panel";
   root.append(el("h2", `${options.label} · season performance`));
@@ -55,6 +56,13 @@ export function renderPerformance(root, options) {
   select.value = mode;
   select.onchange = () => { root.dataset.mode = select.value; renderPerformance(root, options); };
   label.append(select); root.append(label);
+  const versionLabel=el("label"," Model version "),versionSelect=document.createElement("select");
+  versionSelect.setAttribute("aria-label",`${options.label} model version`);
+  const versions=[...new Set([options.version,...options.records.filter(r=>r.lens===options.lens).map(r=>r.version)])].sort().reverse();
+  for(const v of versions){const o=el("option",v===options.version?`${v} · current`:`${v} · preserved baseline/history`);o.value=v;versionSelect.append(o);}
+  versionSelect.value=version;
+  versionSelect.onchange=()=>{root.dataset.version=versionSelect.value;renderPerformance(root,options);};
+  versionLabel.append(versionSelect);root.append(versionLabel);
   root.append(el("p", mode !== "historical"
     ? mode === "personal" ? "Personal calls saved in this browser; separate from the shared automatic record." : mode === "early" ? "First supported call during the seven-day window, scored once per game. Later changes never replace it." : "Shared automatic calls: latest eligible snapshot at least three hours before kickoff. No-call freezes and missed windows are never backfilled. Original calls remain unchanged as the model learns."
     : "Retrospective exploration using today’s source snapshot, plus current future projections. These were not saved before kickoff and do not establish live prediction accuracy."));

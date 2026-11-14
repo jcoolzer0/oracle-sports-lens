@@ -1,3 +1,5 @@
+import { officialRecord } from "./forecast-journal.js";
+import { compareMarket } from "./market.js";
 import { kickoff } from "./data.js";
 export function filterGames(
   games,
@@ -49,14 +51,12 @@ function button(text, label, action) {
 }
 export function renderSchedule(
   root,
-  { games, predictions, records = [], lens, version, cutoff, onGame, onTeam },
+  { games, predictions, records = [], lens, version, cutoff, onGame, onTeam, market },
 ) {
   root.replaceChildren();
   for (const g of games) {
     const p = predictions.get(g.game_id),
-      saved = records.find(
-        (r) => r.game === g.game_id && r.lens === lens && r.version === version,
-      );
+      saved = officialRecord(records,g.game_id,lens,version);
     const row = el("tr", "");
     row.dataset.game = g.game_id;
     const date = el("th", `Week ${g.week}`);
@@ -105,6 +105,10 @@ export function renderSchedule(
       );
     if (saved?.recording === "automatic" && g.status === "final" && Number.isFinite(g.home_score) && Number.isFinite(g.away_score)) {
       evidence.append(el("div", g.home_score === g.away_score ? "Tie · excluded" : !Number.isFinite(saved.probabilityHome) || saved.probabilityHome === .5 ? "Frozen no-call · excluded" : (saved.probabilityHome > .5) === (g.home_score > g.away_score) ? "Frozen call correct" : "Frozen call incorrect"));
+    }
+    if (market) {
+      const c=compareMarket(g,saved?saved.probabilityHome:p.p,market,cutoff);
+      evidence.append(el("div",c.available?`${c.largeDisagreement?"⚑ Large gap · ":""}${c.label} · ${g.home_team} ${c.deltaHomePP===null?"no call":(c.deltaHomePP>=0?"+":"")+c.deltaHomePP.toFixed(1)+" pp"} · ${c.reference}`:"Market unavailable"));
     }
     row.append(date, teams, prediction, evidence);
     root.append(row);

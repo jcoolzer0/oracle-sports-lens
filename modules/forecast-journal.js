@@ -69,11 +69,18 @@ export function advanceJournal(events, { bank, lenses, now = new Date().toISOStr
 }
 export function frozenRecords(events, { early = false } = {}) {
   const freezes = events.filter((e)=>e.type === "freeze");
-  const groups = early ? [...new Map(events.filter(e=>e.type === "forecast").map(e=>[keyOf(e), e])).values()].map(e=> freezes.find(f=>keyOf(f)===keyOf(e)) ?? {
+  const freezeByKey = new Map(freezes.map(f=>[keyOf(f),f]));
+  const forecastsByKey = new Map();
+  for(const e of events) if(e.type==='forecast') {
+    const k=keyOf(e);
+    if(!forecastsByKey.has(k))forecastsByKey.set(k,[]);
+    forecastsByKey.get(k).push(e);
+  }
+  const groups = early ? [...forecastsByKey.values()].map(xs=>xs.at(-1)).map(e=> freezeByKey.get(keyOf(e)) ?? {
     ...e, id: `${keyOf(e)}:freeze`, createdAt: null, deadline: new Date(ms(e.kickoff)-POLICY.freezeHours*hours).toISOString()
   }) : freezes;
   return groups.flatMap((f)=> {
-    const eligible = events.filter((e)=>e.type === "forecast" && keyOf(e) === keyOf(f) && e.kickoff === f.kickoff && ms(e.createdAt) <= ms(f.deadline));
+    const eligible = (forecastsByKey.get(keyOf(f))??[]).filter((e)=>e.kickoff === f.kickoff && ms(e.createdAt) <= ms(f.deadline));
     const forecast = early ? eligible.find((e)=>isCall(e.payload.probabilityHome)) : eligible.find((e)=>e.id === f.forecastId);
     if (!forecast) return [];
     const p = forecast.payload;
@@ -117,4 +124,11 @@ export async function loadSharedJournal(fetcher = fetch) {
   const data = await response.json();
   if (data.schema !== 1 || !Array.isArray(data.events)) throw Error("Invalid shared journal");
   return data;
+}
+// Keep prior frozen calls visible when a new production version has no record.
+export function officialRecord(records, game, lens, version) {
+  const own=records.filter(r=>r.game===game && r.lens===lens);
+  return own.find(r=>r.version===version && r.recording==='automatic') ??
+    (lens==='precog'?own.find(r=>r.version==='1.1.0' && r.recording==='automatic'):null) ??
+    own.find(r=>r.version===version);
 }

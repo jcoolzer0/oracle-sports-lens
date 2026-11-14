@@ -6,6 +6,7 @@ on:
   push:
     branches: [main]
 permissions:
+  actions: read
   contents: write
   pages: write
   id-token: write
@@ -26,7 +27,7 @@ jobs:
         run: |
           git config user.name 'oracle-forecast-bot'
           git config user.email 'oracle-forecast-bot@users.noreply.github.com'
-          git add data/forecast-journal.json data/forecast-snapshots
+          git add data/forecast-journal.json data/forecast-snapshots data/market-reference.json
           if ! git diff --cached --quiet; then
             git commit -m 'Record timestamped pregame forecasts'
             git push
@@ -39,6 +40,17 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: /tmp/oracle-site
+      - name: Wait for Pages artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in $(seq 1 12); do
+            count=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '[.artifacts[] | select(.name == "github-pages" and .expired == false)] | length')
+            if [ "$count" -gt 0 ]; then exit 0; fi
+            sleep 5
+          done
+          echo 'Pages artifact metadata is still unavailable after upload.' >&2
+          exit 1
       - uses: actions/deploy-pages@v4
         id: deployment
     environment:
