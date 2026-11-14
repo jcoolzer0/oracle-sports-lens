@@ -41,6 +41,8 @@ export function recordPrediction(
     models: prediction.models,
     motifs: prediction.motifs,
     evidence: prediction.evidence,
+    shadow: prediction.shadow ?? null,
+    predictionSnapshot: prediction,
   };
   return [...records, JSON.parse(JSON.stringify(record))];
 }

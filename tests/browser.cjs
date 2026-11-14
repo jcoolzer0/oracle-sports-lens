@@ -81,13 +81,17 @@ const { chromium } = require("playwright");
   if (await page.locator("#gate").isVisible()) throw Error("Gate");
   if ((await page.locator("#team option").count()) !== 32)
     throw Error("32 teams");
-  await page.locator('#performance select').selectOption('historical');
+  await page.locator('#performance select[aria-label="Pre-Cog performance scorecard"]').selectOption('historical');
   if (!(await page.locator('#performance').innerText()).includes('Retrospective exploration')) throw Error('Historical scorecard labeling');
   await page.locator('#performance details').first().locator('summary').click();
   if ((await page.locator('#performance tbody').first().locator('tr').count()) !== 32) throw Error('Team scorecard');
-  await page.locator('#performance select').selectOption('recorded');
+  await page.locator('#performance select[aria-label="Pre-Cog performance scorecard"]').selectOption('recorded');
   if (!(await page.locator('#recorderStatus').innerText()).includes('freezes 3 hours')) throw Error('Automatic freeze policy missing');
-  if (!(await page.locator('#performance').innerText()).includes('No scored calls')) throw Error('Historical calls leaked into recorded dashboard');
+  const recordedText=await page.locator('#performance').innerText();
+  if (recordedText.includes('Retrospective exploration')) throw Error('Historical preview leaked into recorded dashboard');
+  if (!(await page.locator('#prediction').innerText()).includes('Oracle vs. independent market')) throw Error('Market comparison missing');
+  await page.locator('#marketGaps').check();
+  await page.locator('#resetFilters').click();
   const fullCount = await page.locator("#schedule tbody tr[data-game]").count();
   if (fullCount !== 272) throw Error("Full season schedule");
   if (
@@ -118,7 +122,7 @@ const { chromium } = require("playwright");
     .filter({ hasText: "Inspect source data" })
     .click();
   if (
-    !(await page.locator("#prediction pre").last().innerText()).includes(
+    !(await page.locator("#prediction details").filter({has:page.locator("summary",{hasText:"Inspect source data"})}).locator("pre").innerText()).includes(
       "schema_version",
     )
   )
@@ -217,7 +221,7 @@ const { chromium } = require("playwright");
     .locator("#legacy2026Status")
     .filter({ hasText: "17 scheduled games" })
     .waitFor();
-  await frame.locator('#legacyPerformance select').selectOption('historical');
+  await frame.locator('#legacyPerformance select[aria-label="Legacy Season 2 performance scorecard"]').selectOption('historical');
   if (!(await frame.locator('#legacyPerformance').innerText()).includes('Retrospective exploration')) throw Error('Legacy scorecard');
   if ((await frame.locator("#legacy2026Table tbody tr").count()) !== 17)
     throw Error("Legacy current schedule");
@@ -341,8 +345,7 @@ const { chromium } = require("playwright");
     ).href,
   );
   await page.waitForURL("**/index.html?lens=legacy");
-  if (await page.locator("#gate").isVisible())
-    throw Error("Standalone Legacy should reuse login");
+  await page.locator("#gate").waitFor({state:"hidden",timeout:30000});
   await page
     .frameLocator("#legacy")
     .locator("#legacySeason")

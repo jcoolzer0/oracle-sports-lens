@@ -233,3 +233,7 @@ h2.panel-title {
 .performance-panel details { margin: 1rem 0; }
 .performance-panel summary { cursor: pointer; }
 .performance-panel p { line-height: 1.6; }
+
+/* Long upstream error URLs and observer identifiers must remain readable on phones. */
+#prediction, #learningReview, #legacy2026Observation { overflow-wrap: anywhere; min-width: 0; }
+#prediction .table-wrap { max-width: 100%; }

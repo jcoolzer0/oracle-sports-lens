@@ -1,7 +1,10 @@
+import { loadMarket, compareMarket } from "./market.js";
+import { renderMarket, renderShadow, renderShadowReview, renderMarketReview, renderPromotion, renderPromotionReview } from "./comparison-ui.js";
+let market = {observations:[]};
 import { renderPerformance } from "./performance.js";
 import { loadBank, CODES, kickoff, canonical } from "./data.js";
-import { adaptivePrecog as precog } from "./learning.js";
-import { loadSharedJournal, frozenRecords } from "./forecast-journal.js";
+import { promotedPrecog as precog } from "./promotion.js";
+import { loadSharedJournal, frozenRecords, officialRecord } from "./forecast-journal.js";
 import { renderJournalStatus, renderLearning, renderForecastHistory } from "./journal-ui.js";
 let sharedJournal = { events: [] }, journalError = null;
 try { sharedJournal = await loadSharedJournal(); } catch(e) { journalError = e.message; }
@@ -152,13 +155,20 @@ function recordsOrEmpty() {
 }
 function renderTable() {
   if (!bank || !registry.lenses.has(lens)) return;
-  const games = filterGames(bank.games, {
+  let games = filterGames(bank.games, {
     week: $("weekFilter").value,
     state: $("stateFilter").value,
     team: $("teamOnly").checked ? $("team").value : null,
   });
+  if ($("marketGaps").checked) games = games.filter(g=>{
+    const saved=officialRecord(recordsOrEmpty(),g.game_id,lens,registry.lenses.get(lens).version);
+    return compareMarket(g,saved?saved.probabilityHome:predictions.get(g.game_id)?.p,market,viewCutoff).largeDisagreement;
+  });
   renderJournalStatus($("recorderStatus"), sharedJournal, journalError);
   renderLearning($("learningReview"), sharedJournal.events, lens, registry.lenses.get(lens).version);
+  renderShadowReview($("learningReview"), sharedJournal.events, viewCutoff);
+  renderPromotionReview($("learningReview"), sharedJournal.events, viewCutoff);
+  renderMarketReview($("learningReview"), {games:bank.games,predictions,records:recordsOrEmpty(),market,cutoff:viewCutoff,lens,version:registry.lenses.get(lens).version});
   renderPerformance($("performance"), { games: bank.games, predictions, records: recordsOrEmpty(), lens, version: registry.lenses.get(lens).version, label: registry.lenses.get(lens).label ?? lens, earlyRecords: frozenRecords(sharedJournal.events, {early:true}), onTeam: openTeam });
   renderSchedule($("schedule").querySelector("tbody"), {
     games,
@@ -169,6 +179,7 @@ function renderTable() {
     cutoff: viewCutoff,
     onGame: openGame,
     onTeam: openTeam,
+    market,
   });
   $("scheduleCount").textContent =
     `${games.length} of ${bank.games.length} matchups · projections as of ${new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(viewCutoff))}`;
@@ -201,7 +212,7 @@ function openTeam(team) {
   $("scheduleTitle").focus();
   $("scheduleTitle").scrollIntoView({ block: "start" });
 }
-for (const id of ["weekFilter", "stateFilter", "teamOnly"])
+for (const id of ["weekFilter", "stateFilter", "teamOnly", "marketGaps"])
   $(id).onchange = () => {
     renderTable();
     $("scheduleTitle").textContent = $("teamOnly").checked
@@ -212,6 +223,7 @@ $("resetFilters").onclick = () => {
   $("weekFilter").value = "all";
   $("stateFilter").value = "all";
   $("teamOnly").checked = false;
+  $("marketGaps").checked = false;
   $("scheduleTitle").textContent = "2026 season schedule";
   renderTable();
 };
@@ -251,8 +263,11 @@ function render() {
   if (!game) return;
   cutoff = viewCutoff;
   prediction = predictions.get(game.game_id);
-  const frozen = frozenRecords(sharedJournal.events).find(r=>r.game===game.game_id && r.lens===lens && r.version===prediction.version);
-  if (frozen?.predictionSnapshot) { prediction = frozen.predictionSnapshot; cutoff = frozen.createdAt; }
+  const allFrozen=frozenRecords(sharedJournal.events);
+  const frozen = allFrozen.find(r=>r.game===game.game_id && r.lens===lens && r.version===prediction.version) ?? allFrozen.find(r=>r.game===game.game_id && r.lens===lens && r.version==="1.1.0");
+  const saved = frozen ?? recordsOrEmpty().find(r=>r.game===game.game_id && r.lens===lens && r.version===prediction.version);
+  if (saved?.predictionSnapshot) { prediction = saved.predictionSnapshot; cutoff = saved.createdAt; }
+  else if (saved) { prediction = {...prediction,p:saved.probabilityHome,winner:saved.winner,models:saved.models,motifs:saved.motifs,evidence:saved.evidence,shadow:null}; cutoff=saved.createdAt; }
 
   registry.skins.get(registry.lenses.get(lens).skin ?? "plain")(
     $("prediction"),
@@ -271,9 +286,12 @@ function render() {
       ),
     },
   );
+  renderMarket($("prediction"), game, prediction.p, market);
+  renderShadow($("prediction"), prediction.shadow, game, prediction.promotion);
+  renderPromotion($("prediction"), prediction.promotion, game);
   renderForecastHistory($("prediction"), sharedJournal.events, game, lens, prediction.version);
   $("save").disabled =
-    prediction.p === null ||
+    !prediction.winner || prediction.p === null ||
     game.status === "final" ||
     !kickoff(game) ||
     Date.parse(kickoff(game)) <= Date.now();
@@ -327,7 +345,7 @@ $("export").onclick = () => {
   }
 };
 try {
-  bank = await loadBank();
+  [bank, market] = await Promise.all([loadBank(), loadMarket()]);
   status(
     `2026 DataBank loaded · ${bank.games.length} games · ${bank.manifest.statistics_status} statistics · ${bank.source.includes("raw.githubusercontent") ? "GitHub committed-output fallback" : "published Pages"}`,
   );
@@ -404,7 +422,8 @@ setInterval(async () => {
   if (refreshing) return;
   refreshing = true;
   try {
-    const [newBank, newJournal] = await Promise.all([loadBank(), loadSharedJournal()]);
+    const [newBank, newJournal, newMarket] = await Promise.all([loadBank(), loadSharedJournal(), loadMarket()]);
+    market = newMarket;
     bank = newBank; sharedJournal = newJournal; journalError = null;
     buildPredictions(); renderTable(); render();
   } catch (e) { journalError = e.message; renderJournalStatus($("recorderStatus"), sharedJournal, journalError); }

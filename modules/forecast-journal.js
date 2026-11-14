@@ -118,3 +118,10 @@ export async function loadSharedJournal(fetcher = fetch) {
   if (data.schema !== 1 || !Array.isArray(data.events)) throw Error("Invalid shared journal");
   return data;
 }
+// Keep prior frozen calls visible when a new production version has no record.
+export function officialRecord(records, game, lens, version) {
+  const own=records.filter(r=>r.game===game && r.lens===lens);
+  return own.find(r=>r.version===version && r.recording==='automatic') ??
+    (lens==='precog'?own.find(r=>r.version==='1.1.0' && r.recording==='automatic'):null) ??
+    own.find(r=>r.version===version);
+}

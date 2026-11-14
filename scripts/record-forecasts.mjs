@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { loadBank, CODES } from '../modules/data.js';
 import { loadHistory, legacySeason2 } from '../modules/legacy-season2.js';
 import { adaptivePrecog } from '../modules/learning.js';
+import { promotedPrecog } from '../modules/promotion.js';
 import { advanceJournal } from '../modules/forecast-journal.js';
 const journalPath = new URL('../data/forecast-journal.json', import.meta.url);
 // curl preserves system CA trust and the cloud's injected HTTPS proxy.
@@ -23,7 +24,7 @@ if(journal.schema!==1||!Array.isArray(journal.events)) throw Error('Invalid exis
 const bank=await loadBank(2026,fetcher);
 const history=Object.fromEntries(await Promise.all(CODES.map(async t=>[t,await loadHistory(t,fetcher)])));
 const now=new Date().toISOString();
-const lenses=[adaptivePrecog,{id:'legacy-season2',version:'1.0.0',predict:args=>legacySeason2({...args,history})}];
+const lenses=[adaptivePrecog,promotedPrecog,{id:'legacy-season2',version:'1.0.0',predict:args=>legacySeason2({...args,history})}];
 const snapshot=JSON.stringify({bank,history,payloads:Object.fromEntries(Object.entries(payloads).sort(([a],[b])=>a.localeCompare(b)))},null,2)+'\n';
 const snapshotId=createHash('sha256').update(snapshot).digest('hex');
 await mkdir(new URL('../data/forecast-snapshots/',import.meta.url),{recursive:true});
@@ -35,3 +36,16 @@ if(events.length!==journal.events.length) {
 }
 await writeFile(journalPath,JSON.stringify({schema:1,lastCheckedAt:now,sourceCollectedAt:bank.manifest.collected_at,events},null,2)+'\n');
 console.log(`${events.length-journal.events.length} appended events; ${events.length} total; checked ${now}`);
+
+// Optional market history is separate from analytical inputs and forecast source hashes.
+// Preserve genuine quote timestamps; never synthesize observations during an outage.
+const { loadMarket } = await import('../modules/market.js');
+const marketPath = new URL('../data/market-reference.json', import.meta.url);
+let marketArchive={schema_version:1,observations:[]};
+try { marketArchive=JSON.parse(await readFile(marketPath,'utf8')); }
+catch(e) { if(e.code!=='ENOENT') throw e; }
+if(marketArchive.schema_version!==1 || !Array.isArray(marketArchive.observations)) throw Error('Invalid market archive; refusing overwrite');
+const market=await loadMarket(2026,fetcher);
+const quotes=new Map(marketArchive.observations.map(o=>[`${o.game_id}:${o.observed_at}`,o]));
+for(const o of market.observations) if(!quotes.has(`${o.game_id}:${o.observed_at}`)) quotes.set(`${o.game_id}:${o.observed_at}`,o);
+await writeFile(marketPath,JSON.stringify({schema_version:1,checkedAt:now,status:market.status,observations:[...quotes.values()]},null,2)+'\n');

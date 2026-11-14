@@ -1,5 +1,9 @@
 # Oracle Football — Season 2
 
+Current production: Pre-Cog 1.2.0 active adaptive trial with an automatic baseline
+fallback. The 1.1.0 baseline continues recording in parallel; frozen calls never
+change. See the final section for influence, comparison and recovery policy.
+
 Static HTML/CSS/ES modules, compatible with GitHub Pages. No build, package
 installation, API key, server database, or acquisition-repository changes.
 
@@ -301,3 +305,90 @@ Settings → Pages → Build and deployment → Source to **GitHub Actions**, th
 explicitly deploys a static artifact because token-authored commits alone may not
 trigger branch-based Pages builds. Failed writes/deployments must be resolved;
 this configuration file alone does not establish the scheduler is running.
+
+## Independent market reference and team reliability shadow
+
+The display-only `modules/market.js` reads schema-v1 `market/2026/latest.json`
+and `status.json` through the same Pages / raw fallback as DataBank. Quotes must
+match canonical game ID, season, week, home/away teams and kickoff, with a valid
+probability pair and observation time strictly before kickoff. Comparison uses
+home orientation; positive Oracle-minus-market percentage points favor home.
+Exact/near ties (0.5 percentage points) have no clear favorite. Default label
+precedence is toss-up (both within 5 pp of 50%), opposing favorites (contrarian
+if Oracle conviction reaches 65%), same-side conviction gap (10 pp), shared
+strong conviction (65%), then moderate agreement. One neutral source is labeled
+explicitly. Thresholds live in `MARKET_CONFIG`. Upcoming observations older than
+24 hours are stale; started/completed games show retained pregame references,
+never guaranteed closing lines. Single books are named. The schedule can filter
+10+ pp gaps; details disclose source, quote and collection status. Missing market
+data cannot block or change forecasts.
+
+The recorder independently appends genuine observed quotes to
+`data/market-reference.json`, preserving timestamps for future movement review.
+Only unchanged nonempty bookmaker sets permit movement comparisons. Changed
+composition is flagged. Initial history is empty; historical upstream snapshots
+are not enumerated or backfilled, and one quote cannot establish movement.
+Market requests and bodies never enter prediction inputs, forecast hashes,
+training, observer promotion, or performance. The existing forecast journal and
+three-hour freeze policy are unchanged.
+
+Pre-Cog **1.2.0** is the active, user-authorized adaptive trial. The original
+**1.1.0** baseline runs and records in parallel. Current and preserved versions
+can be selected in each performance scorecard. Previously frozen calls remain
+visible and authoritative for their games; new versions never rewrite them.
+No claim of demonstrated superiority is made at activation.
+
+Global reliability shrinks observer Brier loss toward 20 pseudo-games at .25.
+Each team's reliability shrinks toward global with 20 pseudo-games. Each
+observer gets one score: 37.5% global loss, 37.5% average of both team losses,
+and 25% recent-10 loss (also shrunk with 20 pseudo-games toward global).
+Half-uniform / half-exponential weighting limits domination. These observers
+share evidence; alignment and convergence never become extra votes. Coverage
+describes availability and never increases influence. Only genuine probabilities
+are scored. Missing/neutral observers do not enter the candidate pool.
+
+The active candidate combines 50% existing baseline with 50% team-weighted pool.
+Both sides use one home probability and its complement; separate team estimates
+cannot conflict. This version can change favorites. Original eligibility and
+baseline no-call restrictions remain, and exact ties produce no winner.
+Only previously settled frozen 1.1 observer snapshots available before cutoff
+train reliability. New 1.1 records continue supplying comparable evidence, so
+learning does not stop after the version change. Market prices never participate.
+
+New 1.2 records preserve baseline, candidate, official probabilities, differences,
+direction changes, actual effective observer weights, training counts, team/global
+reliability, policy/config version, decision, and source/cutoff provenance. The
+original 25% shadow candidate remains separately auditable in the 1.1 records;
+its version and evaluation are distinct from active 1.2 candidate comparisons.
+The existing three-hour freeze applies to both parallel model versions.
+
+The prospective safety guard uses only frozen 1.2 candidate/baseline pairs with
+outcomes observed strictly before the next forecast cutoff. After at least 20
+pairs, it selects baseline if overall Brier is worse by more than .005, recent-20
+Brier is worse by more than .010, or recent accuracy is worse by more than 5 pp.
+Candidate forecasts continue recording during fallback. Resuming requires at
+least ten new settlements since suspension, recent-20 Brier at least .005 better
+than baseline, and recent accuracy at least baseline. This hysteresis avoids
+reacting to every game. Configuration can also disable promotion entirely while
+preserving 1.1 recording. Thresholds are conservative design choices, not a
+statistical guarantee. Changes affect future forecasts only, never frozen calls.
+
+Review shows matched-cohort accuracy, Wilson intervals, Brier, calibration,
+coverage/sample counts, approximate paired Brier-difference intervals, recent
+performance, and suspension/resumption transitions. Small, overlapping samples
+limit inference. No historical adaptive forecasts are reconstructed and no
+in-sample accuracy is presented as activation evidence.
+
+Upstream inspection on 2026-11-13 ET found the collector and schema implementation
+on main, but raw `status.json` reported `unavailable`, zero observations, and an
+ESPN scoreboard HTTP 400. Pages and raw `latest.json` returned 404. No real market
+quote was available to integrate or display at verification time. The UI handles
+that state and will consume authentic quotes when upstream publishes them;
+the upstream repository was not changed. The committed Lens journal contained
+43 settled Pre-Cog games: alignment 24/30 (80%, Wilson 62.7–90.5%), and three-
+observer convergence 21/27 (77.8%, Wilson 59.2–89.4%). These do not validate the
+new team-specific algorithm: zero recorded active candidate pairs existed.
+
+Deploy by merging/publishing this Lens checkout through the existing workflow.
+The workflow now retains the independent market-reference history alongside
+forecast records. No new service, key, paid account or manual setup is needed.
